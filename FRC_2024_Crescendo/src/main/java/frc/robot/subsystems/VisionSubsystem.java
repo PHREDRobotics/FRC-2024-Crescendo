@@ -25,6 +25,11 @@ public class VisionSubsystem extends SubsystemBase {
         });
   }
 
+  public void readAprilTag(){
+
+  }
+//We will need to move accordingly but I think that will go elsewhere
+
   /**
    * An example method querying a boolean state of the subsystem (for example, a digital sensor).
    *

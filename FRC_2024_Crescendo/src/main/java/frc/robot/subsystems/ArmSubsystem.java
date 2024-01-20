@@ -36,10 +36,39 @@ public class ArmSubsystem extends SubsystemBase {
     return false;
   }
 
+public void moveToFLoor(){
+    
+}
+
+public void moveToMiddle(){
+    
+}
+
+public void MoveToTop(){
+
+}
+
+public void grab(){
+
+}
+
+public void prepareToLoad(){
+
+}
+
+public void loadAmp(){
+
+}
+
+public void resetEncoders(){
+    //this will move it up until a sensor sees that its at the top and then it stops and resets the encoders
+}
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     //It will be able to grab a note and either feed it to the shooter or score on the amp
+
   }
 
   @Override

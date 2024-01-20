@@ -25,6 +25,8 @@ public class ShooterSubsystem extends SubsystemBase {
         });
   }
 
+
+
   /**
    * An example method querying a boolean state of the subsystem (for example, a digital sensor).
    *
@@ -35,10 +37,17 @@ public class ShooterSubsystem extends SubsystemBase {
     return false;
   }
 
+  public void ejectToSpeaker(){
+    
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     //It will be able to shoot into the speaker
+    //We need to spin the wheels for a short amount of time when a certain button is pushed
+    
+
   }
 
   @Override

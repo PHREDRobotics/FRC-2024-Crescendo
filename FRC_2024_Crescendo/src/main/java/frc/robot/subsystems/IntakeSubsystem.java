@@ -33,8 +33,27 @@ public class IntakeSubsystem extends SubsystemBase {
   public boolean exampleCondition() {
     // Query some boolean state, such as a digital sensor.
     //We will use a beam break sensor
+    /*public boolean isBeamBroken(){
+
+    } */
     return false;
   }
+public void pickUpNote(){
+//This will stop when the beam in our beam break sensor is broken
+
+}
+
+public void ejectToShooter(){
+//This will be slower than ejectToAmp
+  
+}
+
+public void ejectToAmp(){
+//This will be faster ten ejectToShooter
+
+}
+
+
 
   @Override
   public void periodic() {

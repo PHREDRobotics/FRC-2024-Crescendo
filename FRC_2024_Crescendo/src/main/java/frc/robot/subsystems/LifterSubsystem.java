@@ -34,7 +34,23 @@ public class LifterSubsystem extends SubsystemBase {
     // Query some boolean state, such as a digital sensor.
       return false;
   }
+public void raiseLeftLifter(){
 
+}
+
+public void raiseRightLifter(){
+
+}
+
+public void lowerLeftLifter(){
+
+}
+
+//We might lower them at the same speed so the robot stays more balanced
+
+public void lowerRightLifter(){
+
+}
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
