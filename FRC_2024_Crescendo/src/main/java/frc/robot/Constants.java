@@ -149,4 +149,10 @@ public final class Constants {
   public final static class NeoMotorConstants {
     public static final double kFreeSpeedRpm = 5676;
   }
+
+      public static final int kArmMotorEncoder = 50;
+      public static final int kShooterMotorEncoder = 60;
+
+
+      public static final int kHangingMotorEncoder = 70;
 }
