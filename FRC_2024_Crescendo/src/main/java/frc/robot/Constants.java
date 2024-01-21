@@ -146,6 +146,11 @@ public final class Constants {
     public static final double kDeadband = 0.15;
   }
 
+  public static final class TestConstants {
+    public static final int kTestMotorCanId = 52;
+    public static final int kTestMotorCanIdTwo = 51;
+  }
+
   public final static class NeoMotorConstants {
     public static final double kFreeSpeedRpm = 5676;
   }
