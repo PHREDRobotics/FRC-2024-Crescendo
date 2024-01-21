@@ -149,10 +149,11 @@ public final class Constants {
   public final static class NeoMotorConstants {
     public static final double kFreeSpeedRpm = 5676;
   }
+public static final class IntakeConstants {
+public static final int  kABtn = Button.kA.value;
+public static final int  kBBtn = Button.kB.value;
+public static final int  kXBtn = Button.kX.value;
+public static final int  kYBtn = Button.kY.value;
+}
 
-      public static final int kArmMotorEncoder = 50;
-      public static final int kShooterMotorEncoder = 60;
-
-
-      public static final int kHangingMotorEncoder = 70;
 }

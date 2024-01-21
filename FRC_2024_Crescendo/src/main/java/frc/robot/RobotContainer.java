@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -65,6 +66,13 @@ public class RobotContainer {
     new JoystickButton(driverJoystick, OIConstants.kZeroHeadingBtn)
         .onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
   }
+
+  public void Intake(){
+if(IntakeConstants.kABtn){
+
+}
+  
+}
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
