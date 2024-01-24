@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.TestConstants;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkLimitSwitch;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class IntakeSubsystem extends SubsystemBase {
@@ -17,8 +18,12 @@ public class IntakeSubsystem extends SubsystemBase {
   private CANSparkMax LeftMotor = new CANSparkMax(TestConstants.kTestMotorCanId, MotorType.kBrushless);
   private CANSparkMax RightMotor = new CANSparkMax(TestConstants.kTestMotorCanIdTwo, MotorType.kBrushless);
 
+  private SparkLimitSwitch m_forwardLimit = LeftMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed);
+
   public IntakeSubsystem() {
     super();
+    
+    m_forwardLimit.enableLimitSwitch(false);
   }
 
   public Command Intake() {
@@ -55,7 +60,13 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void pickUpNote() {
     // This will stop when the beam in our beam break sensor is broken
-
+    if (m_forwardLimit.isPressed()) {
+      m_forwardLimit.enableLimitSwitch(true);
+    } else {
+      m_forwardLimit.enableLimitSwitch(false);
+    }
+    LeftMotor.set(speedConvert(1));
+    RightMotor.set(-speedConvert(1));
   }
 
   public void ejectToShooter() {
