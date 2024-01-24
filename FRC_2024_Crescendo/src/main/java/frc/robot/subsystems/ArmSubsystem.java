@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.TestConstants;
@@ -16,21 +17,22 @@ public class ArmSubsystem extends SubsystemBase {
     
     private int m_can_id;
     private MotorType m_motor_type;
-
-    private CANSparkMax armMotor = new CANSparkMax(m_can_id, m_motor_type);
-    SparkPIDController pidController = armMotor.getPIDController();
-    RelativeEncoder armEncoder = armMotor.getEncoder();
+    private CANSparkMax armMotor;
+    private SparkPIDController pidController;
 
     public ArmSubsystem(int canID, MotorType motorType) {
+        m_can_id = canID;
+        m_motor_type = motorType;
+        
+        armMotor = new CANSparkMax(m_can_id, m_motor_type);
+        RelativeEncoder armEncoder = armMotor.getEncoder();
+        pidController = armMotor.getPIDController();
+
         pidController.setFeedbackDevice(armEncoder);
     
         pidController.setP(0.01);
         pidController.setI(0.001);
         pidController.setD(0.001);
-
-        m_can_id = canID;
-        m_motor_type = motorType;
-
     }
 
     /**
@@ -40,4 +42,9 @@ public class ArmSubsystem extends SubsystemBase {
     public void moveToPosition(double position) {
         pidController.setReference(position, CANSparkMax.ControlType.kPosition);
     }
+
+    @Override
+    public void simulationPeriodic() {
+    }
 }
+

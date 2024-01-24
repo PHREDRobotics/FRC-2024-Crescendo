@@ -8,10 +8,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.ArmMotor;
 import frc.robot.commands.DriveMotor;
 import frc.robot.commands.SwerveJoystickCmd;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.MotorTestSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
+
+import com.revrobotics.CANSparkLowLevel.MotorType;
 
 // import frc.robot.commands.Autos;
 import edu.wpi.first.wpilibj.XboxController;
@@ -30,7 +34,9 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   // private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-  private final MotorTestSubsystem motorTestSubsystem = new MotorTestSubsystem();
+  // private final MotorTestSubsystem motorTestSubsystem = new MotorTestSubsystem();
+  private final ArmSubsystem armSubsystem = new ArmSubsystem(53, MotorType.kBrushless);
+
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final XboxController driverJoystick = new XboxController(0);
@@ -41,11 +47,19 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
 
+    armSubsystem.setDefaultCommand(
+      new ArmMotor(
+        () -> driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
+        armSubsystem
+      )
+    );
+
+    /*
     motorTestSubsystem.setDefaultCommand(
         new DriveMotor(
             () -> driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
             motorTestSubsystem
-        ));
+        )); */
   }
 
   /*
