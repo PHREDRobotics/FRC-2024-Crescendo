@@ -163,7 +163,6 @@ public class SwerveModule {
     drivingPidController.setReference(optimizedDesiredState.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity);
     turningPidController.setReference(optimizedDesiredState.angle.getRadians(), CANSparkMax.ControlType.kPosition);
 
-    moduleDesiredState = desiredState;
   }
 
   public void stop() {

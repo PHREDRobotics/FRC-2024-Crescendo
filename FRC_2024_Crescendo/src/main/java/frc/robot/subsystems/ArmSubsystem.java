@@ -1,73 +1,84 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.TestConstants;
 
+import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkPIDController;
+
+/**
+ * Arm Subsystem for PHRED's really cool robot
+ */
 public class ArmSubsystem extends SubsystemBase {
-  /** Creates a new ExampleSubsystem. */
-  public ArmSubsystem() {}
 
-  /**
-   * Example command factory method.
-   *
-   * @return a command
-   */
-  public Command exampleMethodCommand() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return runOnce(
-        () -> {
-          /* one-time action goes here */
-        });
+  private int m_can_id;
+  private MotorType m_motor_type;
+
+  private CANSparkMax armMotor = new CANSparkMax(m_can_id, m_motor_type);
+  SparkPIDController pidController = armMotor.getPIDController();
+  RelativeEncoder armEncoder = armMotor.getEncoder();
+
+  public ArmSubsystem(int canID, MotorType motorType) {
+    pidController.setFeedbackDevice(armEncoder);
+
+    pidController.setP(0.01);
+    pidController.setI(0.001);
+    pidController.setD(0.001);
+
+    m_can_id = canID;
+    m_motor_type = motorType;
+
   }
 
   /**
-   * An example method querying a boolean state of the subsystem (for example, a digital sensor).
-   *
-   * @return value of some boolean subsystem state, such as a digital sensor.
+   * Move the arm to a desired position
+   * 
+   * @param position 5 = low, 20 = mid, 30 = high
    */
-  public boolean exampleCondition() {
-    // Query some boolean state, such as a digital sensor.
-
-    return false;
+  public void moveToPosition(double position) {
+    pidController.setReference(position, CANSparkMax.ControlType.kPosition);
   }
 
-public void moveToFLoor(){
-    
-}
+  public void moveToFLoor() {
 
-public void moveToMiddle(){
-    
-}
+  }
 
-public void MoveToTop(){
+  public void moveToMiddle() {
 
-}
+  }
 
-public void grab(){
+  public void MoveToTop() {
 
-}
+  }
 
-public void prepareToLoad(){
+  public void grab() {
 
-}
+  }
 
-public void loadAmp(){
+  public void prepareToLoad() {
 
-}
+  }
 
-public void resetEncoders(){
-    //this will move it up until a sensor sees that its at the top and then it stops and resets the encoders
-}
+  public void loadAmp() {
+
+  }
+
+  public void resetEncoders() {
+    // this will move it up until a sensor sees that its at the top and then it
+    // stops and resets the encoders
+  }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    //It will be able to grab a note and either feed it to the shooter or score on the amp
+    // It will be able to grab a note and either feed it to the shooter or score on
+    // the amp
 
   }
 
