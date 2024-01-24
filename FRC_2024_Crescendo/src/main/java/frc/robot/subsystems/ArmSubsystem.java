@@ -13,21 +13,24 @@ import com.revrobotics.SparkPIDController;
  *  Arm Subsystem for PHRED's really cool robot
  */
 public class ArmSubsystem extends SubsystemBase {
-  
-    private CANSparkMax armMotor = new CANSparkMax(TestConstants.kTestMotorCanId, MotorType.kBrushless);
+    
+    private int m_can_id;
+    private MotorType m_motor_type;
+
+    private CANSparkMax armMotor = new CANSparkMax(m_can_id, m_motor_type);
     SparkPIDController pidController = armMotor.getPIDController();
     RelativeEncoder armEncoder = armMotor.getEncoder();
-    
-    public ArmSubsystem() {
-        pidSetup();
-    }
 
-    public void pidSetup() {
+    public ArmSubsystem(int canID, MotorType motorType) {
         pidController.setFeedbackDevice(armEncoder);
-
+    
         pidController.setP(0.01);
         pidController.setI(0.001);
         pidController.setD(0.001);
+
+        m_can_id = canID;
+        m_motor_type = motorType;
+
     }
 
     /**
