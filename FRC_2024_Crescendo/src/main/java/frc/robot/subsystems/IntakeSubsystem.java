@@ -1,8 +1,6 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.TestConstants;
 
@@ -18,28 +16,28 @@ public class IntakeSubsystem extends SubsystemBase {
     super();
   }
 
-    public Command Intake() {
-        boolean beamBroken = false;
-        if (beamBroken) {
-           return runOnce(
-            () -> {
-                LeftMotor.set(0);
-                RightMotor.set(0);
-            });
-        } else {
-            return runOnce(
-                () -> {
-                  LeftMotor.set(speedConvert(1));
-                  RightMotor.set(-speedConvert(1));
-                });
-        }
-
+  public Command Intake() {
+    boolean beamBroken = false;
+    if (beamBroken) {
+      return runOnce(
+          () -> {
+            LeftMotor.set(0);
+            RightMotor.set(0);
+          });
+    } else {
+      return runOnce(
+          () -> {
+            LeftMotor.set(speedConvert(1));
+            RightMotor.set(-speedConvert(1));
+          });
     }
 
-    public void Outtake() {
-        LeftMotor.set(speedConvert(-1));
-        RightMotor.set(-speedConvert(-1));
-    }
+  }
+
+  public void Outtake() {
+    LeftMotor.set(speedConvert(-1));
+    RightMotor.set(-speedConvert(-1));
+  }
 
   private double speedConvert(double inSpeed) {
 

@@ -1,16 +1,13 @@
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ArmSubsystem;
 
 public class ArmMotor extends Command {
     private final ArmSubsystem m_arm;
-    private final DoubleSupplier m_arm_pos;
+    private final Double m_arm_pos;
 
-
-    public ArmMotor(DoubleSupplier armPos, ArmSubsystem arm) {
+    public ArmMotor(Double armPos, ArmSubsystem arm) {
         m_arm_pos = armPos;
         m_arm = arm;
         addRequirements(m_arm);
@@ -18,7 +15,7 @@ public class ArmMotor extends Command {
 
     @Override
     public void execute() {
-        m_arm.moveToPosition(m_arm_pos.getAsDouble());
+        m_arm.moveToPosition(m_arm_pos);
     }
 
     @Override

@@ -19,6 +19,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 // import frc.robot.commands.Autos;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -34,9 +35,9 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   // private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-  // private final MotorTestSubsystem motorTestSubsystem = new MotorTestSubsystem();
+  // private final MotorTestSubsystem motorTestSubsystem = new
+  // MotorTestSubsystem();
   private final ArmSubsystem armSubsystem = new ArmSubsystem(53, MotorType.kBrushless);
-
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final XboxController driverJoystick = new XboxController(0);
@@ -46,20 +47,14 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the trigger bindings
+    new JoystickButton(driverJoystick, Button.kX.value)
+        .whileTrue(new ArmMotor((double) 0, armSubsystem));
 
-    armSubsystem.setDefaultCommand(
-      new ArmMotor(
-        () -> driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
-        armSubsystem
-      )
-    );
-
-    /*
-    motorTestSubsystem.setDefaultCommand(
-        new DriveMotor(
-            () -> driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
-            motorTestSubsystem
-        )); */
+    new JoystickButton(driverJoystick, Button.kY.value)
+        .whileTrue(new ArmMotor((double) 10, armSubsystem));
+    
+    new JoystickButton(driverJoystick, Button.kB.value)
+        .whileTrue(new ArmMotor((double) 20, armSubsystem));
   }
 
   /*
@@ -72,7 +67,6 @@ public class RobotContainer {
    * !driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
    */
   // configureBindings();
-  
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be
