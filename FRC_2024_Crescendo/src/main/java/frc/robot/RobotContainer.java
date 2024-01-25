@@ -10,12 +10,15 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.DriveMotor;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.SwerveJoystickCmd;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.MotorTestSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
 // import frc.robot.commands.Autos;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -32,6 +35,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   // private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
   private final MotorTestSubsystem motorTestSubsystem = new MotorTestSubsystem();
+  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final XboxController driverJoystick = new XboxController(0);
@@ -75,19 +79,15 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
-  /**
-  private void configureBindings() {
-    new JoystickButton(driverJoystick, OIConstants.kZeroHeadingBtn)
-        .onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+   private void configureBindings() {
+   // new JoystickButton(driverJoystick, OIConstants.kZeroHeadingBtn)
+     //   .onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+     Trigger aButton = new JoystickButton(driverJoystick, Constants.IntakeConstants.kABtn); // Creates a new JoystickButton object for the `Y` button on exampleController
+     aButton.onTrue(new IntakeCommand(intakeSubsystem));
   }
 
-  public void Intake(){
-if(IntakeConstants.kABtn){
 
-}
-  
-}
-*/
+
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *

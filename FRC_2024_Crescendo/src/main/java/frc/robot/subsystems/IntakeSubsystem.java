@@ -1,7 +1,4 @@
-
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.package frc.robot.subsystems;
+package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -15,10 +12,10 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class IntakeSubsystem extends SubsystemBase {
 
-  private CANSparkMax LeftMotor = new CANSparkMax(TestConstants.kTestMotorCanId, MotorType.kBrushless);
-  private CANSparkMax RightMotor = new CANSparkMax(TestConstants.kTestMotorCanIdTwo, MotorType.kBrushless);
+  public CANSparkMax m_upMotor = new CANSparkMax(TestConstants.kTestMotorCanId, MotorType.kBrushless);
+  public CANSparkMax m_downMotor = new CANSparkMax(TestConstants.kTestMotorCanIdTwo, MotorType.kBrushless);
 
-  private SparkLimitSwitch m_forwardLimit = LeftMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed);
+  public SparkLimitSwitch m_forwardLimit = m_upMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed);
 
   public IntakeSubsystem() {
     super();
@@ -31,25 +28,25 @@ public class IntakeSubsystem extends SubsystemBase {
     if (beamBroken) {
       return runOnce(
           () -> {
-            LeftMotor.set(0);
-            RightMotor.set(0);
+            m_upMotor.set(0);
+            m_downMotor.set(0);
           });
     } else {
       return runOnce(
           () -> {
-            LeftMotor.set(speedConvert(1));
-            RightMotor.set(-speedConvert(1));
+            m_upMotor.set(speedConvert(1));
+            m_downMotor.set(-speedConvert(1));
           });
     }
 
   }
 
   public void Outtake() {
-    LeftMotor.set(speedConvert(-1));
-    RightMotor.set(-speedConvert(-1));
+    m_upMotor.set(speedConvert(-1));
+    m_downMotor.set(-speedConvert(-1));
   }
 
-  private double speedConvert(double inSpeed) {
+  public double speedConvert(double inSpeed) {
 
     if (inSpeed < 0.2 && inSpeed > -0.2) {
       return 0.0;
@@ -57,17 +54,19 @@ public class IntakeSubsystem extends SubsystemBase {
 
     return inSpeed;
   }
-
-  public void pickUpNote() {
+/* unused, please go to intakecommand
+ public void pickUpNote() {
     // This will stop when the beam in our beam break sensor is broken
     if (m_forwardLimit.isPressed()) {
       m_forwardLimit.enableLimitSwitch(true);
     } else {
       m_forwardLimit.enableLimitSwitch(false);
     }
-    LeftMotor.set(speedConvert(1));
-    RightMotor.set(-speedConvert(1));
+    m_upMotor.set(speedConvert(1));
+    m_downMotor.set(-speedConvert(1));
   }
+  */
+  
 
   public void ejectToShooter() {
     // This will be slower than ejectToAmp

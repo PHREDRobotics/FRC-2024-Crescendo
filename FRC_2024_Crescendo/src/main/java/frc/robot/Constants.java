@@ -149,6 +149,7 @@ public final class Constants {
   public static final class TestConstants {
     public static final int kTestMotorCanId = 52;
     public static final int kTestMotorCanIdTwo = 51;
+    public static final double kTestIntakeSpeed = 0.5;
   }
 
   public final static class NeoMotorConstants {
