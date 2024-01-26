@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.TestConstants;
 
 import com.revrobotics.CANSparkMax;
@@ -19,7 +20,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public IntakeSubsystem() {
     super();
-    
+
     m_forwardLimit.enableLimitSwitch(false);
   }
 
@@ -54,19 +55,26 @@ public class IntakeSubsystem extends SubsystemBase {
 
     return inSpeed;
   }
-/* unused, please go to intakecommand
- public void pickUpNote() {
-    // This will stop when the beam in our beam break sensor is broken
-    if (m_forwardLimit.isPressed()) {
-      m_forwardLimit.enableLimitSwitch(true);
-    } else {
-      m_forwardLimit.enableLimitSwitch(false);
-    }
-    m_upMotor.set(speedConvert(1));
-    m_downMotor.set(-speedConvert(1));
+
+  public void stopIntake() {
+    m_upMotor.set(0);
+    m_downMotor.set(0);
   }
-  */
-  
+
+  public void pickUpNote() {
+    // This will stop when the beam in our beam break sensor is broken
+
+    m_upMotor.set(Constants.TestConstants.kTestIntakeSpeed);
+    m_downMotor.set(-Constants.TestConstants.kTestIntakeSpeed);
+  }
+
+  public boolean limitSwitchCheckmate() {
+    if (m_forwardLimit.isPressed()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   public void ejectToShooter() {
     // This will be slower than ejectToAmp
