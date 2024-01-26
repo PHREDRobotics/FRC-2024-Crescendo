@@ -9,16 +9,17 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.DriveMotor;
+//import frc.robot.commands.DriveMotor;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.MotorTestSubsystem;
+//import frc.robot.subsystems.MotorTestSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
 // import frc.robot.commands.Autos;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -34,7 +35,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   // private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-  private final MotorTestSubsystem motorTestSubsystem = new MotorTestSubsystem();
+  //private final MotorTestSubsystem motorTestSubsystem = new MotorTestSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -44,13 +45,16 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+
+    SmartDashboard.putData("Intake Command", new IntakeCommand(intakeSubsystem));
+
     // Configure the trigger bindings
 
-    motorTestSubsystem.setDefaultCommand(
-        new DriveMotor(
-            () -> driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
-            motorTestSubsystem
-        ));
+    // motorTestSubsystem.setDefaultCommand(
+    //     new DriveMotor(
+    //         () -> driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
+    //         motorTestSubsystem
+    //     ));
   }
 
   /*
