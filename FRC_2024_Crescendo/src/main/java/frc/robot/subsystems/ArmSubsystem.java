@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -15,8 +16,8 @@ public class ArmSubsystem extends SubsystemBase {
 
     private int m_can_id;
     private MotorType m_motor_type;
-    private RelativeEncoder armEncoder;
-    private CANSparkMax armMotor;
+    public RelativeEncoder armEncoder;
+    public CANSparkMax armMotor;
     private SparkPIDController pidController;
 
     public ArmSubsystem(int canID, MotorType motorType) {
@@ -40,7 +41,11 @@ public class ArmSubsystem extends SubsystemBase {
      * @param position 5 = low, 20 = mid, 30 = high
      */
     public void moveToPosition(double position) {
-        pidController.setReference(position, CANSparkMax.ControlType.kPosition);
+        armMotor.set(0.1);
+
+        /*
+         *  pidController.setReference(position, CANSparkMax.ControlType.kPosition);
+         */
     }
 
     @Override

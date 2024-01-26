@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ArmMotor;
 import frc.robot.commands.DriveMotor;
+import frc.robot.commands.ResetArmEncoder;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.MotorTestSubsystem;
@@ -17,6 +18,7 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 // import frc.robot.commands.Autos;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
@@ -42,6 +44,8 @@ public class RobotContainer {
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final XboxController driverJoystick = new XboxController(0);
 
+  DigitalInput limitSwitch = new DigitalInput(4);
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -55,6 +59,9 @@ public class RobotContainer {
     
     new JoystickButton(driverJoystick, Button.kB.value)
         .whileTrue(new ArmMotor((double) 20, armSubsystem));
+    
+    new Trigger(limitSwitch::get)
+        .onTrue(new ResetArmEncoder(armSubsystem));
   }
 
   /*

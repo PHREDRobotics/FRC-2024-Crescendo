@@ -115,6 +115,14 @@ public final class Constants {
     public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
   }
 
+  public static final class ArmConstants {
+
+    // Change later after arm built -------------------------------------
+    public static final double kArmLow = 10;
+    public static final double kArmMid = 30;
+    public static final double kArmHigh = 50;
+  }
+
   public static final class AutoConstants {
     public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 4;
     public static final double kMaxAngularSpeedRadiansPerSecond = //
