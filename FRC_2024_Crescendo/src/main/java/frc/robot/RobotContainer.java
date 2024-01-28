@@ -11,6 +11,7 @@ import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OIConstants;
 //import frc.robot.commands.DriveMotor;
 import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.OuttakeCommand;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.IntakeSubsystem;
 //import frc.robot.subsystems.MotorTestSubsystem;
@@ -35,7 +36,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   // private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-  //private final MotorTestSubsystem motorTestSubsystem = new MotorTestSubsystem();
+  // private final MotorTestSubsystem motorTestSubsystem = new
+  // MotorTestSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -46,15 +48,8 @@ public class RobotContainer {
    */
   public RobotContainer() {
 
-    SmartDashboard.putData("Intake Command", new IntakeCommand(intakeSubsystem));
-
     // Configure the trigger bindings
-
-    // motorTestSubsystem.setDefaultCommand(
-    //     new DriveMotor(
-    //         () -> driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
-    //         motorTestSubsystem
-    //     ));
+    configureBindings();
   }
 
   /*
@@ -66,8 +61,7 @@ public class RobotContainer {
    * () ->
    * !driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
    */
-  // configureBindings();
-  
+  //
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be
@@ -83,14 +77,22 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
-   private void configureBindings() {
-   // new JoystickButton(driverJoystick, OIConstants.kZeroHeadingBtn)
-     //   .onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
-     Trigger aButton = new JoystickButton(driverJoystick, Constants.IntakeConstants.kABtn); // Creates a new JoystickButton object for the `Y` button on exampleController
-     aButton.onTrue(new IntakeCommand(intakeSubsystem));
+  private void configureBindings() {
+    // new JoystickButton(driverJoystick, OIConstants.kZeroHeadingBtn)
+    // .onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+    Trigger aButton = new JoystickButton(driverJoystick, Constants.IntakeConstants.kABtn); // Creates a new
+                                                                                           // JoystickButton object for
+                                                                                           // the `A` button on
+                                                                                           // exampleController
+    aButton.onTrue(new IntakeCommand(intakeSubsystem));
+
+    Trigger yButton = new JoystickButton(driverJoystick, Constants.IntakeConstants.kYBtn); // Creates a new
+                                                                                           // JoystickButton object for
+                                                                                           // the `Y` button on
+                                                                                           // exampleController
+    yButton.onTrue(new OuttakeCommand(intakeSubsystem));
+    
   }
-
-
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

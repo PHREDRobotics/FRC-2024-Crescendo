@@ -150,6 +150,7 @@ public final class Constants {
     public static final int kTestMotorCanId = 52;
     public static final int kTestMotorCanIdTwo = 51;
     public static final double kTestIntakeSpeed = 0.1;
+    public static final double kTestIntakeSpeedFast = 0.3;
   }
 
   public final static class NeoMotorConstants {
@@ -160,6 +161,7 @@ public static final int  kABtn = Button.kA.value;
 public static final int  kBBtn = Button.kB.value;
 public static final int  kXBtn = Button.kX.value;
 public static final int  kYBtn = Button.kY.value;
+public static final double kOuttakeTime = 2.0;
 }
 
 }
