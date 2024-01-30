@@ -46,22 +46,23 @@ public class RobotContainer {
 
   DigitalInput limitSwitch = new DigitalInput(4);
 
+  Trigger limitTrigger = new Trigger(limitSwitch::get);
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     // Configure the trigger bindings
     new JoystickButton(driverJoystick, Button.kX.value)
-        .whileTrue(new ArmMotor((double) 0, armSubsystem));
+        .whileTrue(new ArmMotor(Constants.ArmConstants.kArmLow, armSubsystem));
 
     new JoystickButton(driverJoystick, Button.kY.value)
-        .whileTrue(new ArmMotor((double) 10, armSubsystem));
+        .whileTrue(new ArmMotor(Constants.ArmConstants.kArmMid, armSubsystem));
     
     new JoystickButton(driverJoystick, Button.kB.value)
-        .whileTrue(new ArmMotor((double) 20, armSubsystem));
+        .whileTrue(new ArmMotor(Constants.ArmConstants.kArmHigh, armSubsystem));
     
-    new Trigger(limitSwitch::get)
-        .onTrue(new ResetArmEncoder(armSubsystem));
+    limitTrigger.onTrue(new ResetArmEncoder(armSubsystem));
   }
 
   /*

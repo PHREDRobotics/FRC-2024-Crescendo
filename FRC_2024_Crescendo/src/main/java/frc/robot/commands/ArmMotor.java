@@ -32,6 +32,8 @@ public class ArmMotor extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        m_arm.moveToPosition(Constants.ArmConstants.kArmLow);
+        if (interrupted == false) {
+            m_arm.moveToPosition(Constants.ArmConstants.kArmLow);
+        }
     }
 }

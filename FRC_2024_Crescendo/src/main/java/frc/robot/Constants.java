@@ -116,11 +116,20 @@ public final class Constants {
   }
 
   public static final class ArmConstants {
+    public static final int kArmControllerPort = 53;
 
     // Change later after arm built -------------------------------------
     public static final double kArmLow = 10;
     public static final double kArmMid = 30;
     public static final double kArmHigh = 50;
+  }
+
+  public static final class LiftConstants {
+    public static final int kLeftLiftControllerPort = 81;
+    public static final int kRightLiftControllerPort = 82;
+
+    public static final double kExtendSpeed = 0.5;
+    public static final double kRetractSpeed = 0.5;
   }
 
   public static final class AutoConstants {

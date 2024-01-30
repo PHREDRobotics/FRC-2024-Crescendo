@@ -16,8 +16,8 @@ public class ArmSubsystem extends SubsystemBase {
 
     private int m_can_id;
     private MotorType m_motor_type;
-    public RelativeEncoder armEncoder;
-    public CANSparkMax armMotor;
+    private RelativeEncoder armEncoder;
+    private CANSparkMax armMotor;
     private SparkPIDController pidController;
 
     public ArmSubsystem(int canID, MotorType motorType) {
@@ -41,11 +41,12 @@ public class ArmSubsystem extends SubsystemBase {
      * @param position 5 = low, 20 = mid, 30 = high
      */
     public void moveToPosition(double position) {
-        armMotor.set(0.1);
+        pidController.setReference(position, CANSparkMax.ControlType.kPosition);
+    }
 
-        /*
-         *  pidController.setReference(position, CANSparkMax.ControlType.kPosition);
-         */
+    public void resetEncoders() {
+        armMotor.set(0);
+        armEncoder.setPosition(0);
     }
 
     @Override
