@@ -26,7 +26,7 @@ public class OuttakeCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_subsystem.pickUpNote();
+    m_subsystem.Outtake();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -43,7 +43,7 @@ public class OuttakeCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-   // return IntakeSubsystem.outtakeIsTimeDone();
-   return true;
+    return IntakeSubsystem.outtakeIsTimeDone();
+   //return true;
   }
 }

@@ -19,7 +19,7 @@ import com.revrobotics.SparkLimitSwitch;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class IntakeSubsystem extends SubsystemBase {
-  private final Timer m_timer = new Timer();
+  private static final Timer m_timer = new Timer();
 
   public CANSparkMax m_upMotor = new CANSparkMax(TestConstants.kTestMotorCanId, MotorType.kBrushless);
   public CANSparkMax m_downMotor = new CANSparkMax(TestConstants.kTestMotorCanIdTwo, MotorType.kBrushless);
@@ -53,8 +53,9 @@ public class IntakeSubsystem extends SubsystemBase {
   // }
 
   public void Outtake() {
-    m_upMotor.set(speedConvert(-1));
-    m_downMotor.set(speedConvert(-1));
+    m_timer.reset();
+    m_upMotor.set(speedConvert(-Constants.TestConstants.kTestOuttakeSpeed));
+    m_downMotor.set(speedConvert(Constants.TestConstants.kTestOuttakeSpeed));
     m_timer.start();
   }
 
@@ -76,7 +77,7 @@ public class IntakeSubsystem extends SubsystemBase {
     // This will stop when the beam in our beam break sensor is broken
 
     m_upMotor.set(Constants.TestConstants.kTestIntakeSpeed);
-    m_downMotor.set(Constants.TestConstants.kTestIntakeSpeed);
+    m_downMotor.set(-Constants.TestConstants.kTestIntakeSpeed);
   }
 
   /*
@@ -94,8 +95,8 @@ public class IntakeSubsystem extends SubsystemBase {
     return m_forwardLimit.isPressed();
   }
 
-  public boolean outtakeIsTimeDone() {
-    return m_timer.hasElapsed(Constants.IntakeConstants.kOuttakeTime);
+  public static boolean outtakeIsTimeDone() {
+    return m_timer.hasElapsed(Constants.GrabberConstants.kOuttakeTime);
 
   }
 
@@ -112,6 +113,8 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putBoolean("Pressed?", isNoteLoaded());
+    
+    SmartDashboard.putBoolean("Should we blame hardware?", true);
     // This method will be called once per scheduler run
     // We will have a pull in fast and slow and a push out fast and slow
     // When we pull in we will use the beam break sensor to stop the motor

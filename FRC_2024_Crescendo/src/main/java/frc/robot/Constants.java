@@ -149,14 +149,15 @@ public final class Constants {
   public static final class TestConstants {
     public static final int kTestMotorCanId = 52;
     public static final int kTestMotorCanIdTwo = 51;
-    public static final double kTestIntakeSpeed = 0.1;
-    public static final double kTestIntakeSpeedFast = 0.3;
+    public static final double kTestIntakeSpeed = 0.05;
+    //public static final double kTestIntakeSpeedFast = 0.3;
+    public static final double kTestOuttakeSpeed = 0.4;
   }
 
   public final static class NeoMotorConstants {
     public static final double kFreeSpeedRpm = 5676;
   }
-public static final class IntakeConstants {
+public static final class GrabberConstants {
 public static final int  kABtn = Button.kA.value;
 public static final int  kBBtn = Button.kB.value;
 public static final int  kXBtn = Button.kX.value;

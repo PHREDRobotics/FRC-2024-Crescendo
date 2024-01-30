@@ -7,7 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Constants.IntakeConstants;
+import frc.robot.Constants.GrabberConstants;
 import frc.robot.Constants.OIConstants;
 //import frc.robot.commands.DriveMotor;
 import frc.robot.commands.IntakeCommand;
@@ -80,13 +80,13 @@ public class RobotContainer {
   private void configureBindings() {
     // new JoystickButton(driverJoystick, OIConstants.kZeroHeadingBtn)
     // .onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
-    Trigger aButton = new JoystickButton(driverJoystick, Constants.IntakeConstants.kABtn); // Creates a new
+    Trigger aButton = new JoystickButton(driverJoystick, Constants.GrabberConstants.kABtn); // Creates a new
                                                                                            // JoystickButton object for
                                                                                            // the `A` button on
                                                                                            // exampleController
     aButton.onTrue(new IntakeCommand(intakeSubsystem));
 
-    Trigger yButton = new JoystickButton(driverJoystick, Constants.IntakeConstants.kYBtn); // Creates a new
+    Trigger yButton = new JoystickButton(driverJoystick, Constants.GrabberConstants.kYBtn); // Creates a new
                                                                                            // JoystickButton object for
                                                                                            // the `Y` button on
                                                                                            // exampleController
