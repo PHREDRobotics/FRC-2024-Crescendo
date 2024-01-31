@@ -162,7 +162,7 @@ public static final int  kABtn = Button.kA.value;
 public static final int  kBBtn = Button.kB.value;
 public static final int  kXBtn = Button.kX.value;
 public static final int  kYBtn = Button.kY.value;
-public static final double kOuttakeTime = 2.0;
+public static final double kOuttakeTime = 1.0;
 }
 
 }

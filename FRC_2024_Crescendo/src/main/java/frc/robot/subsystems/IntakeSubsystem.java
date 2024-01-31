@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.GrabberConstants;
 import frc.robot.Constants.TestConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.*;
@@ -25,12 +26,16 @@ public class IntakeSubsystem extends SubsystemBase {
   public CANSparkMax m_downMotor = new CANSparkMax(TestConstants.kTestMotorCanIdTwo, MotorType.kBrushless);
   public SparkLimitSwitch m_forwardLimit = m_upMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
 
+  public double m_outtakeSpeed = TestConstants.kTestOuttakeSpeed;
+  public double m_intakeSpeed = TestConstants.kTestIntakeSpeed;
+
   // public SparkLimitSwitch m_forwardLimit =
   // m_upMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed);
 
   public IntakeSubsystem() {
     super();
-
+    SmartDashboard.putNumber("Outtake Speed", m_outtakeSpeed);
+    SmartDashboard.putNumber("Intake Speed", m_intakeSpeed);
     // m_forwardLimit.enableLimitSwitch(false);
   }
 
@@ -54,8 +59,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void Outtake() {
     m_timer.reset();
-    m_upMotor.set(speedConvert(-Constants.TestConstants.kTestOuttakeSpeed));
-    m_downMotor.set(speedConvert(Constants.TestConstants.kTestOuttakeSpeed));
+    m_upMotor.set(speedConvert(-m_outtakeSpeed));
+    m_downMotor.set(speedConvert(m_outtakeSpeed));
     m_timer.start();
   }
 
@@ -76,8 +81,8 @@ public class IntakeSubsystem extends SubsystemBase {
   public void pickUpNote() {
     // This will stop when the beam in our beam break sensor is broken
 
-    m_upMotor.set(Constants.TestConstants.kTestIntakeSpeed);
-    m_downMotor.set(-Constants.TestConstants.kTestIntakeSpeed);
+    m_upMotor.set(m_intakeSpeed);
+    m_downMotor.set(-m_intakeSpeed);
   }
 
   /*
@@ -92,7 +97,7 @@ public class IntakeSubsystem extends SubsystemBase {
    */
   public boolean isNoteLoaded() {
 
-    return m_forwardLimit.isPressed();
+    return m_forwardLimit.isPressed() || SmartDashboard.getBoolean("Manual Override Press", false);
   }
 
   public static boolean outtakeIsTimeDone() {
@@ -106,15 +111,21 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void ejectToAmp() {
+    
     // This will be faster ten ejectToShooter
-
   }
 
   @Override
   public void periodic() {
     SmartDashboard.putBoolean("Pressed?", isNoteLoaded());
-    
-    SmartDashboard.putBoolean("Should we blame hardware?", true);
+    SmartDashboard.putBoolean("Manual Override Press", SmartDashboard.getBoolean("Manual Override Press", false));
+
+    SmartDashboard.putBoolean("Should we blame hardware?", true);    
+    //Slider things VARIABLES
+    m_outtakeSpeed = SmartDashboard.getNumber("Outtake Speed", m_outtakeSpeed);
+    m_intakeSpeed = SmartDashboard.getNumber("Intake Speed", m_intakeSpeed);
+    SmartDashboard.putNumber("Outtake Speed", m_outtakeSpeed);
+    SmartDashboard.putNumber("Intake Speed", m_intakeSpeed);
     // This method will be called once per scheduler run
     // We will have a pull in fast and slow and a push out fast and slow
     // When we pull in we will use the beam break sensor to stop the motor
