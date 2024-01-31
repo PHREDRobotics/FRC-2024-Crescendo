@@ -61,7 +61,7 @@ public class RobotContainer {
     
     new JoystickButton(driverJoystick, Button.kB.value)
         .whileTrue(new ArmMotor(Constants.ArmConstants.kArmHigh, armSubsystem));
-    
+      
     limitTrigger.onTrue(new ResetArmEncoder(armSubsystem));
   }
 

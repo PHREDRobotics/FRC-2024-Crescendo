@@ -37,8 +37,8 @@ public class LiftSubsystem extends SubsystemBase {
     }
 
     public void retractLift() {
-        leftLiftMotor.set(0.5 * (gyro.getRoll() / 180));
-        rightLiftMotor.set(0.5 * (-gyro.getRoll() / 180));
+        leftLiftMotor.set(0.5 * (gyro.getRoll() / 90));
+        rightLiftMotor.set(0.5 * (-gyro.getRoll() / 90));
     }
 
     public void extendLift() {
