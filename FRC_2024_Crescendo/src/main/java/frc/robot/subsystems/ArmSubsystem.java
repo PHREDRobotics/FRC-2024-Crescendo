@@ -45,7 +45,7 @@ public class ArmSubsystem extends SubsystemBase {
     pidController.setReference(position, CANSparkMax.ControlType.kPosition);
   }
 
-  public void moveToFLoor() {
+  public void moveToFloor() {
 
   }
 

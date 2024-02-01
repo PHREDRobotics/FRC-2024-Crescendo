@@ -55,9 +55,9 @@ public final class Constants {
 
   public static final class DriveConstants {
     // Distance between right and left wheels in inches
-    public static final double kTrackWidth = Units.inchesToMeters(25);
+    public static final double kTrackWidth = Units.inchesToMeters(24.5);
     // Distance between front and back wheels in inches
-    public static final double kWheelBase = Units.inchesToMeters(25);
+    public static final double kWheelBase = Units.inchesToMeters(24.5);
     public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
         new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
         new Translation2d(kWheelBase / 2, kTrackWidth / 2),
@@ -149,9 +149,9 @@ public final class Constants {
   public static final class TestConstants {
     public static final int kTestMotorCanId = 52;
     public static final int kTestMotorCanIdTwo = 51;
-    public static final double kTestIntakeSpeed = 0.05;
+    public static final double kTestIntakeSpeed = 0.5;
     //public static final double kTestIntakeSpeedFast = 0.3;
-    public static final double kTestOuttakeSpeed = 0.4;
+    public static final double kTestOuttakeSpeed = 0.5;
   }
 
   public final static class NeoMotorConstants {
