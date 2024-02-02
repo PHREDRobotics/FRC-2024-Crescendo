@@ -13,9 +13,11 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.OuttakeCommand;
 import frc.robot.commands.SwerveJoystickCmd;
+import frc.robot.commands.VisionCommand;
 import frc.robot.subsystems.IntakeSubsystem;
 //import frc.robot.subsystems.MotorTestSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 
 // import frc.robot.commands.Autos;
 import edu.wpi.first.wpilibj.XboxController;
@@ -39,6 +41,7 @@ public class RobotContainer {
   // private final MotorTestSubsystem motorTestSubsystem = new
   // MotorTestSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  private final VisionSubsystem visionSubsystem = new VisionSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final XboxController driverJoystick = new XboxController(0);
@@ -78,6 +81,7 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+    visionSubsystem.setDefaultCommand( new VisionCommand(visionSubsystem));
     // new JoystickButton(driverJoystick, OIConstants.kZeroHeadingBtn)
     // .onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
     Trigger aButton = new JoystickButton(driverJoystick, Constants.GrabberConstants.kABtn); // Creates a new

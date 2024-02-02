@@ -1,0 +1,23 @@
+{
+  "Connections": {
+    "open": true
+  },
+  "NetworkTables Settings": {
+    "mode": "Client (NT4)",
+    "serverTeam": "847"
+  },
+  "Persistent Values": {
+    "open": false
+  },
+  "Transitory Values": {
+    "open": false
+  },
+  "retained": {
+    "CameraPublisher": {
+      "open": true
+    },
+    "limelight-phred": {
+      "open": true
+    }
+  }
+}

@@ -10,11 +10,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-
 public class VisionSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
   public boolean m_LimelightHasValidTarget = false;
-  public boolean m_IsLimeLightCentered =  false;
+  public boolean m_IsLimeLightCentered = false;
+  NetworkTable m_table = NetworkTableInstance.getDefault().getTable("limelight");
+  double tv = m_table.getEntry("tv").getDouble(0);
+  double tx = m_table.getEntry("tx").getDouble(0);
+  double ty = m_table.getEntry("ty").getDouble(0);
+  double ta = m_table.getEntry("ta").getDouble(0);
+  double tid = m_table.getEntry("tid").getDouble(0);
 
   public VisionSubsystem() {
   }
@@ -24,49 +29,32 @@ public class VisionSubsystem extends SubsystemBase {
    *
    * @return a command
    */
-  public Command VisionCommand() {
-   
-    
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return runOnce(
-        () -> {
-          /* one-time action goes here */
-        });
-  }
+  // public Command VisionCommand() {
 
-  public void readAprilTag() {
-    // we will use the network table
-      SmartDashboard.putBoolean("Sees target?", m_LimelightHasValidTarget);
-
-    double tv = NetworkTableInstance.getDefault().getTable("AprilTags_pipeline").getEntry("tv").getDouble(0);
-    double tx = NetworkTableInstance.getDefault().getTable("AprilTags_pipeline").getEntry("tx").getDouble(0);
-    double ty = NetworkTableInstance.getDefault().getTable("AprilTags_pipeline").getEntry("ty").getDouble(0);
-    double ta = NetworkTableInstance.getDefault().getTable("AprilTags_pipeline").getEntry("ta").getDouble(0);
-      // this should return which april tag we are near
-
-
-       if (tv > 2.0)
-    {
-      m_LimelightHasValidTarget = false;
-
-    }else {
-
-    m_LimelightHasValidTarget = true;
-  }
-
-  //this is telling it to move to the center if the april tag is not centered
-         if (ty > 0.5)
-    {
-      m_IsLimeLightCentered = false;
-
-    }else {
-
-    m_IsLimeLightCentered = true;
-  }
-    }
+  //   // Inline construction of command goes here.
+  //   // Subsystem::RunOnce implicitly requires `this` subsystem.
+  //   return runOnce(
+  //       () -> {
+  //         /* one-time action goes here */
+  //       });
+  // }
   // We will need to move accordingly but I think that will go elsewhere
-
+  public void vision() {
+    m_table = NetworkTableInstance.getDefault().getTable("limelight");
+    tv = m_table.getEntry("tv").getDouble(0);
+    tx = m_table.getEntry("tx").getDouble(0);
+    ty = m_table.getEntry("ty").getDouble(0);
+    ta = m_table.getEntry("ta").getDouble(0);
+    tid = m_table.getEntry("tid").getDouble(0);
+    SmartDashboard.putBoolean("Sees target?", !(tid == -1.0));
+    SmartDashboard.putNumber("Target:", tid);
+    SmartDashboard.putNumber("Limelight a value.", ta);
+    SmartDashboard.putNumber("Limelight y value.", ty);
+    SmartDashboard.putNumber("Limelight x value.", tx);
+    SmartDashboard.putNumber("Limelight v value.", tv);
+    SmartDashboard.putBoolean("Is the target in range?", m_LimelightHasValidTarget);
+    SmartDashboard.putBoolean("Is the target centered", m_IsLimeLightCentered);
+  }
   /**
    * An example method querying a boolean state of the subsystem (for example, a
    * digital sensor).
@@ -80,18 +68,29 @@ public class VisionSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+     m_table = NetworkTableInstance.getDefault().getTable("limelight");
+    tv = m_table.getEntry("tv").getDouble(0);
+    tx = m_table.getEntry("tx").getDouble(0);
+    ty = m_table.getEntry("ty").getDouble(0);
+    ta = m_table.getEntry("ta").getDouble(0);
+    tid = m_table.getEntry("tid").getDouble(0);
+    SmartDashboard.putBoolean("Sees target?", !(tid == -1.0));
+    SmartDashboard.putNumber("Target:", tid);
+    SmartDashboard.putNumber("Limelight a value.", ta);
+    SmartDashboard.putNumber("Limelight y value.", ty);
+    SmartDashboard.putNumber("Limelight x value.", tx);
+    SmartDashboard.putNumber("Limelight v value.", tv);
+    SmartDashboard.putBoolean("Is the target in range?", m_LimelightHasValidTarget);
+    SmartDashboard.putBoolean("Is the target centered", m_IsLimeLightCentered);
     // This method will be called once per scheduler run
     // It should be able to recognize the april tags, which allows us to push a
     // button so it lines itself
     // up and scores in the amp or speaker based on which and where the april tag is
-    SmartDashboard.putBoolean("Is the target in range?", m_LimelightHasValidTarget);
-    SmartDashboard.putBoolean("Is the target centered", m_IsLimeLightCentered);
-   // SmartDashboard.put variable type ("name", what you want it to display);
 
-   
+    // SmartDashboard.put variable type ("name", what you want it to display);
 
-
-// now get the network table that corresponds to the SmartDashboard class of WPILib
+    // now get the network table that corresponds to the SmartDashboard class of
+    // WPILib
   }
 
   @Override
