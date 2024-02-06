@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -18,7 +19,7 @@ public class ArmSubsystem extends SubsystemBase {
     private MotorType m_motor_type;
     private RelativeEncoder armEncoder;
     private CANSparkMax armMotor;
-    private SparkPIDController pidController;
+    private PIDController pidController;
 
     public ArmSubsystem(int canID, MotorType motorType) {
         m_can_id = canID;
@@ -26,22 +27,20 @@ public class ArmSubsystem extends SubsystemBase {
 
         armMotor = new CANSparkMax(m_can_id, m_motor_type);
         armEncoder = armMotor.getEncoder();
-        pidController = armMotor.getPIDController();
 
-        pidController.setFeedbackDevice(armEncoder);
-
-        pidController.setP(0.9);
-        pidController.setI(0);
-        pidController.setD(0);
+        double kP = 1;
+        double kI = 0;
+        double kD = 0;
+        pidController = new PIDController(kP, kI, kD);
     }
 
     /**
      * Move the arm to a desired position
      * 
-     * @param position 5 = low, 20 = mid, 30 = high
+     * @param position in encoder ticks
      */
     public void moveToPosition(double position) {
-        pidController.setReference(position, CANSparkMax.ControlType.kPosition);
+        armMotor.set(pidController.calculate(armEncoder.getPosition(), position));
     }
 
     public void resetEncoders() {

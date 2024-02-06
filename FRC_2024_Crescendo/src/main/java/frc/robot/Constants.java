@@ -55,24 +55,24 @@ public final class Constants {
 
   public static final class DriveConstants {
     // Distance between right and left wheels in inches
-    public static final double kTrackWidth = Units.inchesToMeters(25);
+    public static final double kTrackWidth = Units.inchesToMeters(24.5);
     // Distance between front and back wheels in inches
-    public static final double kWheelBase = Units.inchesToMeters(25);
+    public static final double kWheelBase = Units.inchesToMeters(24.5);
     public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
         new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
         new Translation2d(kWheelBase / 2, kTrackWidth / 2),
         new Translation2d(-kWheelBase / 2, -kTrackWidth / 2),
         new Translation2d(-kWheelBase / 2, kTrackWidth / 2));
 
-    public static final int kBackLeftDriveMotorPort = 41;
+    public static final int kBackLeftDriveMotorPort = 21;
     public static final int kFrontLeftDriveMotorPort = 11;
     public static final int kFrontRightDriveMotorPort = 21;
-    public static final int kBackRightDriveMotorPort = 31;
+    public static final int kBackRightDriveMotorPort = 25;
 
-    public static final int kBackLeftTurningMotorPort = 42;
+    public static final int kBackLeftTurningMotorPort = 22;
     public static final int kFrontLeftTurningMotorPort = 12;
     public static final int kFrontRightTurningMotorPort = 22;
-    public static final int kBackRightTurningMotorPort = 32;
+    public static final int kBackRightTurningMotorPort = 26;
 
     public static final boolean kFrontLeftTurningEncoderReversed = false;
     public static final boolean kBackLeftTurningEncoderReversed = false;
@@ -116,7 +116,7 @@ public final class Constants {
   }
 
   public static final class ArmConstants {
-    public static final int kArmControllerPort = 53;
+    public static final int kArmControllerPort = 35;
 
     // Change later after arm built -------------------------------------
     public static final double kArmLow = 10;
@@ -125,11 +125,21 @@ public final class Constants {
   }
 
   public static final class LiftConstants {
-    public static final int kLeftLiftControllerPort = 81;
-    public static final int kRightLiftControllerPort = 82;
+    public static final int kLeftLiftControllerPort = 45;
+    public static final int kRightLiftControllerPort = 46;
 
     public static final double kExtendSpeed = 0.5;
     public static final double kRetractSpeed = 0.5;
+  }
+
+  public static final class IntakeConstants {
+    public static final int kLeftIntakeControllerPort = 31;
+    public static final int kRightIntakeControllerPort = 32;
+  }
+
+  public static final class ShooterConstants {
+    public static final int kLeftShooterControllerPort = 41;
+    public static final int kRightShooterControllerPort = 42;
   }
 
   public static final class AutoConstants {
