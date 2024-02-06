@@ -61,7 +61,7 @@ public class VisionSubsystem extends SubsystemBase {
   public double targetDistance(){
     double angleToGoalDegrees = VisionConstants.kLimelightMountAngleDegrees + ty;
     double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
-    double d = (VisionConstants.kGoalHeightInches - VisionConstants.kLimelightLensHeightInches) / Math.tan(angleToGoalRadians);
+    double d = (VisionConstants.kAmpOrSourceHeightInches - VisionConstants.kLimelightLensHeightInches) / Math.tan(angleToGoalRadians);
     return d;
   }
   /**
