@@ -1,4 +1,7 @@
 {
+  "Clients": {
+    "open": true
+  },
   "Connections": {
     "open": true
   },
@@ -9,12 +12,17 @@
   "Persistent Values": {
     "open": false
   },
-  "Transitory Values": {
-    "open": false
-  },
   "retained": {
     "CameraPublisher": {
-      "open": true
+      "limelight-phred": {
+        "open": true,
+        "string[]##v_/CameraPublisher/limelight-phred/modes": {
+          "open": true
+        },
+        "string[]##v_/CameraPublisher/limelight-phred/streams": {
+          "open": true
+        }
+      }
     },
     "limelight-phred": {
       "open": true

@@ -164,5 +164,12 @@ public static final int  kXBtn = Button.kX.value;
 public static final int  kYBtn = Button.kY.value;
 public static final double kOuttakeTime = 1.0;
 }
+public static final class VisionConstants {
+  public static final double kLimelightMountAngleDegrees = 0.0;
+  public static final double kLimelightLensHeightInches = 0.0; 
+  public static final double kAmpOrSourceHeightInches = 48.5; 
+  public static final double kSpeakerHeightInches = 51.0+7.0/8.0;
+  public static final double kStageHeightInches = 47.5;
+}
 
 }
