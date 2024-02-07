@@ -66,13 +66,13 @@ public final class Constants {
 
     public static final int kBackLeftDriveMotorPort = 21;
     public static final int kFrontLeftDriveMotorPort = 11;
-    public static final int kFrontRightDriveMotorPort = 21;
-    public static final int kBackRightDriveMotorPort = 25;
+    public static final int kFrontRightDriveMotorPort = 16;
+    public static final int kBackRightDriveMotorPort = 26;
 
     public static final int kBackLeftTurningMotorPort = 22;
     public static final int kFrontLeftTurningMotorPort = 12;
-    public static final int kFrontRightTurningMotorPort = 22;
-    public static final int kBackRightTurningMotorPort = 26;
+    public static final int kFrontRightTurningMotorPort = 17;
+    public static final int kBackRightTurningMotorPort = 27;
 
     public static final boolean kFrontLeftTurningEncoderReversed = false;
     public static final boolean kBackLeftTurningEncoderReversed = false;
@@ -85,14 +85,14 @@ public final class Constants {
     public static final boolean kBackRightDriveEncoderReversed = false;
 
     public static final boolean kFrontLeftDriveInverted = true;
-    public static final boolean kBackLeftDriveInverted = false;
-    public static final boolean kFrontRightDriveInverted = true;
-    public static final boolean kBackRightDriveInverted = false;
+    public static final boolean kBackLeftDriveInverted = true;
+    public static final boolean kFrontRightDriveInverted = false;
+    public static final boolean kBackRightDriveInverted = true;
 
     public static final int kFrontLeftDriveAbsoluteEncoderPort = 12;
-    public static final int kBackLeftDriveAbsoluteEncoderPort = 42;
-    public static final int kFrontRightDriveAbsoluteEncoderPort = 22;
-    public static final int kBackRightDriveAbsoluteEncoderPort = 32;
+    public static final int kBackLeftDriveAbsoluteEncoderPort = 22;
+    public static final int kFrontRightDriveAbsoluteEncoderPort = 17;
+    public static final int kBackRightDriveAbsoluteEncoderPort = 27;
 
     public static final boolean kFrontLeftDriveAbsoluteEncoderReversed = false;
     public static final boolean kBackLeftDriveAbsoluteEncoderReversed = false;
@@ -174,8 +174,8 @@ public final class Constants {
   }
 
   public static final class TestConstants {
-    public static final int kTestMotorCanId = 52;
-    public static final int kTestMotorCanIdTwo = 51;
+    // public static final int kTestMotorCanId = 52;
+    // public static final int kTestMotorCanIdTwo = 51;
   }
 
   public final static class NeoMotorConstants {

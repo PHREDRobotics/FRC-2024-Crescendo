@@ -9,11 +9,11 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ArmMotor;
-import frc.robot.commands.DriveMotor;
+// import frc.robot.commands.DriveMotor;
 import frc.robot.commands.ResetArmEncoder;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.MotorTestSubsystem;
+// import frc.robot.subsystems.MotorTestSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -36,10 +36,10 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  // private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
+  private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
   // private final MotorTestSubsystem motorTestSubsystem = new
   // MotorTestSubsystem();
-  private final ArmSubsystem armSubsystem = new ArmSubsystem(53, MotorType.kBrushless);
+ // private final ArmSubsystem armSubsystem = new ArmSubsystem(, MotorType.kBrushless);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final XboxController driverJoystick = new XboxController(0);
@@ -53,6 +53,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the trigger bindings
+    /*
     new JoystickButton(driverJoystick, Button.kX.value)
         .whileTrue(new ArmMotor(Constants.ArmConstants.kArmLow, armSubsystem));
 
@@ -63,19 +64,19 @@ public class RobotContainer {
         .whileTrue(new ArmMotor(Constants.ArmConstants.kArmHigh, armSubsystem));
       
     limitTrigger.onTrue(new ResetArmEncoder(armSubsystem));
+    */
+
+    swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
+      swerveSubsystem,
+      () -> -driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
+      () -> driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
+      () -> -driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
+      () ->!driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
+
+    configureBindings();
   }
 
-  /*
-   * SwerveJoystickCmd(
-   * swerveSubsystem,
-   * () -> -driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
-   * () -> driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
-   * () -> driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
-   * () ->
-   * !driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
-   */
-  // configureBindings();
-
+  
   /**
    * Use this method to define your trigger->command mappings. Triggers can be
    * created via the
@@ -90,13 +91,13 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
-  /*
-   * private void configureBindings() {
-   * new JoystickButton(driverJoystick, OIConstants.kZeroHeadingBtn)
-   * .onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
-   * }
-   * 
-   */ /**
+
+   private void configureBindings() {
+   new JoystickButton(driverJoystick, OIConstants.kZeroHeadingBtn)
+   .onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+   }
+   
+   /**
        * Use this to pass the autonomous command to the main {@link Robot} class.
        *
        * @return the command to run in autonomous
