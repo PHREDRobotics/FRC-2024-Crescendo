@@ -171,5 +171,22 @@ public static final class VisionConstants {
   public static final double kSpeakerHeightInches = 51.0+7.0/8.0;
   public static final double kStageHeightInches = 47.5;
 }
+public static final class LiftConstants {
+  public static final int kLeftLiftControllerPort = 45;
+  public static final int kRightLiftControllerPort = 46;
+
+  public static final double kExtendSpeed = 0.5;
+  public static final double kRetractSpeed = 0.5;
+}
+
+public static final class IntakeConstants {
+  public static final int kLeftIntakeControllerPort = 31;
+  public static final int kRightIntakeControllerPort = 32;
+}
+
+public static final class ShooterConstants {
+  public static final int kLeftShooterControllerPort = 41;
+  public static final int kRightShooterControllerPort = 42;
+}
 
 }
