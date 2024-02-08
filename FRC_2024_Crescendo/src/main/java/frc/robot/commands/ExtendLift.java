@@ -13,6 +13,6 @@ public class ExtendLift extends Command {
 
     @Override
     public void execute() {
-        m_lift_subsystem.extendLift();
+        m_lift_subsystem.extendLeftLift();
     }
 }

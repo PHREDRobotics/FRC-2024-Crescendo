@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.util.function.DoubleSupplier;
+
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -36,14 +38,28 @@ public class LiftSubsystem extends SubsystemBase {
         rightEncoder.setPosition(0);
     }
 
-    public void retractLift() {
+    public void retractLeftLift() {
         leftLiftMotor.set(0.5 * (gyro.getRoll() / 90));
+    }
+
+    public void retractRightLift() {
         rightLiftMotor.set(0.5 * (-gyro.getRoll() / 90));
     }
 
-    public void extendLift() {
+    public void extendLeftLift() {
         leftLiftMotor.set(0);
-        leftLiftMotor.set(0);
+    }
+
+    public void extendRightLift() {
+        rightLiftMotor.set(0);
+    }
+
+    public void setRawLeftPower(DoubleSupplier left_power) {
+        leftLiftMotor.set(left_power.getAsDouble());
+    }
+
+    public void setRawRightPower(DoubleSupplier right_power) {
+        rightLiftMotor.set(right_power.getAsDouble());
     }
 
     @Override

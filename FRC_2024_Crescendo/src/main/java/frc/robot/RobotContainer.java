@@ -9,10 +9,12 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ArmMotor;
+import frc.robot.commands.ManualLiftCmd;
 // import frc.robot.commands.DriveMotor;
 import frc.robot.commands.ResetArmEncoder;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.LiftSubsystem;
 // import frc.robot.subsystems.MotorTestSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -37,6 +39,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
+  private final LiftSubsystem liftSubsystem = new LiftSubsystem();
   // private final MotorTestSubsystem motorTestSubsystem = new
   // MotorTestSubsystem();
  // private final ArmSubsystem armSubsystem = new ArmSubsystem(, MotorType.kBrushless);
@@ -66,11 +69,13 @@ public class RobotContainer {
     limitTrigger.onTrue(new ResetArmEncoder(armSubsystem));
     */
 
+    liftSubsystem.setDefaultCommand(new ManualLiftCmd(driverJoystick.getLeftTriggerAxis(), driverJoystick.getRightTriggerAxis(), liftSubsystem));
+
     swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
       swerveSubsystem,
-      () -> -driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
-      () -> driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
-      () -> -driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
+      () -> driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
+      () -> -driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
+      () -> driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
       () ->!driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
 
     configureBindings();

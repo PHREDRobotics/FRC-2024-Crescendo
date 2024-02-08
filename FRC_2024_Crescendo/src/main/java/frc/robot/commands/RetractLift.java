@@ -13,6 +13,6 @@ public class RetractLift extends Command {
 
     @Override
     public void execute() {
-        m_lift_subsystem.retractLift();
+        m_lift_subsystem.retractLeftLift();
     }
 }
