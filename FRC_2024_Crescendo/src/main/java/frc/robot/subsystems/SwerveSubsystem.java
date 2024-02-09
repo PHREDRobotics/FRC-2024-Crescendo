@@ -92,7 +92,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     // We have to invert the angle of the NavX so that rotating the robot
     // counter-clockwise makes the angle increase.
-    return 360.0 - gyro.getYaw();
+    return 180.0 + gyro.getYaw();
   }
 
   public Rotation2d getRotation2d() {

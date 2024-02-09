@@ -1,52 +1,52 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
+// // Copyright (c) FIRST and other WPILib contributors.
+// // Open Source Software; you can modify and/or share it under the terms of
+// // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
-import frc.robot.Constants;
-import frc.robot.subsystems.IntakeSubsystem;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// package frc.robot.commands;
+// import frc.robot.Constants;
+// import frc.robot.subsystems.IntakeSubsystem;
+// import edu.wpi.first.wpilibj2.command.Command;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
-/** An Intake command that uses an Intake subsystem. */
-public class OuttakeCommand extends Command {
-  @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
-  private final IntakeSubsystem m_subsystem;
+// /** An Intake command that uses an Intake subsystem. */
+// public class OuttakeCommand extends Command {
+//   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
+//   private final IntakeSubsystem m_subsystem;
 
-  /**
-   * Creates a new OuttakeCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
-  public OuttakeCommand(IntakeSubsystem subsystem) {
-    m_subsystem = subsystem;
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
-  }
+//   /**
+//    * Creates a new OuttakeCommand.
+//    *
+//    * @param subsystem The subsystem used by this command.
+//    */
+//   public OuttakeCommand(IntakeSubsystem subsystem) {
+//     m_subsystem = subsystem;
+//     // Use addRequirements() here to declare subsystem dependencies.
+//     addRequirements(subsystem);
+//   }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    m_subsystem.Outtake();
-  }
+//   // Called when the command is initially scheduled.
+//   @Override
+//   public void initialize() {
+//     m_subsystem.Outtake();
+//   }
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-  }
+//   // Called every time the scheduler runs while the command is scheduled.
+//   @Override
+//   public void execute() {
+//   }
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    m_subsystem.stopIntake();
-  }
+//   // Called once the command ends or is interrupted.
+//   @Override
+//   public void end(boolean interrupted) {
+//     m_subsystem.stopIntake();
+//   }
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return IntakeSubsystem.outtakeIsTimeDone();
-   //return true;
-  }
+//   // Returns true when the command should end.
+//   @Override
+//   public boolean isFinished() {
+//     return IntakeSubsystem.outtakeIsTimeDone();
+//    //return true;
+//   }
 
-}
+// }

@@ -158,7 +158,7 @@ public final class Constants {
     public static final int kDriverYAxis = Axis.kLeftY.value;
     public static final int kDriverXAxis = Axis.kLeftX.value;
     public static final int kDriverRotAxis = Axis.kRightX.value;
-    public static final int kDriverFieldOrientedButtonIdx = Button.kA.value;
+    public static final int kDriverFieldOrientedButtonIdx = Button.kB.value;
 
     public static final int kZeroHeadingBtn = Button.kLeftBumper.value;
     public static final int kXButton = Button.kX.value;
@@ -193,8 +193,8 @@ public final class Constants {
   }
 
   public static final class IntakeConstants {
-    public static final int kLeftIntakeControllerPort = 31;
-    public static final int kRightIntakeControllerPort = 32;
+    //public static final int kLeftIntakeControllerPort = 31;
+    //public static final int kRightIntakeControllerPort = 32;
 
     public static final double kIntakeSpeed = 0.25;
     public static final double kOuttakeSpeed = 0.25;
