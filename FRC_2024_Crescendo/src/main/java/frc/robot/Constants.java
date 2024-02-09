@@ -104,7 +104,6 @@ public final class Constants {
     public static final double kFrontRightModuleChassisAngularOffset = 0;
     public static final double kBackRightModuleChassisAngularOffset = 0;
 
-  
     public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
     public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * k2pi;
 
@@ -130,11 +129,6 @@ public final class Constants {
 
     public static final double kExtendSpeed = 0.5;
     public static final double kRetractSpeed = 0.5;
-  }
-
-  public static final class IntakeConstants {
-    public static final int kLeftIntakeControllerPort = 31;
-    public static final int kRightIntakeControllerPort = 32;
   }
 
   public static final class ShooterConstants {
@@ -173,52 +167,37 @@ public final class Constants {
     public static final double kDeadband = 0.15;
   }
 
-  public static final class TestConstants {
-<<<<<<< HEAD
-    public static final int kTestMotorCanId = 52;
-    public static final int kTestMotorCanIdTwo = 51;
-    public static final double kTestIntakeSpeed = 0.5;
-    //public static final double kTestIntakeSpeedFast = 0.3;
-    public static final double kTestOuttakeSpeed = 0.5;
-=======
-    // public static final int kTestMotorCanId = 52;
-    // public static final int kTestMotorCanIdTwo = 51;
->>>>>>> 626e5c332d4f3aec8f29559f5e3a8eb5961e7253
-  }
+  // public static final class TestConstants {
+  // // public static final int kTestMotorCanId = 52;
+  // // public static final int kTestMotorCanIdTwo = 51;
+  // }
 
   public final static class NeoMotorConstants {
     public static final double kFreeSpeedRpm = 5676;
   }
-public static final class GrabberConstants {
-public static final int  kABtn = Button.kA.value;
-public static final int  kBBtn = Button.kB.value;
-public static final int  kXBtn = Button.kX.value;
-public static final int  kYBtn = Button.kY.value;
-public static final double kOuttakeTime = 1.0;
-}
-public static final class VisionConstants {
-  public static final double kLimelightMountAngleDegrees = 0.0;
-  public static final double kLimelightLensHeightInches = 0.0; 
-  public static final double kAmpOrSourceHeightInches = 48.5; 
-  public static final double kSpeakerHeightInches = 51.0+7.0/8.0;
-  public static final double kStageHeightInches = 47.5;
-}
-public static final class LiftConstants {
-  public static final int kLeftLiftControllerPort = 45;
-  public static final int kRightLiftControllerPort = 46;
 
-  public static final double kExtendSpeed = 0.5;
-  public static final double kRetractSpeed = 0.5;
-}
+  public static final class GrabberConstants {
+    public static final int kABtn = Button.kA.value;
+    public static final int kBBtn = Button.kB.value;
+    public static final int kXBtn = Button.kX.value;
+    public static final int kYBtn = Button.kY.value;
+    public static final double kOuttakeTime = 1.0;
+  }
 
-public static final class IntakeConstants {
-  public static final int kLeftIntakeControllerPort = 31;
-  public static final int kRightIntakeControllerPort = 32;
-}
+  public static final class VisionConstants {
+    public static final double kLimelightMountAngleDegrees = 0.0;
+    public static final double kLimelightLensHeightInches = 0.0;
+    public static final double kAmpOrSourceHeightInches = 48.5;
+    public static final double kSpeakerHeightInches = 51.0 + 7.0 / 8.0;
+    public static final double kStageHeightInches = 47.5;
+  }
 
-public static final class ShooterConstants {
-  public static final int kLeftShooterControllerPort = 41;
-  public static final int kRightShooterControllerPort = 42;
-}
+  public static final class IntakeConstants {
+    public static final int kLeftIntakeControllerPort = 31;
+    public static final int kRightIntakeControllerPort = 32;
+
+    public static final double kIntakeSpeed = 0.25;
+    public static final double kOuttakeSpeed = 0.25;
+  }
 
 }

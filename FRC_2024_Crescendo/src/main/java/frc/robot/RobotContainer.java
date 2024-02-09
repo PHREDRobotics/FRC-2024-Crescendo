@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.GrabberConstants;
 import frc.robot.Constants.OIConstants;
-<<<<<<< HEAD
 //import frc.robot.commands.DriveMotor;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.OuttakeCommand;
@@ -17,7 +16,6 @@ import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.commands.VisionCommand;
 import frc.robot.subsystems.IntakeSubsystem;
 //import frc.robot.subsystems.MotorTestSubsystem;
-=======
 import frc.robot.commands.ArmMotor;
 import frc.robot.commands.ManualLiftCmd;
 // import frc.robot.commands.DriveMotor;
@@ -26,7 +24,6 @@ import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.LiftSubsystem;
 // import frc.robot.subsystems.MotorTestSubsystem;
->>>>>>> 626e5c332d4f3aec8f29559f5e3a8eb5961e7253
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
@@ -51,19 +48,17 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-<<<<<<< HEAD
   // private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
   // private final MotorTestSubsystem motorTestSubsystem = new
   // MotorTestSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private final VisionSubsystem visionSubsystem = new VisionSubsystem();
-=======
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
   private final LiftSubsystem liftSubsystem = new LiftSubsystem();
   // private final MotorTestSubsystem motorTestSubsystem = new
   // MotorTestSubsystem();
- // private final ArmSubsystem armSubsystem = new ArmSubsystem(, MotorType.kBrushless);
->>>>>>> 626e5c332d4f3aec8f29559f5e3a8eb5961e7253
+  // private final ArmSubsystem armSubsystem = new ArmSubsystem(,
+  // MotorType.kBrushless);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final XboxController driverJoystick = new XboxController(0);
@@ -76,52 +71,35 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-<<<<<<< HEAD
-
-    // Configure the trigger bindings
-    configureBindings();
-  }
-
-  /*
-   * SwerveJoystickCmd(
-   * swerveSubsystem,
-   * () -> -driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
-   * () -> driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
-   * () -> driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
-   * () ->
-   * !driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
-   */
-  //
-
-=======
     // Configure the trigger bindings
     /*
-    new JoystickButton(driverJoystick, Button.kX.value)
-        .whileTrue(new ArmMotor(Constants.ArmConstants.kArmLow, armSubsystem));
+     * new JoystickButton(driverJoystick, Button.kX.value)
+     * .whileTrue(new ArmMotor(Constants.ArmConstants.kArmLow, armSubsystem));
+     * 
+     * new JoystickButton(driverJoystick, Button.kY.value)
+     * .whileTrue(new ArmMotor(Constants.ArmConstants.kArmMid, armSubsystem));
+     * 
+     * new JoystickButton(driverJoystick, Button.kB.value)
+     * .whileTrue(new ArmMotor(Constants.ArmConstants.kArmHigh, armSubsystem));
+     * 
+     * limitTrigger.onTrue(new ResetArmEncoder(armSubsystem));
+     */
 
-    new JoystickButton(driverJoystick, Button.kY.value)
-        .whileTrue(new ArmMotor(Constants.ArmConstants.kArmMid, armSubsystem));
-    
-    new JoystickButton(driverJoystick, Button.kB.value)
-        .whileTrue(new ArmMotor(Constants.ArmConstants.kArmHigh, armSubsystem));
-      
-    limitTrigger.onTrue(new ResetArmEncoder(armSubsystem));
-    */
-
-    liftSubsystem.setDefaultCommand(new ManualLiftCmd(driverJoystick.getLeftTriggerAxis(), driverJoystick.getRightTriggerAxis(), liftSubsystem));
+    liftSubsystem.setDefaultCommand(new ManualLiftCmd(
+        () -> driverJoystick.getLeftTriggerAxis(),
+        () -> driverJoystick.getRightTriggerAxis(),
+        liftSubsystem));
 
     swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
-      swerveSubsystem,
-      () -> driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
-      () -> -driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
-      () -> driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
-      () ->!driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
+        swerveSubsystem,
+        () -> driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
+        () -> -driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
+        () -> driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
+        () -> !driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
 
     configureBindings();
   }
 
-  
->>>>>>> 626e5c332d4f3aec8f29559f5e3a8eb5961e7253
   /**
    * Use this method to define your trigger->command mappings. Triggers can be
    * created via the
@@ -136,23 +114,23 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
-<<<<<<< HEAD
   private void configureBindings() {
-    visionSubsystem.setDefaultCommand( new VisionCommand(visionSubsystem));
+    visionSubsystem.setDefaultCommand(new VisionCommand(visionSubsystem));
     // new JoystickButton(driverJoystick, OIConstants.kZeroHeadingBtn)
     // .onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
     Trigger aButton = new JoystickButton(driverJoystick, Constants.GrabberConstants.kABtn); // Creates a new
-                                                                                           // JoystickButton object for
-                                                                                           // the `A` button on
-                                                                                           // exampleController
+                                                                                            // JoystickButton object for
+                                                                                            // the `A` button on
+                                                                                            // exampleController
     aButton.onTrue(new IntakeCommand(intakeSubsystem));
 
     Trigger yButton = new JoystickButton(driverJoystick, Constants.GrabberConstants.kYBtn); // Creates a new
-                                                                                           // JoystickButton object for
-                                                                                           // the `Y` button on
-                                                                                           // exampleController
+                                                                                            // JoystickButton object for
+                                                                                            // the `Y` button on
+                                                                                            // exampleController
     yButton.onTrue(new OuttakeCommand(intakeSubsystem));
-    
+    new JoystickButton(driverJoystick, OIConstants.kZeroHeadingBtn)
+        .onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
   }
 
   /**
@@ -160,19 +138,12 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-=======
 
-   private void configureBindings() {
-   new JoystickButton(driverJoystick, OIConstants.kZeroHeadingBtn)
-   .onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
-   }
-   
-   /**
-       * Use this to pass the autonomous command to the main {@link Robot} class.
-       *
-       * @return the command to run in autonomous
-       */
->>>>>>> 626e5c332d4f3aec8f29559f5e3a8eb5961e7253
+  /**
+   * Use this to pass the autonomous command to the main {@link Robot} class.
+   *
+   * @return the command to run in autonomous
+   */
   public Command getAutonomousCommand() {
 
     /*
