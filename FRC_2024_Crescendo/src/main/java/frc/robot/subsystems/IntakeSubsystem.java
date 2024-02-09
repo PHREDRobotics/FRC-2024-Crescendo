@@ -1,11 +1,13 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+<<<<<<< HEAD
 import frc.robot.Constants;
 import frc.robot.Constants.GrabberConstants;
+=======
+import frc.robot.Constants.IntakeConstants;
+>>>>>>> 626e5c332d4f3aec8f29559f5e3a8eb5961e7253
 import frc.robot.Constants.TestConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.*;
@@ -22,6 +24,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 public class IntakeSubsystem extends SubsystemBase {
   private static final Timer m_timer = new Timer();
 
+<<<<<<< HEAD
   public CANSparkMax m_upMotor = new CANSparkMax(TestConstants.kTestMotorCanId, MotorType.kBrushless);
   public CANSparkMax m_downMotor = new CANSparkMax(TestConstants.kTestMotorCanIdTwo, MotorType.kBrushless);
   public SparkLimitSwitch m_forwardLimit = m_upMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
@@ -31,6 +34,10 @@ public class IntakeSubsystem extends SubsystemBase {
 
   // public SparkLimitSwitch m_forwardLimit =
   // m_upMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed);
+=======
+  private CANSparkMax LeftMotor = new CANSparkMax(IntakeConstants.kLeftIntakeControllerPort, MotorType.kBrushless);
+  private CANSparkMax RightMotor = new CANSparkMax(IntakeConstants.kRightIntakeControllerPort, MotorType.kBrushless);
+>>>>>>> 626e5c332d4f3aec8f29559f5e3a8eb5961e7253
 
   public IntakeSubsystem() {
     super();
@@ -39,6 +46,7 @@ public class IntakeSubsystem extends SubsystemBase {
     // m_forwardLimit.enableLimitSwitch(false);
   }
 
+<<<<<<< HEAD
   // public Command Intake() {
   // boolean beamBroken = false;
   // if (beamBroken) {
@@ -62,6 +70,29 @@ public class IntakeSubsystem extends SubsystemBase {
     m_upMotor.set(speedConvert(-m_outtakeSpeed));
     m_downMotor.set(speedConvert(m_outtakeSpeed));
     m_timer.start();
+=======
+  public Command Intake() {
+    boolean beamBroken = false;
+    if (beamBroken) {
+      return runOnce(
+          () -> {
+            LeftMotor.set(0);
+            RightMotor.set(0);
+          });
+    } else {
+      return runOnce(
+          () -> {
+            LeftMotor.set(speedConvert(1));
+            RightMotor.set(-speedConvert(1));
+          });
+    }
+
+  }
+
+  public void Outtake() {
+    LeftMotor.set(speedConvert(-1));
+    RightMotor.set(-speedConvert(-1));
+>>>>>>> 626e5c332d4f3aec8f29559f5e3a8eb5961e7253
   }
 
   public double speedConvert(double inSpeed) {

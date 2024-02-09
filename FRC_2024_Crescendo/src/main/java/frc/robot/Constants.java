@@ -64,15 +64,15 @@ public final class Constants {
         new Translation2d(-kWheelBase / 2, -kTrackWidth / 2),
         new Translation2d(-kWheelBase / 2, kTrackWidth / 2));
 
-    public static final int kBackLeftDriveMotorPort = 41;
+    public static final int kBackLeftDriveMotorPort = 21;
     public static final int kFrontLeftDriveMotorPort = 11;
-    public static final int kFrontRightDriveMotorPort = 21;
-    public static final int kBackRightDriveMotorPort = 31;
+    public static final int kFrontRightDriveMotorPort = 16;
+    public static final int kBackRightDriveMotorPort = 26;
 
-    public static final int kBackLeftTurningMotorPort = 42;
+    public static final int kBackLeftTurningMotorPort = 22;
     public static final int kFrontLeftTurningMotorPort = 12;
-    public static final int kFrontRightTurningMotorPort = 22;
-    public static final int kBackRightTurningMotorPort = 32;
+    public static final int kFrontRightTurningMotorPort = 17;
+    public static final int kBackRightTurningMotorPort = 27;
 
     public static final boolean kFrontLeftTurningEncoderReversed = false;
     public static final boolean kBackLeftTurningEncoderReversed = false;
@@ -85,14 +85,14 @@ public final class Constants {
     public static final boolean kBackRightDriveEncoderReversed = false;
 
     public static final boolean kFrontLeftDriveInverted = true;
-    public static final boolean kBackLeftDriveInverted = false;
-    public static final boolean kFrontRightDriveInverted = true;
-    public static final boolean kBackRightDriveInverted = false;
+    public static final boolean kBackLeftDriveInverted = true;
+    public static final boolean kFrontRightDriveInverted = false;
+    public static final boolean kBackRightDriveInverted = true;
 
     public static final int kFrontLeftDriveAbsoluteEncoderPort = 12;
-    public static final int kBackLeftDriveAbsoluteEncoderPort = 42;
-    public static final int kFrontRightDriveAbsoluteEncoderPort = 22;
-    public static final int kBackRightDriveAbsoluteEncoderPort = 32;
+    public static final int kBackLeftDriveAbsoluteEncoderPort = 22;
+    public static final int kFrontRightDriveAbsoluteEncoderPort = 17;
+    public static final int kBackRightDriveAbsoluteEncoderPort = 27;
 
     public static final boolean kFrontLeftDriveAbsoluteEncoderReversed = false;
     public static final boolean kBackLeftDriveAbsoluteEncoderReversed = false;
@@ -113,6 +113,33 @@ public final class Constants {
         kPhysicalMaxAngularSpeedRadiansPerSecond / 4;
     public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
     public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
+  }
+
+  public static final class ArmConstants {
+    public static final int kArmControllerPort = 35;
+
+    // Change later after arm built -------------------------------------
+    public static final double kArmLow = 10;
+    public static final double kArmMid = 30;
+    public static final double kArmHigh = 50;
+  }
+
+  public static final class LiftConstants {
+    public static final int kLeftLiftControllerPort = 45;
+    public static final int kRightLiftControllerPort = 46;
+
+    public static final double kExtendSpeed = 0.5;
+    public static final double kRetractSpeed = 0.5;
+  }
+
+  public static final class IntakeConstants {
+    public static final int kLeftIntakeControllerPort = 31;
+    public static final int kRightIntakeControllerPort = 32;
+  }
+
+  public static final class ShooterConstants {
+    public static final int kLeftShooterControllerPort = 41;
+    public static final int kRightShooterControllerPort = 42;
   }
 
   public static final class AutoConstants {
@@ -147,11 +174,16 @@ public final class Constants {
   }
 
   public static final class TestConstants {
+<<<<<<< HEAD
     public static final int kTestMotorCanId = 52;
     public static final int kTestMotorCanIdTwo = 51;
     public static final double kTestIntakeSpeed = 0.5;
     //public static final double kTestIntakeSpeedFast = 0.3;
     public static final double kTestOuttakeSpeed = 0.5;
+=======
+    // public static final int kTestMotorCanId = 52;
+    // public static final int kTestMotorCanIdTwo = 51;
+>>>>>>> 626e5c332d4f3aec8f29559f5e3a8eb5961e7253
   }
 
   public final static class NeoMotorConstants {
