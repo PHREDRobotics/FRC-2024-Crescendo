@@ -7,18 +7,15 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Constants.GrabberConstants;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.ArmMotor;
-import frc.robot.commands.AutoLiftCmd;
-import frc.robot.commands.ChangeLiftModeCmd;
-import frc.robot.commands.ManualLiftCmd;
-// import frc.robot.commands.DriveMotor;
-import frc.robot.commands.ResetArmEncoder;
-import frc.robot.commands.SwerveJoystickCmd;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.LiftSubsystem;
+//import frc.robot.commands.DriveMotor;
+import frc.robot.commands.IntakeCommand;
+//import frc.robot.commands.OuttakeCommand;
+//import frc.robot.subsystems.MotorTestSubsystem;
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
 // import frc.robot.subsystems.MotorTestSubsystem;
-import frc.robot.subsystems.SwerveSubsystem;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -28,6 +25,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -41,6 +39,11 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
+  // private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
+  // private final MotorTestSubsystem motorTestSubsystem = new
+  // MotorTestSubsystem();
+  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  private final VisionSubsystem visionSubsystem = new VisionSubsystem();
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
   private final LiftSubsystem liftSubsystem = new LiftSubsystem();
   // private final MotorTestSubsystem motorTestSubsystem = new
@@ -105,27 +108,37 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
-
   private void configureBindings() {
-    new JoystickButton(driverJoystick, OIConstants.kZeroHeadingBtn)
+    visionSubsystem.setDefaultCommand(new VisionCommand(visionSubsystem));
+    // new JoystickButton(driverJoystick, OIConstants.kZeroHeadingBtn)
+    // .onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+    Trigger aButton = new JoystickButton(driverJoystick, Constants.GrabberConstants.kABtn); // Creates a new
+                                                                                            // JoystickButton object for
+                                                                                            // the `A` button on
+                                                                                            // exampleController
+     aButton.onTrue(new IntakeCommand(intakeSubsystem));
+     
+     new JoystickButton(driverJoystick, OIConstants.kZeroHeadingBtn)
         .onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
-  }
+
+  /*
+   * Use this to pass the autonomous command to the main {@link Robot} class.
+   *
+   * @return the command to run in autonomous
+   */
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
-   */
+   *
   public Command getAutonomousCommand() {
-
-    /*
      * // 1. Create trajectory settings
      * TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
      * AutoConstants.kMaxSpeedMetersPerSecond,
      * AutoConstants.kMaxAccelerationMetersPerSecondSquared)
      * .setKinematics(DriveConstants.kDriveKinematics);
      * 
-     * // 2. Generate trajectory
      * Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
      * new Pose2d(0, 0, new Rotation2d(0)),
      * List.of(
@@ -165,6 +178,6 @@ public class RobotContainer {
      * }
      */
 
-    return null;
+    //return null;
   }
 }

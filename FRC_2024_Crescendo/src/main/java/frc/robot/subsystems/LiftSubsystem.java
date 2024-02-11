@@ -10,7 +10,9 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.CAN;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -21,7 +23,7 @@ public class LiftSubsystem extends SubsystemBase {
     private CANSparkMax rightLiftMotor;
     private RelativeEncoder leftEncoder;
     private RelativeEncoder rightEncoder;
-    private AHRS gyro;
+    private AHRS navXMicro;
 
     /**
      * Subsystem to control the lift
@@ -31,7 +33,14 @@ public class LiftSubsystem extends SubsystemBase {
         rightLiftMotor = new CANSparkMax(Constants.LiftConstants.kRightLiftControllerPort, MotorType.kBrushless);
         leftEncoder = leftLiftMotor.getEncoder();
         rightEncoder = rightLiftMotor.getEncoder();
-        gyro = new AHRS(SPI.Port.kMXP);
+        try {
+            navXMicro = new AHRS(SPI.Port.kMXP);
+        } catch (RuntimeException ex) {
+            DriverStation.reportError(ex.getMessage(), true);
+        }
+        Timer.delay(1.0);
+
+        addChild("NavX Micro", navXMicro);
     }
 
     /**
@@ -50,7 +59,7 @@ public class LiftSubsystem extends SubsystemBase {
      * @param speed Value between 0 and 1
      */
     public void AutoLift(double speed) {
-        double roll = gyro.getRoll();
+        double roll = navXMicro.getRoll();
         boolean checkLevel = false;
         leftLiftMotor.setIdleMode(IdleMode.kBrake);
         rightLiftMotor.setIdleMode(IdleMode.kBrake);
@@ -101,5 +110,8 @@ public class LiftSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Right Power", rightLiftMotor.get());
         SmartDashboard.putNumber("Left Encoder", leftEncoder.getPosition());
         SmartDashboard.putNumber("Right Encoder", rightEncoder.getPosition());
+        SmartDashboard.putNumber("NavX y", navXMicro.getPitch());
+        SmartDashboard.putNumber("NavX x", navXMicro.getRoll());
+        SmartDashboard.putNumber("NavX z", navXMicro.getYaw());
     }
 }

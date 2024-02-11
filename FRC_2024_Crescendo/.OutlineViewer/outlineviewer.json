@@ -1,0 +1,31 @@
+{
+  "Clients": {
+    "open": true
+  },
+  "Connections": {
+    "open": true
+  },
+  "NetworkTables Settings": {
+    "mode": "Client (NT4)",
+    "serverTeam": "847"
+  },
+  "Persistent Values": {
+    "open": false
+  },
+  "retained": {
+    "CameraPublisher": {
+      "limelight-phred": {
+        "open": true,
+        "string[]##v_/CameraPublisher/limelight-phred/modes": {
+          "open": true
+        },
+        "string[]##v_/CameraPublisher/limelight-phred/streams": {
+          "open": true
+        }
+      }
+    },
+    "limelight-phred": {
+      "open": true
+    }
+  }
+}

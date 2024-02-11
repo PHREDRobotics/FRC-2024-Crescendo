@@ -126,8 +126,18 @@ public class SwerveModule {
   /**
    * Returns current turn position in range -pi to pi
    */
+
+   //Before it was
+   //return turningEncoder.getPosition();
+
   public double getTurningPosition() {
-    return turningEncoder.getPosition(); // ModuleConstants.kTurningMotorRotationPerSteerRotation;
+    if (turningEncoder.getPosition() >= 0) {
+      return turningEncoder.getPosition();
+      
+    } else {
+      return Math.PI + turningEncoder.getPosition();
+    }
+     // ModuleConstants.kTurningMotorRotationPerSteerRotation;
   }
 
   public SwerveModulePosition getPosition() {
@@ -156,12 +166,14 @@ public class SwerveModule {
     SwerveModuleState correctedDesiredState = new SwerveModuleState();
     correctedDesiredState.speedMetersPerSecond = desiredState.speedMetersPerSecond;
     correctedDesiredState.angle = desiredState.angle.plus(Rotation2d.fromRadians(chassisAngularOffset));
+    //changed fromRadians to fromDegrees
 
     SwerveModuleState optimizedDesiredState = SwerveModuleState.optimize(correctedDesiredState,
         new Rotation2d(turningEncoder.getPosition()));
 
     drivingPidController.setReference(optimizedDesiredState.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity);
     turningPidController.setReference(optimizedDesiredState.angle.getRadians(), CANSparkMax.ControlType.kPosition);
+    //changed getRadians to getDegrees
 
   }
 

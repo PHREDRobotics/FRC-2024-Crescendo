@@ -94,14 +94,14 @@ public final class Constants {
     public static final boolean kBackRightDriveEncoderReversed = false;
 
     public static final boolean kFrontLeftDriveInverted = true;
-    public static final boolean kBackLeftDriveInverted = true;
-    public static final boolean kFrontRightDriveInverted = false;
+    public static final boolean kBackLeftDriveInverted = false;
+    public static final boolean kFrontRightDriveInverted = true;
     public static final boolean kBackRightDriveInverted = true;
 
-    public static final int kFrontLeftDriveAbsoluteEncoderPort = 12;
-    public static final int kBackLeftDriveAbsoluteEncoderPort = 22;
-    public static final int kFrontRightDriveAbsoluteEncoderPort = 17;
-    public static final int kBackRightDriveAbsoluteEncoderPort = 27;
+    // public static final int kFrontLeftDriveAbsoluteEncoderPort = 12;
+    // public static final int kBackLeftDriveAbsoluteEncoderPort = 22;
+    // public static final int kFrontRightDriveAbsoluteEncoderPort = 17;
+    // public static final int kBackRightDriveAbsoluteEncoderPort = 27;
 
     public static final boolean kFrontLeftDriveAbsoluteEncoderReversed = false;
     public static final boolean kBackLeftDriveAbsoluteEncoderReversed = false;
@@ -113,7 +113,6 @@ public final class Constants {
     public static final double kFrontRightModuleChassisAngularOffset = 0;
     public static final double kBackRightModuleChassisAngularOffset = 0;
 
-  
     public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
     public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * k2pi;
 
@@ -147,17 +146,6 @@ public final class Constants {
     public static final double kRetractSpeed = 0.5;
   }
 
-  /**
-   * Constants for the intake
-   */
-  public static final class IntakeConstants {
-    public static final int kLeftIntakeControllerPort = 31;
-    public static final int kRightIntakeControllerPort = 32;
-  }
-
-  /**
-   * Constants for the shooter
-   */
   public static final class ShooterConstants {
     public static final int kLeftShooterControllerPort = 41;
     public static final int kRightShooterControllerPort = 42;
@@ -196,18 +184,16 @@ public final class Constants {
     public static final int kZeroHeadingBtn = Button.kLeftBumper.value;
     public static final int kXButton = Button.kX.value;
     public static final int kYButton = Button.kY.value;
+    public static final int kAButton = Button.kA.value;
 
     public static final double kDeadband = 0.15;
     
   }
 
-  /**
-   * Constants for testing
-   */
-  public static final class TestConstants {
-    // public static final int kTestMotorCanId = 52;
-    // public static final int kTestMotorCanIdTwo = 51;
-  }
+  // public static final class TestConstants {
+  // // public static final int kTestMotorCanId = 52;
+  // // public static final int kTestMotorCanIdTwo = 51;
+  // }
 
   /**
    * Constants for the neo motors
@@ -215,4 +201,29 @@ public final class Constants {
   public final static class NeoMotorConstants {
     public static final double kFreeSpeedRpm = 5676;
   }
+
+  public static final class GrabberConstants {
+    public static final int kABtn = Button.kA.value;
+    public static final int kBBtn = Button.kB.value;
+    public static final int kXBtn = Button.kX.value;
+    public static final int kYBtn = Button.kY.value;
+    public static final double kOuttakeTime = 1.0;
+  }
+
+  public static final class VisionConstants {
+    public static final double kLimelightMountAngleDegrees = 0.0;
+    public static final double kLimelightLensHeightInches = 0.0;
+    public static final double kAmpOrSourceHeightInches = 48.5;
+    public static final double kSpeakerHeightInches = 51.0 + 7.0 / 8.0;
+    public static final double kStageHeightInches = 47.5;
+  }
+
+  public static final class IntakeConstants {
+    public static final int kLeftIntakeControllerPort = 31;
+    public static final int kRightIntakeControllerPort = 32;
+
+    public static final double kIntakeSpeed = 0.25;
+    public static final double kOuttakeSpeed = 0.25;
+  }
+
 }

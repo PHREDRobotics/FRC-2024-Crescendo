@@ -82,7 +82,7 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public void zeroHeading() {
-    // gyro.zeroYaw();
+   //gyro.zeroYaw();
     gyro.reset();
     frontLeft.resetEncoders();
     frontRight.resetEncoders();
@@ -99,11 +99,17 @@ public class SwerveSubsystem extends SubsystemBase {
 
     // We have to invert the angle of the NavX so that rotating the robot
     // counter-clockwise makes the angle increase.
-    return 360.0 - gyro.getYaw();
+    if (gyro.getYaw() >= 0) {
+      return gyro.getYaw();
+      
+    } else {
+      return 360 + gyro.getYaw();
+    }
   }
 
   public Rotation2d getRotation2d() {
-    return Rotation2d.fromDegrees(getHeading());
+    return Rotation2d.fromRadians(getHeading());
+    //change fromDegrees to fromRadians
   }
 
   public Pose2d getPose() {
@@ -127,6 +133,9 @@ public void resetOdometry(Pose2d pose) {
     
 
     SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
+ 
+    SmartDashboard.putBoolean("Should we blame hardware AND electrical?", true);
+    SmartDashboard.putBoolean("Is orca great?", true);
   }
 
   @Override
