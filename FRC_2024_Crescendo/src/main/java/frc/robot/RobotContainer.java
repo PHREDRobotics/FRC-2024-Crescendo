@@ -10,22 +10,12 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.GrabberConstants;
 import frc.robot.Constants.OIConstants;
 //import frc.robot.commands.DriveMotor;
-//import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.IntakeCommand;
 //import frc.robot.commands.OuttakeCommand;
-import frc.robot.commands.SwerveJoystickCmd;
-import frc.robot.commands.VisionCommand;
-//import frc.robot.subsystems.IntakeSubsystem;
 //import frc.robot.subsystems.MotorTestSubsystem;
-import frc.robot.commands.ArmMotor;
-import frc.robot.commands.ManualLiftCmd;
-// import frc.robot.commands.DriveMotor;
-import frc.robot.commands.ResetArmEncoder;
-import frc.robot.commands.SwerveJoystickCmd;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.LiftSubsystem;
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
 // import frc.robot.subsystems.MotorTestSubsystem;
-import frc.robot.subsystems.SwerveSubsystem;
-import frc.robot.subsystems.VisionSubsystem;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -51,7 +41,7 @@ public class RobotContainer {
   // private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
   // private final MotorTestSubsystem motorTestSubsystem = new
   // MotorTestSubsystem();
-  //private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private final VisionSubsystem visionSubsystem = new VisionSubsystem();
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
   private final LiftSubsystem liftSubsystem = new LiftSubsystem();
@@ -122,7 +112,7 @@ public class RobotContainer {
                                                                                             // JoystickButton object for
                                                                                             // the `A` button on
                                                                                             // exampleController
-    // aButton.onTrue(new IntakeCommand(intakeSubsystem));
+     aButton.onTrue(new IntakeCommand(intakeSubsystem));
 
     // Trigger yButton = new JoystickButton(driverJoystick, Constants.GrabberConstants.kYBtn); // Creates a new
     //                                                                                         // JoystickButton object for

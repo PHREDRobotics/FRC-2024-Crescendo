@@ -85,14 +85,14 @@ public final class Constants {
     public static final boolean kBackRightDriveEncoderReversed = false;
 
     public static final boolean kFrontLeftDriveInverted = true;
-    public static final boolean kBackLeftDriveInverted = true;
-    public static final boolean kFrontRightDriveInverted = false;
+    public static final boolean kBackLeftDriveInverted = false;
+    public static final boolean kFrontRightDriveInverted = true;
     public static final boolean kBackRightDriveInverted = true;
 
-    public static final int kFrontLeftDriveAbsoluteEncoderPort = 12;
-    public static final int kBackLeftDriveAbsoluteEncoderPort = 22;
-    public static final int kFrontRightDriveAbsoluteEncoderPort = 17;
-    public static final int kBackRightDriveAbsoluteEncoderPort = 27;
+    // public static final int kFrontLeftDriveAbsoluteEncoderPort = 12;
+    // public static final int kBackLeftDriveAbsoluteEncoderPort = 22;
+    // public static final int kFrontRightDriveAbsoluteEncoderPort = 17;
+    // public static final int kBackRightDriveAbsoluteEncoderPort = 27;
 
     public static final boolean kFrontLeftDriveAbsoluteEncoderReversed = false;
     public static final boolean kBackLeftDriveAbsoluteEncoderReversed = false;
@@ -163,6 +163,7 @@ public final class Constants {
     public static final int kZeroHeadingBtn = Button.kLeftBumper.value;
     public static final int kXButton = Button.kX.value;
     public static final int kYButton = Button.kY.value;
+    public static final int kAButton = Button.kA.value;
 
     public static final double kDeadband = 0.15;
   }
@@ -193,8 +194,8 @@ public final class Constants {
   }
 
   public static final class IntakeConstants {
-    //public static final int kLeftIntakeControllerPort = 31;
-    //public static final int kRightIntakeControllerPort = 32;
+    public static final int kLeftIntakeControllerPort = 31;
+    public static final int kRightIntakeControllerPort = 32;
 
     public static final double kIntakeSpeed = 0.25;
     public static final double kOuttakeSpeed = 0.25;
