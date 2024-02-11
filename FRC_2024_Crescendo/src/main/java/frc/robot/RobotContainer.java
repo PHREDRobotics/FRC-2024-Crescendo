@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ArmMotor;
+import frc.robot.commands.AutoLiftCmd;
+import frc.robot.commands.ChangeLiftModeCmd;
 import frc.robot.commands.ManualLiftCmd;
 // import frc.robot.commands.DriveMotor;
 import frc.robot.commands.ResetArmEncoder;
@@ -18,6 +20,7 @@ import frc.robot.subsystems.LiftSubsystem;
 // import frc.robot.subsystems.MotorTestSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -42,7 +45,8 @@ public class RobotContainer {
   private final LiftSubsystem liftSubsystem = new LiftSubsystem();
   // private final MotorTestSubsystem motorTestSubsystem = new
   // MotorTestSubsystem();
- // private final ArmSubsystem armSubsystem = new ArmSubsystem(, MotorType.kBrushless);
+  // private final ArmSubsystem armSubsystem = new ArmSubsystem(,
+  // MotorType.kBrushless);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final XboxController driverJoystick = new XboxController(0);
@@ -57,31 +61,36 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     /*
-    new JoystickButton(driverJoystick, Button.kX.value)
-        .whileTrue(new ArmMotor(Constants.ArmConstants.kArmLow, armSubsystem));
+     * new JoystickButton(driverJoystick, Button.kX.value)
+     * .whileTrue(new ArmMotor(Constants.ArmConstants.kArmLow, armSubsystem));
+     * 
+     * new JoystickButton(driverJoystick, Button.kY.value)
+     * .whileTrue(new ArmMotor(Constants.ArmConstants.kArmMid, armSubsystem));
+     * 
+     * new JoystickButton(driverJoystick, Button.kB.value)
+     * .whileTrue(new ArmMotor(Constants.ArmConstants.kArmHigh, armSubsystem));
+     * 
+     * limitTrigger.onTrue(new ResetArmEncoder(armSubsystem));
+     */
 
-    new JoystickButton(driverJoystick, Button.kY.value)
-        .whileTrue(new ArmMotor(Constants.ArmConstants.kArmMid, armSubsystem));
-    
-    new JoystickButton(driverJoystick, Button.kB.value)
-        .whileTrue(new ArmMotor(Constants.ArmConstants.kArmHigh, armSubsystem));
-      
-    limitTrigger.onTrue(new ResetArmEncoder(armSubsystem));
-    */
+    new JoystickButton(driverJoystick, Button.kLeftBumper.value)
+    .whileTrue(new ChangeLiftModeCmd(IdleMode.kCoast, liftSubsystem));
 
-    liftSubsystem.setDefaultCommand(new ManualLiftCmd(driverJoystick.getLeftTriggerAxis(), driverJoystick.getRightTriggerAxis(), liftSubsystem));
+    liftSubsystem.setDefaultCommand(new ManualLiftCmd(
+      () -> driverJoystick.getLeftTriggerAxis(),
+      () -> driverJoystick.getRightTriggerAxis(),
+      liftSubsystem));
 
     swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
-      swerveSubsystem,
-      () -> driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
-      () -> -driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
-      () -> driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
-      () ->!driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
+        swerveSubsystem,
+        () -> driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
+        () -> -driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
+        () -> driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
+        () -> !driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
 
     configureBindings();
   }
 
-  
   /**
    * Use this method to define your trigger->command mappings. Triggers can be
    * created via the
@@ -97,16 +106,16 @@ public class RobotContainer {
    * joysticks}.
    */
 
-   private void configureBindings() {
-   new JoystickButton(driverJoystick, OIConstants.kZeroHeadingBtn)
-   .onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
-   }
-   
-   /**
-       * Use this to pass the autonomous command to the main {@link Robot} class.
-       *
-       * @return the command to run in autonomous
-       */
+  private void configureBindings() {
+    new JoystickButton(driverJoystick, OIConstants.kZeroHeadingBtn)
+        .onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+  }
+
+  /**
+   * Use this to pass the autonomous command to the main {@link Robot} class.
+   *
+   * @return the command to run in autonomous
+   */
   public Command getAutonomousCommand() {
 
     /*

@@ -4,6 +4,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ArmSubsystem;
 
+/**
+ * Command to reset the encoder on the arm
+ */
 public class ResetArmEncoder extends Command {
     
     private ArmSubsystem m_arm_subsystem;

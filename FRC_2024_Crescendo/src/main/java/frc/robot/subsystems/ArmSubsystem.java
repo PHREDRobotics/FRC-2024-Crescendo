@@ -11,7 +11,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
 /**
- * Arm Subsystem that controls arm PID for PHRED's really cool robot
+ * Subsystem for the robot's arm
  */
 public class ArmSubsystem extends SubsystemBase {
 
@@ -21,6 +21,11 @@ public class ArmSubsystem extends SubsystemBase {
     private CANSparkMax armMotor;
     private PIDController pidController;
 
+    /**
+     * Subsystem for the robot's arm
+     * @param canID ID of the arm's spark max controller
+     * @param motorType Type of motor the arm is
+     */
     public ArmSubsystem(int canID, MotorType motorType) {
         m_can_id = canID;
         m_motor_type = motorType;
@@ -36,13 +41,15 @@ public class ArmSubsystem extends SubsystemBase {
 
     /**
      * Move the arm to a desired position
-     * 
-     * @param position in encoder ticks
+     * @param position Target position in encoder ticks
      */
     public void moveToPosition(double position) {
         armMotor.set(pidController.calculate(armEncoder.getPosition(), position));
     }
 
+    /**
+     * Reset the encoder on the arm
+     */
     public void resetEncoders() {
         armMotor.set(0);
         armEncoder.setPosition(0);

@@ -10,9 +10,15 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 
+/**
+ * A class to keep all of the robot's constants
+ */
 public final class Constants {
   public static final double k2pi = Math.PI * 2;
 
+  /**
+   * General constants for the robot's build
+   */
   public static final class ModuleConstants {
     public static final double kWheelDiameterMeters = Units.inchesToMeters(4);
     public static final double kDriveMotorGearRatio = 1 / 6.75;
@@ -53,6 +59,9 @@ public final class Constants {
 
   }
 
+  /**
+   * Constants for driving
+   */
   public static final class DriveConstants {
     // Distance between right and left wheels in inches
     public static final double kTrackWidth = Units.inchesToMeters(24.5);
@@ -115,6 +124,9 @@ public final class Constants {
     public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
   }
 
+  /**
+   * Constants for the arm
+   */
   public static final class ArmConstants {
     public static final int kArmControllerPort = 35;
 
@@ -124,24 +136,36 @@ public final class Constants {
     public static final double kArmHigh = 50;
   }
 
+  /**
+   * Constants for the lift
+   */
   public static final class LiftConstants {
-    public static final int kLeftLiftControllerPort = 45;
-    public static final int kRightLiftControllerPort = 46;
+    public static final int kLeftLiftControllerPort = 46;
+    public static final int kRightLiftControllerPort = 47;
 
     public static final double kExtendSpeed = 0.5;
     public static final double kRetractSpeed = 0.5;
   }
 
+  /**
+   * Constants for the intake
+   */
   public static final class IntakeConstants {
     public static final int kLeftIntakeControllerPort = 31;
     public static final int kRightIntakeControllerPort = 32;
   }
 
+  /**
+   * Constants for the shooter
+   */
   public static final class ShooterConstants {
     public static final int kLeftShooterControllerPort = 41;
     public static final int kRightShooterControllerPort = 42;
   }
 
+  /**
+   * Constants for autonomous
+   */
   public static final class AutoConstants {
     public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 4;
     public static final double kMaxAngularSpeedRadiansPerSecond = //
@@ -158,26 +182,36 @@ public final class Constants {
             kMaxAngularAccelerationRadiansPerSecondSquared);
   }
 
+  /**
+   * Constants for the controller
+   */
   public static final class OIConstants {
     public static final int kDriverControllerPort = 0;
 
     public static final int kDriverYAxis = Axis.kLeftY.value;
     public static final int kDriverXAxis = Axis.kLeftX.value;
     public static final int kDriverRotAxis = Axis.kRightX.value;
-    public static final int kDriverFieldOrientedButtonIdx = Button.kA.value;
+    public static final int kDriverFieldOrientedButtonIdx = Button.kB.value;
 
     public static final int kZeroHeadingBtn = Button.kLeftBumper.value;
     public static final int kXButton = Button.kX.value;
     public static final int kYButton = Button.kY.value;
 
     public static final double kDeadband = 0.15;
+    
   }
 
+  /**
+   * Constants for testing
+   */
   public static final class TestConstants {
     // public static final int kTestMotorCanId = 52;
     // public static final int kTestMotorCanIdTwo = 51;
   }
 
+  /**
+   * Constants for the neo motors
+   */
   public final static class NeoMotorConstants {
     public static final double kFreeSpeedRpm = 5676;
   }

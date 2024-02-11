@@ -6,6 +6,7 @@ import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.CAN;
@@ -22,6 +23,9 @@ public class LiftSubsystem extends SubsystemBase {
     private RelativeEncoder rightEncoder;
     private AHRS gyro;
 
+    /**
+     * Subsystem to control the lift
+     */
     public LiftSubsystem() {
         leftLiftMotor = new CANSparkMax(Constants.LiftConstants.kLeftLiftControllerPort, MotorType.kBrushless);
         rightLiftMotor = new CANSparkMax(Constants.LiftConstants.kRightLiftControllerPort, MotorType.kBrushless);
@@ -30,6 +34,9 @@ public class LiftSubsystem extends SubsystemBase {
         gyro = new AHRS(SPI.Port.kMXP);
     }
 
+    /**
+     * Reset Lift Motor Encoders
+     */
     public void resetEncoders() {
         leftLiftMotor.set(0);
         rightLiftMotor.set(0);
@@ -38,32 +45,61 @@ public class LiftSubsystem extends SubsystemBase {
         rightEncoder.setPosition(0);
     }
 
-    public void retractLeftLift() {
-        leftLiftMotor.set(0.5 * (gyro.getRoll() / 90));
+    /**
+     * Automatically lifts the robot, must be called in a loop
+     * @param speed Value between 0 and 1
+     */
+    public void AutoLift(double speed) {
+        double roll = gyro.getRoll();
+        boolean checkLevel = false;
+        leftLiftMotor.setIdleMode(IdleMode.kBrake);
+        rightLiftMotor.setIdleMode(IdleMode.kBrake);
+        if (roll > 1) {
+            leftLiftMotor.set(0);
+            checkLevel = true;
+        } else if(roll < -1) {
+            rightLiftMotor.set(0);
+            checkLevel = true;
+        } else if (checkLevel && roll < 1 && roll > -1) {
+            leftLiftMotor.set(0);
+            rightLiftMotor.set(0);
+        }
     }
 
-    public void retractRightLift() {
-        rightLiftMotor.set(0.5 * (-gyro.getRoll() / 90));
+    public double getLeftEncoder() {
+        return leftEncoder.getPosition();
+    }
+    
+    public double getRightEncoder() {
+        return rightEncoder.getPosition();
     }
 
-    public void extendLeftLift() {
-        leftLiftMotor.set(0);
-    }
-
-    public void extendRightLift() {
-        rightLiftMotor.set(0);
-    }
-
+    /**
+     * Set the power of the left lift motor
+     * @param left_power Value between 0 and 1
+     */
     public void setRawLeftPower(DoubleSupplier left_power) {
         leftLiftMotor.set(left_power.getAsDouble());
     }
 
+    /**
+     * Set the power of the right lift motor
+     * @param right_power Value between 0 and 1
+     */
     public void setRawRightPower(DoubleSupplier right_power) {
         rightLiftMotor.set(right_power.getAsDouble());
     }
 
+    public void changeLiftMode(IdleMode mode) {
+        leftLiftMotor.setIdleMode(mode);
+        rightLiftMotor.setIdleMode(mode);
+    }
+
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Gyro Yaw", gyro.getYaw());
+        SmartDashboard.putNumber("Left Power", leftLiftMotor.get());
+        SmartDashboard.putNumber("Right Power", rightLiftMotor.get());
+        SmartDashboard.putNumber("Left Encoder", leftEncoder.getPosition());
+        SmartDashboard.putNumber("Right Encoder", rightEncoder.getPosition());
     }
 }
