@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.GrabberConstants;
 import frc.robot.Constants.OIConstants;
 //import frc.robot.commands.DriveMotor;
-import frc.robot.commands.IntakeCommand;
 //import frc.robot.commands.OuttakeCommand;
 //import frc.robot.subsystems.MotorTestSubsystem;
 import frc.robot.commands.*;
@@ -78,6 +77,9 @@ public class RobotContainer {
 
     new JoystickButton(driverJoystick, Button.kLeftBumper.value)
     .whileTrue(new ChangeLiftModeCmd(IdleMode.kCoast, liftSubsystem));
+
+    new JoystickButton(driverJoystick, Button.kRightBumper.value)
+    .whileTrue(new ChangeLiftModeCmd(IdleMode.kBrake, liftSubsystem));
 
     liftSubsystem.setDefaultCommand(new ManualLiftCmd(
       () -> driverJoystick.getLeftTriggerAxis(),
