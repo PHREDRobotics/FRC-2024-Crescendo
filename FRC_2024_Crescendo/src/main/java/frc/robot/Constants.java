@@ -130,9 +130,9 @@ public final class Constants {
     public static final int kArmControllerPort = 35;
 
     // Change later after arm built -------------------------------------
-    public static final double kArmLow = 10;
-    public static final double kArmMid = 30;
-    public static final double kArmHigh = 50;
+    public static final double kArmLow = 2;
+    public static final double kArmMid = 12;
+    public static final double kArmHigh = 24;
   }
 
   /**

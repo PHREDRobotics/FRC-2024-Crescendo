@@ -16,6 +16,9 @@ import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 // import frc.robot.subsystems.MotorTestSubsystem;
 
+import java.lang.reflect.Array;
+
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -47,8 +50,8 @@ public class RobotContainer {
   private final LiftSubsystem liftSubsystem = new LiftSubsystem();
   // private final MotorTestSubsystem motorTestSubsystem = new
   // MotorTestSubsystem();
-  // private final ArmSubsystem armSubsystem = new ArmSubsystem(,
-  // MotorType.kBrushless);
+  private final ArmSubsystem armSubsystem = new ArmSubsystem(Constants.ArmConstants.kArmControllerPort, CANSparkMax.MotorType.kBrushless,
+    1, 0, 0, 1, 0, 0, 0, 0, 0, 0);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final XboxController driverJoystick = new XboxController(0);
@@ -62,29 +65,27 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the trigger bindings
-    /*
-     * new JoystickButton(driverJoystick, Button.kX.value)
-     * .whileTrue(new ArmMotor(Constants.ArmConstants.kArmLow, armSubsystem));
-     * 
-     * new JoystickButton(driverJoystick, Button.kY.value)
-     * .whileTrue(new ArmMotor(Constants.ArmConstants.kArmMid, armSubsystem));
-     * 
-     * new JoystickButton(driverJoystick, Button.kB.value)
-     * .whileTrue(new ArmMotor(Constants.ArmConstants.kArmHigh, armSubsystem));
-     * 
-     * limitTrigger.onTrue(new ResetArmEncoder(armSubsystem));
-     */
+    new JoystickButton(driverJoystick, Button.kX.value)
+      .whileTrue(new ArmMotor(Constants.ArmConstants.kArmLow, armSubsystem));
+    new JoystickButton(driverJoystick, Button.kY.value)
+      .whileTrue(new ArmMotor(Constants.ArmConstants.kArmMid, armSubsystem));
+    new JoystickButton(driverJoystick, Button.kB.value)
+      .whileTrue(new ArmMotor(Constants.ArmConstants.kArmHigh, armSubsystem));
+    new JoystickButton(driverJoystick, Button.kStart.value)
+      .onTrue(new ResetArmEncoder(armSubsystem));
 
+    /*
     new JoystickButton(driverJoystick, Button.kLeftBumper.value)
     .whileTrue(new ChangeLiftModeCmd(IdleMode.kCoast, liftSubsystem));
 
     new JoystickButton(driverJoystick, Button.kRightBumper.value)
     .whileTrue(new ChangeLiftModeCmd(IdleMode.kBrake, liftSubsystem));
+    */
 
-    liftSubsystem.setDefaultCommand(new ManualLiftCmd(
-      () -> driverJoystick.getLeftTriggerAxis(),
-      () -> driverJoystick.getRightTriggerAxis(),
-      liftSubsystem));
+    armSubsystem.setDefaultCommand(new ManualArmCmd(
+      () -> driverJoystick.getLeftTriggerAxis() +
+      -driverJoystick.getRightTriggerAxis(),
+      armSubsystem));
 
     swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
         swerveSubsystem,
