@@ -10,10 +10,10 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.GrabberConstants;
 import frc.robot.Constants.OIConstants;
 //import frc.robot.commands.DriveMotor;
-import frc.robot.commands.IntakeCommand;
 //import frc.robot.commands.OuttakeCommand;
 //import frc.robot.subsystems.MotorTestSubsystem;
 import frc.robot.commands.*;
+import frc.robot.controls.LogitechPro;
 import frc.robot.subsystems.*;
 // import frc.robot.subsystems.MotorTestSubsystem;
 
@@ -53,6 +53,8 @@ public class RobotContainer {
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final XboxController driverJoystick = new XboxController(0);
 
+  private final LogitechPro joyStick = new LogitechPro(1);
+
   DigitalInput limitSwitch = new DigitalInput(4);
 
   Trigger limitTrigger = new Trigger(limitSwitch::get);
@@ -82,10 +84,10 @@ public class RobotContainer {
 
     swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
         swerveSubsystem,
-        () -> driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
-        () -> -driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
-        () -> driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
-        () -> !driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
+        () -> -joyStick.getPitch(),
+        () -> -joyStick.getRoll(),
+        () -> -joyStick.getYaw(),
+        () -> joyStick.getTrigger()));
 
     configureBindings();
   }
