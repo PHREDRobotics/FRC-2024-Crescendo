@@ -105,7 +105,7 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public Rotation2d getRotation2d() {
-    return Rotation2d.fromRadians(getHeading());
+    return Rotation2d.fromDegrees(getHeading());
     // change fromDegrees to fromRadians
   }
 
@@ -125,10 +125,10 @@ public class SwerveSubsystem extends SubsystemBase {
 
     SmartDashboard.putString("Robot Heading (Rotation2d)", gyro.getRotation2d().toString());
     SmartDashboard.putNumber("Robot Heading (Degrees)", getHeading());
-    SmartDashboard.putNumber("Front Left Turning Position", frontLeft.getTurningPosition() / (2 * Math.PI));
-    SmartDashboard.putNumber("Front Right Turning Position", frontRight.getTurningPosition() / (2 * Math.PI));
-    SmartDashboard.putNumber("Back Left Turning Position", backLeft.getTurningPosition() / (2 * Math.PI));
-    SmartDashboard.putNumber("Back Right Turning Position", backRight.getTurningPosition() / (2 * Math.PI));
+    SmartDashboard.putNumber("Front Left Turning Position", frontLeft.getTurningPosition() * (180/Math.PI));
+    SmartDashboard.putNumber("Front Right Turning Position", frontRight.getTurningPosition() * (180/Math.PI));
+    SmartDashboard.putNumber("Back Left Turning Position", backLeft.getTurningPosition() * (180/Math.PI));
+    SmartDashboard.putNumber("Back Right Turning Position", backRight.getTurningPosition() * (180/Math.PI));
 
     SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
 

@@ -9,6 +9,7 @@ import com.revrobotics.AbsoluteEncoder;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import frc.robot.Constants;
 import frc.robot.Constants.ModuleConstants;
 
 /**
@@ -135,7 +136,7 @@ public class SwerveModule {
       return turningEncoder.getPosition();
       
     } else {
-      return Math.PI + turningEncoder.getPosition();
+      return Constants.k2pi + turningEncoder.getPosition();
     }
      // ModuleConstants.kTurningMotorRotationPerSteerRotation;
   }

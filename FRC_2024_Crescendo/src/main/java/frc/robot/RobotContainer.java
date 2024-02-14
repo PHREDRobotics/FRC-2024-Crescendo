@@ -55,7 +55,7 @@ public class RobotContainer {
 
   private final LogitechPro joyStick = new LogitechPro(1);
 
-  DigitalInput limitSwitch = new DigitalInput(4);
+  DigitalInput limitSwitch = new DigitalInput(9);
 
   Trigger limitTrigger = new Trigger(limitSwitch::get);
 
