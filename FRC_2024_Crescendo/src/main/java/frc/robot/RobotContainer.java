@@ -50,13 +50,17 @@ public class RobotContainer {
   private final LiftSubsystem liftSubsystem = new LiftSubsystem();
   // private final MotorTestSubsystem motorTestSubsystem = new
   // MotorTestSubsystem();
-  private final ArmSubsystem armSubsystem = new ArmSubsystem(Constants.ArmConstants.kArmControllerPort, CANSparkMax.MotorType.kBrushless,
-    1, 0, 0, 1, 0, 0, 0, 0, 0, 0);
+  DigitalInput limitSwitch = new DigitalInput(Constants.ArmConstants.kLimitSwitchControllerPort);
+  private final ArmSubsystem armSubsystem = new ArmSubsystem(
+    Constants.ArmConstants.kArmControllerPort, CANSparkMax.MotorType.kBrushless,
+    limitSwitch,
+    1, 0, 0, 1,
+    0, 0, 0, 0,
+    0, 0);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final XboxController driverJoystick = new XboxController(0);
 
-  DigitalInput limitSwitch = new DigitalInput(4);
 
   Trigger limitTrigger = new Trigger(limitSwitch::get);
 
@@ -71,22 +75,24 @@ public class RobotContainer {
       .whileTrue(new ArmMotor(Constants.ArmConstants.kArmMid, armSubsystem));
     new JoystickButton(driverJoystick, Button.kB.value)
       .whileTrue(new ArmMotor(Constants.ArmConstants.kArmHigh, armSubsystem));
-    new JoystickButton(driverJoystick, Button.kStart.value)
-      .onTrue(new ResetArmEncoder(armSubsystem));
+    limitTrigger.onTrue(
+      new ResetArmEncoder(armSubsystem)
+    );
 
     /*
     new JoystickButton(driverJoystick, Button.kLeftBumper.value)
-    .whileTrue(new ChangeLiftModeCmd(IdleMode.kCoast, liftSubsystem));
+      .whileTrue(new ChangeLiftModeCmd(IdleMode.kCoast, liftSubsystem));
 
     new JoystickButton(driverJoystick, Button.kRightBumper.value)
     .whileTrue(new ChangeLiftModeCmd(IdleMode.kBrake, liftSubsystem));
     */
 
+    
     armSubsystem.setDefaultCommand(new ManualArmCmd(
-      () -> driverJoystick.getLeftTriggerAxis() +
-      -driverJoystick.getRightTriggerAxis(),
+      () -> (driverJoystick.getLeftTriggerAxis() - driverJoystick.getRightTriggerAxis()),
       armSubsystem));
 
+    /*
     swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
         swerveSubsystem,
         () -> driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
@@ -95,6 +101,7 @@ public class RobotContainer {
         () -> !driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
 
     configureBindings();
+    */
   }
 
   /**

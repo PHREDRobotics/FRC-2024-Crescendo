@@ -34,6 +34,7 @@ public class ArmSubsystem extends SubsystemBase {
     private double kDt;
     private int m_can_id;
     private MotorType m_motor_type;
+    private DigitalInput m_limit_switch;
     private RelativeEncoder armEncoder;
     private CANSparkMax armMotor;
     private PIDController pidController;
@@ -47,13 +48,14 @@ public class ArmSubsystem extends SubsystemBase {
      * @param motorType Type of motor the arm is
      */
     public ArmSubsystem(
-        int canID, MotorType motorType, 
+        int canID, MotorType motorType, DigitalInput limitSwitch,
         double p, double i, double d, double dt,
         double s, double g, double v, double a,
         double maxVelocity, double maxAcceleration
         ) {
         this.m_can_id = canID;
         this.m_motor_type = motorType;
+        this.m_limit_switch = limitSwitch;
         
         this.kP = p;
         this.kI = i;
@@ -87,7 +89,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void setRawPower(DoubleSupplier power) {
-        this.armMotor.set(power.getAsDouble());
+        this.armMotor.setVoltage(power.getAsDouble() / 2);
     }
 
     /**
@@ -101,5 +103,6 @@ public class ArmSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         SmartDashboard.putNumber("position", this.armEncoder.getPosition());
+        SmartDashboard.putBoolean("Limit Switch:", this.m_limit_switch.get());
     }
 }

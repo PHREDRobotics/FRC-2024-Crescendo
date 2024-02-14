@@ -128,6 +128,7 @@ public final class Constants {
    */
   public static final class ArmConstants {
     public static final int kArmControllerPort = 35;
+    public static final int kLimitSwitchControllerPort = 9;
 
     // Change later after arm built -------------------------------------
     public static final double kArmLow = 2;
