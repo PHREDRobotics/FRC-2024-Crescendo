@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.GrabberConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.GrabberConstants;
 //import frc.robot.commands.DriveMotor;
-//import frc.robot.commands.OuttakeCommand;
 //import frc.robot.subsystems.MotorTestSubsystem;
 import frc.robot.commands.*;
 import frc.robot.controls.LogitechPro;
@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -45,6 +46,10 @@ public class RobotContainer {
   private final VisionSubsystem visionSubsystem = new VisionSubsystem();
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
   private final LiftSubsystem liftSubsystem = new LiftSubsystem();
+  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+  
+
+
   // private final MotorTestSubsystem motorTestSubsystem = new
   // MotorTestSubsystem();
   // private final ArmSubsystem armSubsystem = new ArmSubsystem(,
@@ -120,9 +125,19 @@ public class RobotContainer {
     //                                                                                         // JoystickButton object for
     //                                                                                         // the `Y` button on
     //                                                                                         // exampleController
-    // yButton.onTrue(new OuttakeCommand(intakeSubsystem));
+    Trigger yButton = new JoystickButton(driverJoystick, Constants.GrabberConstants.kYBtn);
+
+
+
+     yButton.onTrue(new OuttakeCommand(intakeSubsystem));
     // new JoystickButton(driverJoystick, OIConstants.kZeroHeadingBtn)
     //     .onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+
+     Trigger xButton = new JoystickButton(driverJoystick, Constants.ShooterConstants.kXBtn);
+
+
+    
+     xButton.onTrue(new ShooterCommand(shooterSubsystem));
   }
 
   /**
