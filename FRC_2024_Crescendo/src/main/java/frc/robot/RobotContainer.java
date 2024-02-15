@@ -54,7 +54,7 @@ public class RobotContainer {
   private final ArmSubsystem armSubsystem = new ArmSubsystem(
     Constants.ArmConstants.kArmControllerPort, CANSparkMax.MotorType.kBrushless,
     limitSwitch,
-    1, 0, 0, 1,
+    1, 0, 0, 0,
     0, 0, 0, 0,
     0, 0);
 
@@ -89,7 +89,7 @@ public class RobotContainer {
 
     
     armSubsystem.setDefaultCommand(new ManualArmCmd(
-      () -> (driverJoystick.getLeftTriggerAxis() - driverJoystick.getRightTriggerAxis()),
+      () -> (driverJoystick.getLeftY()),
       armSubsystem));
 
     /*
