@@ -5,7 +5,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.GrabberConstants;
 import frc.robot.Constants.OIConstants;
@@ -27,7 +29,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
-
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -47,8 +48,6 @@ public class RobotContainer {
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
   private final LiftSubsystem liftSubsystem = new LiftSubsystem();
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
-  
-
 
   // private final MotorTestSubsystem motorTestSubsystem = new
   // MotorTestSubsystem();
@@ -115,29 +114,31 @@ public class RobotContainer {
     visionSubsystem.setDefaultCommand(new VisionCommand(visionSubsystem));
     // new JoystickButton(driverJoystick, OIConstants.kZeroHeadingBtn)
     // .onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
-    Trigger aButton = new JoystickButton(driverJoystick, Constants.GrabberConstants.kABtn); // Creates a new
-                                                                                            // JoystickButton object for
-                                                                                            // the `A` button on
-                                                                                            // exampleController
-     aButton.onTrue(new IntakeCommand(intakeSubsystem));
+    Trigger aButton = new JoystickButton(driverJoystick, Constants.OIConstants.kAButton); // Creates a new
+                                                                                          // JoystickButton object for
+                                                                                          // the `A` button on
+                                                                                          // exampleController
+    aButton.onTrue(new IntakeCommand(intakeSubsystem));
 
-    // Trigger yButton = new JoystickButton(driverJoystick, Constants.GrabberConstants.kYBtn); // Creates a new
-    //                                                                                         // JoystickButton object for
-    //                                                                                         // the `Y` button on
-    //                                                                                         // exampleController
-    Trigger yButton = new JoystickButton(driverJoystick, Constants.GrabberConstants.kYBtn);
+    // Trigger yButton = new JoystickButton(driverJoystick,
+    // Constants.GrabberConstants.kYBtn); // Creates a new
+    // /* // /* // // JoystickButton object for */ */
+    // // the `Y` button on
+    // // exampleController
+    Trigger yButton = new JoystickButton(driverJoystick, Constants.OIConstants.kYButton);
 
+    yButton.onTrue(new OuttakeCommand(intakeSubsystem));
 
-
-     yButton.onTrue(new OuttakeCommand(intakeSubsystem));
     // new JoystickButton(driverJoystick, OIConstants.kZeroHeadingBtn)
-    //     .onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+    // .onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
 
-     Trigger xButton = new JoystickButton(driverJoystick, Constants.ShooterConstants.kXBtn);
+    Trigger xButton = new JoystickButton(driverJoystick, Constants.OIConstants.kXButton);
 
+    xButton.onTrue(new ShooterCommand(shooterSubsystem));
 
-    
-     xButton.onTrue(new ShooterCommand(shooterSubsystem));
+    Trigger bButton = new JoystickButton(driverJoystick, Constants.OIConstants.kBButton);
+
+    bButton.onTrue(Commands.parallel(new ShooterCommand(shooterSubsystem), new OuttakeCommand(intakeSubsystem)));
   }
 
   /**

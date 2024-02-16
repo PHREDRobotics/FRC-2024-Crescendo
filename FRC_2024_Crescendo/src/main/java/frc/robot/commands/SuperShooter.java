@@ -11,11 +11,12 @@ import javax.sound.midi.Sequence;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
 /** An example command that uses an example subsystem. 
- * @param <m_Intake>*/
-public class SuperShooter<m_Intake> extends SequentialCommandGroup {
+ * @param <m_Intake> 
+ * */
+public class SuperShooter<m_Intake> extends ParallelCommandGroup {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   private final IntakeSubsystem m_Intake;
@@ -38,9 +39,9 @@ public class SuperShooter<m_Intake> extends SequentialCommandGroup {
     // Use addRequirements() here to declare subsystem dependencies.
     addCommands( // CODE COMMANDS IN HERE
 
-//move the arm to the shooter position Andys job
-//run the outtake command
-//run the shooter command
+  //move the arm to the shooter position Andys job
+  //run the outtake command
+  //run the shooter command
 
 
 
@@ -57,4 +58,5 @@ public class SuperShooter<m_Intake> extends SequentialCommandGroup {
   public boolean runsWhenDisabled() {
     return false;
   }
+  
 }

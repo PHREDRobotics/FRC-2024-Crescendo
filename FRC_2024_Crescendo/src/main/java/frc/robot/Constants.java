@@ -165,6 +165,7 @@ public final class Constants {
     public static final int kDriverFieldOrientedButtonIdx = Button.kB.value;
 
     public static final int kZeroHeadingBtn = Button.kLeftBumper.value;
+    public static final int kBButton = Button.kB.value;
     public static final int kXButton = Button.kX.value;
     public static final int kYButton = Button.kY.value;
     public static final int kAButton = Button.kA.value;
