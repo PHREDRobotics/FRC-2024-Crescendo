@@ -54,9 +54,9 @@ public class RobotContainer {
   private final ArmSubsystem armSubsystem = new ArmSubsystem(
     Constants.ArmConstants.kArmControllerPort, CANSparkMax.MotorType.kBrushless,
     limitSwitch,
-    1, 0, 0, 0,
-    0, 0, 0, 0,
-    0, 0);
+    0.6, 0, 0, 0.02,
+    0, 0.1, 0, 0,
+    10, 5);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final XboxController driverJoystick = new XboxController(0);
@@ -76,7 +76,7 @@ public class RobotContainer {
     new JoystickButton(driverJoystick, Button.kB.value)
       .whileTrue(new ArmMotor(Constants.ArmConstants.kArmHigh, armSubsystem));
     limitTrigger.onTrue(
-      new ResetArmEncoder(armSubsystem)
+      new ManualResetArmEncoder(armSubsystem)
     );
 
     /*

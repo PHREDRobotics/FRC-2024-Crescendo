@@ -89,9 +89,11 @@ public class ArmSubsystem extends SubsystemBase {
         this.armMotor = new CANSparkMax(m_can_id, m_motor_type);
         this.armEncoder = armMotor.getEncoder();
         this.feedforward = new ArmFeedforward(kS, kG, kV, kA);
-        this.goal = new TrapezoidProfile.State();
         this.setpoint = new TrapezoidProfile.State();
         this.pidController = new PIDController(kP, kI, kD);
+        this.profile = new TrapezoidProfile(new TrapezoidProfile.Constraints(this.max_velocity, this.max_acceleration));
+        this.goal = new TrapezoidProfile.State();
+        this.setpoint = new TrapezoidProfile.State();
     }
     
     /**
@@ -99,13 +101,15 @@ public class ArmSubsystem extends SubsystemBase {
      * @param position Target position in encoder ticks
      */
     public void moveToPosition(double position) {
-        this.profile = new TrapezoidProfile(new TrapezoidProfile.Constraints(this.max_velocity, this.max_acceleration));
+        this.goal = new TrapezoidProfile.State(position, 0);
         this.setpoint = this.profile.calculate(this.kDt, this.setpoint, this.goal);
-        this.pidController.setSetpoint(setpoint.velocity);
-        this.goal = new TrapezoidProfile.State(position, this.max_velocity);
-        this.armMotor.setVoltage(this.pidController.calculate(this.armEncoder.getPosition(), this.setpoint.position) + this.setpoint.velocity);
+        this.armMotor.setVoltage(pidController.calculate(this.armEncoder.getPosition(), this.setpoint.position) + this.feedforward.calculate(Math.toRadians(this.armEncoder.getPosition()), this.setpoint.velocity));
     }
 
+    /**
+     * Send voltage directly to the motor
+     * @param power in volts
+     */
     public void setRawPower(DoubleSupplier power) {
         this.voltage = power.getAsDouble() * 6;
         this.armMotor.setVoltage(this.voltage);

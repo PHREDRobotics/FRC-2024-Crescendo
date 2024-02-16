@@ -7,12 +7,12 @@ import frc.robot.subsystems.ArmSubsystem;
 /**
  * Command to reset the encoder on the arm
  */
-public class ResetArmEncoder extends Command {
+public class ManualResetArmEncoder extends Command {
     
     private ArmSubsystem m_arm_subsystem;
 
 
-    public ResetArmEncoder(ArmSubsystem armSubsystem) {
+    public ManualResetArmEncoder(ArmSubsystem armSubsystem) {
         m_arm_subsystem = armSubsystem;
     }
     

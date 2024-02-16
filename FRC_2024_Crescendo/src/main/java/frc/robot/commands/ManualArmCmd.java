@@ -3,6 +3,7 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.ArmSubsystem;
 
 /**
@@ -22,17 +23,21 @@ public class ManualArmCmd extends Command {
     public ManualArmCmd(DoubleSupplier ArmPower, ArmSubsystem armSubsystem) {
         this.armPower = ArmPower;
         this.arm_subsystem = armSubsystem;
-
+        
         addRequirements(armSubsystem);
     }
 
     @Override
     public void initialize() {
-        arm_subsystem.resetEncoders();
+        //arm_subsystem.resetEncoders();
     }
 
     @Override
     public void execute() {
+        //Yoinked code from swerve joystick command to set a deadband
+        this.armPower = Math.abs(this.armPower.getAsDouble()) > OIConstants.kDeadband ? this.armPower : () -> 0.0;
+        //Square it!
+        this.armPower = () -> this.armPower.getAsDouble() * Math.abs(this.armPower.getAsDouble());
         this.arm_subsystem.setRawPower(this.armPower);
     }
 }
