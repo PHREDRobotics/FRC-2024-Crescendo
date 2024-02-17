@@ -40,7 +40,7 @@ public class SwerveAimCmd extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    }
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -63,9 +63,9 @@ public class SwerveAimCmd extends Command {
 
     // 5. Convert chassis speeds to individual module states
     SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
-   //state.angle.getRadians());
+    // state.angle.getRadians());
     // 6. Output each module states to wheels
-   swerveSubsystem.setModuleStates(moduleStates);
+    swerveSubsystem.setModuleStates(moduleStates);
 
   }
 

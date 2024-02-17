@@ -8,6 +8,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
@@ -50,6 +51,8 @@ public class SwerveSubsystem extends SubsystemBase {
       DriveConstants.kBackRightDriveInverted);
 
   private final AHRS gyro = new AHRS(SPI.Port.kMXP);
+  //private final SimDeviceSim simGyro = new SimDeviceSim();
+  private final Field2d m_field = new Field2d();
 
   //private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics,
   //    new Rotation2d(), getModulePositions());
@@ -68,6 +71,7 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public SwerveSubsystem() {
+    SmartDashboard.putData("Field", m_field);
     new Thread(() -> {
       try {
         Thread.sleep(1000);
@@ -133,6 +137,12 @@ public class SwerveSubsystem extends SubsystemBase {
     SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
 
     SmartDashboard.putBoolean("Should we blame Hardware/Electrical?", true);
+  }
+
+  @Override
+  public void simulationPeriodic() {
+    odometer.update(new Rotation2d(-Math.PI), getModulePositions());
+    m_field.setRobotPose(odometer.getPoseMeters());
   }
 
   public void initModules() {

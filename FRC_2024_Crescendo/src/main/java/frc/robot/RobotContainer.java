@@ -9,24 +9,21 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Constants.GrabberConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.GrabberConstants;
 //import frc.robot.commands.DriveMotor;
+//import frc.robot.commands.OuttakeCommand;
 //import frc.robot.subsystems.MotorTestSubsystem;
 import frc.robot.commands.*;
 import frc.robot.controls.LogitechPro;
 import frc.robot.subsystems.*;
 // import frc.robot.subsystems.MotorTestSubsystem;
-
-import com.revrobotics.CANSparkLowLevel.MotorType;
-
+import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.DigitalInput;
 // import frc.robot.commands.Autos;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -51,51 +48,30 @@ public class RobotContainer {
 
   // private final MotorTestSubsystem motorTestSubsystem = new
   // MotorTestSubsystem();
-  // private final ArmSubsystem armSubsystem = new ArmSubsystem(,
-  // MotorType.kBrushless);
+  DigitalInput limitSwitch = new DigitalInput(Constants.ArmConstants.kLimitSwitchControllerPort);
+  private final ArmSubsystem armSubsystem = new ArmSubsystem(
+      Constants.ArmConstants.kArmControllerPort, CANSparkMax.MotorType.kBrushless,
+      limitSwitch,
+      0.6, 0, 0, 0.02,
+      0, 0.1, 0, 0,
+      10, 5);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final XboxController driverJoystick = new XboxController(0);
 
   private final LogitechPro joyStick = new LogitechPro(1);
 
-  DigitalInput limitSwitch = new DigitalInput(9);
+  //DigitalInput limitSwitch = new DigitalInput(9);
 
-  Trigger limitTrigger = new Trigger(limitSwitch::get);
+  //Trigger limitTrigger = new Trigger(limitSwitch::get);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    // Configure the trigger bindings
-    /*
-     * new JoystickButton(driverJoystick, Button.kX.value)
-     * .whileTrue(new ArmMotor(Constants.ArmConstants.kArmLow, armSubsystem));
-     * 
-     * new JoystickButton(driverJoystick, Button.kY.value)
-     * .whileTrue(new ArmMotor(Constants.ArmConstants.kArmMid, armSubsystem));
-     * 
-     * new JoystickButton(driverJoystick, Button.kB.value)
-     * .whileTrue(new ArmMotor(Constants.ArmConstants.kArmHigh, armSubsystem));
-     * 
-     * limitTrigger.onTrue(new ResetArmEncoder(armSubsystem));
-     */
-
-    liftSubsystem.setDefaultCommand(new ManualLiftCmd(
-        () -> driverJoystick.getLeftTriggerAxis(),
-        () -> driverJoystick.getRightTriggerAxis(),
-        liftSubsystem));
-
-    swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
-        swerveSubsystem,
-        () -> -joyStick.getPitch(),
-        () -> -joyStick.getRoll(),
-        () -> -joyStick.getYaw(),
-        () -> joyStick.getTrigger()));
-
     configureBindings();
   }
-
+  
   /**
    * Use this method to define your trigger->command mappings. Triggers can be
    * created via the
@@ -111,100 +87,100 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    visionSubsystem.setDefaultCommand(new VisionCommand(visionSubsystem));
-    // new JoystickButton(driverJoystick, OIConstants.kZeroHeadingBtn)
-    // .onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
-    Trigger aButton = new JoystickButton(driverJoystick, Constants.OIConstants.kAButton); // Creates a new
-                                                                                          // JoystickButton object for
-                                                                                          // the `A` button on
-                                                                                          // exampleController
-    aButton.onTrue(new IntakeCommand(intakeSubsystem));
-
-    // Trigger yButton = new JoystickButton(driverJoystick,
-    // Constants.GrabberConstants.kYBtn); // Creates a new
-    // /* // /* // // JoystickButton object for */ */
-    // // the `Y` button on
-    // // exampleController
-    Trigger yButton = new JoystickButton(driverJoystick, Constants.OIConstants.kYButton);
-
-    yButton.onTrue(new OuttakeCommand(intakeSubsystem));
-
-    // new JoystickButton(driverJoystick, OIConstants.kZeroHeadingBtn)
-    // .onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
-
+    // Define triggers
+    Trigger limitTrigger = new Trigger(limitSwitch::get);
     Trigger xButton = new JoystickButton(driverJoystick, Constants.OIConstants.kXButton);
-
-    xButton.onTrue(new ShooterCommand(shooterSubsystem));
-
+    Trigger yButton = new JoystickButton(driverJoystick, Constants.OIConstants.kYButton);
+    Trigger aButton = new JoystickButton(driverJoystick, Constants.OIConstants.kAButton);
     Trigger bButton = new JoystickButton(driverJoystick, Constants.OIConstants.kBButton);
-
-    bButton.onTrue(Commands.parallel(new ShooterCommand(shooterSubsystem), new OuttakeCommand(intakeSubsystem)));
-
-    Trigger     kRightBumper = new JoystickButton(driverJoystick, Constants.OIConstants.kExtendLiftBtn);
-
-        kRightBumper.onTrue(new UnretractLift(liftSubsystem));
-  }
-
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
+    // Trigger leftBumper = new JoystickButton(driverJoystick, Constants.OIConstants.kLeftBumper);
+    Trigger rightBumper = new JoystickButton(driverJoystick, Constants.OIConstants.kRightBumper);
+    
+    // Set default commands
+    visionSubsystem.setDefaultCommand(new VisionCommand(visionSubsystem));
+    armSubsystem.setDefaultCommand(new ManualArmCmd(() -> (driverJoystick.getLeftY()), armSubsystem));
+    
+    // Configure mechanical triggers
+    limitTrigger.onTrue(
+        new ManualResetArmEncoder(armSubsystem));
+        
+    // Configure gamepad buttons
+    xButton.whileTrue(new ArmMotor(Constants.ArmConstants.kArmLow, armSubsystem));
+    yButton.whileTrue(new ArmMotor(Constants.ArmConstants.kArmMid, armSubsystem));
+    bButton.whileTrue(new ArmMotor(Constants.ArmConstants.kArmHigh, armSubsystem));
+    aButton.onTrue(new IntakeCommand(intakeSubsystem));
+    rightBumper.onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
 
     /*
-     * // 1. Create trajectory settings
-     * TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
-     * AutoConstants.kMaxSpeedMetersPerSecond,
-     * AutoConstants.kMaxAccelerationMetersPerSecondSquared)
-     * .setKinematics(DriveConstants.kDriveKinematics);
+     * swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
+     * swerveSubsystem,
+     * () -> driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
+     * () -> -driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
+     * () -> driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
+     * () ->
+     * !driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
      * 
-     * // 2. Generate trajectory
-     * Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
-     * new Pose2d(0, 0, new Rotation2d(0)),
-     * List.of(
-     * new Translation2d(1, 0),
-     * new Translation2d(1, -1)),
-     * new Pose2d(2, -1, Rotation2d.fromDegrees(180)),
-     * trajectoryConfig);
-     * 
-     * // 3. Define PID controllers for tracking trajectory
-     * PIDController xController = new PIDController(AutoConstants.kPXController, 0,
-     * 0);
-     * PIDController yController = new PIDController(AutoConstants.kPYController, 0,
-     * 0);
-     * ProfiledPIDController thetaController = new ProfiledPIDController(
-     * AutoConstants.kPThetaController, 0, 0,
-     * AutoConstants.kThetaControllerConstraints);
-     * thetaController.enableContinuousInput(-Math.PI, Math.PI);
-     * 
-     * // 4. Construct command to follow trajectory
-     * SwerveControllerCommand swerveControllerCommand = new
-     * SwerveControllerCommand(
-     * trajectory,
-     * swerveSubsystem::getPose,
-     * DriveConstants.kDriveKinematics,
-     * xController,
-     * yController,
-     * thetaController,
-     * swerveSubsystem::setModuleStates,
-     * swerveSubsystem);
-     * 
-     * // 5. Add some init and wrap-up, and return everything
-     * return new SequentialCommandGroup(
-     * new InstantCommand(() ->
-     * swerveSubsystem.resetOdometry(trajectory.getInitialPose())),
-     * swerveControllerCommand,
-     * new InstantCommand(() -> swerveSubsystem.stopModules()));
-     * }
      */
 
-    return null;
+    /*
+     * Use this to pass the autonomous command to the main {@link Robot} class.
+     *
+     * @return the command to run in autonomous
+     */
+
+    /**
+     * Use this to pass the autonomous command to the main {@link Robot} class.
+     *
+     * @return the command to run in autonomous
+     *
+     *         public Command getAutonomousCommand() {
+     *         // 1. Create trajectory settings
+     *         TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
+     *         AutoConstants.kMaxSpeedMetersPerSecond,
+     *         AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+     *         .setKinematics(DriveConstants.kDriveKinematics);
+     * 
+     *         Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
+     *         new Pose2d(0, 0, new Rotation2d(0)),
+     *         List.of(
+     *         new Translation2d(1, 0),
+     *         new Translation2d(1, -1)),
+     *         new Pose2d(2, -1, Rotation2d.fromDegrees(180)),
+     *         trajectoryConfig);
+     * 
+     *         // 3. Define PID controllers for tracking trajectory
+     *         PIDController xController = new
+     *         PIDController(AutoConstants.kPXController, 0,
+     *         0);
+     *         PIDController yController = new
+     *         PIDController(AutoConstants.kPYController, 0,
+     *         0);
+     *         ProfiledPIDController thetaController = new ProfiledPIDController(
+     *         AutoConstants.kPThetaController, 0, 0,
+     *         AutoConstants.kThetaControllerConstraints);
+     *         thetaController.enableContinuousInput(-Math.PI, Math.PI);
+     * 
+     *         // 4. Construct command to follow trajectory
+     *         SwerveControllerCommand swerveControllerCommand = new
+     *         SwerveControllerCommand(
+     *         trajectory,
+     *         swerveSubsystem::getPose,
+     *         DriveConstants.kDriveKinematics,
+     *         xController,
+     *         yController,
+     *         thetaController,
+     *         swerveSubsystem::setModuleStates,
+     *         swerveSubsystem);
+     * 
+     *         // 5. Add some init and wrap-up, and return everything
+     *         return new SequentialCommandGroup(
+     *         new InstantCommand(() ->
+     *         swerveSubsystem.resetOdometry(trajectory.getInitialPose())),
+     *         swerveControllerCommand,
+     *         new InstantCommand(() -> swerveSubsystem.stopModules()));
+     *         }
+     */
+
+    // return null;
   }
 }
