@@ -28,7 +28,7 @@ public class AutoResetArmEncoder extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_subsystem.setRawPower(() -> -0.2);
+    m_subsystem.setRawPower(-0.2);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

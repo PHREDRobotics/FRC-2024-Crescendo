@@ -89,13 +89,13 @@ public class RobotContainer {
     armSubsystem.setDefaultCommand(new ManualArmCmd(() -> (driverJoystick.getLeftY()), armSubsystem));
     
     // Configure mechanical triggers
-    limitTrigger.onTrue(
-        new ManualResetArmEncoder(armSubsystem));
+    // limitTrigger.onTrue(
+        // new AutoResetArmEncoder(armSubsystem, limitSwitch.get()));
         
     // Configure gamepad buttons
-    xButton.whileTrue(new ArmMotor(Constants.ArmConstants.kArmLow, armSubsystem));
-    yButton.whileTrue(new ArmMotor(Constants.ArmConstants.kArmMid, armSubsystem));
-    bButton.whileTrue(new ArmMotor(Constants.ArmConstants.kArmHigh, armSubsystem));
+    // xButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmLow, armSubsystem));
+    // yButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmMid, armSubsystem));
+    // bButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmHigh, armSubsystem));
     aButton.onTrue(new IntakeCommand(intakeSubsystem));
     rightBumper.onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
 

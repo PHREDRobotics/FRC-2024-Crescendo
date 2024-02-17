@@ -29,15 +29,17 @@ public class ManualArmCmd extends Command {
 
     @Override
     public void initialize() {
-        //arm_subsystem.resetEncoders();
+        // arm_subsystem.resetEncoders();
     }
 
     @Override
     public void execute() {
-        //Yoinked code from swerve joystick command to set a deadband
-        this.armPower = Math.abs(this.armPower.getAsDouble()) > OIConstants.kDeadband ? this.armPower : () -> 0.0;
-        //Square it!
-        this.armPower = () -> this.armPower.getAsDouble() * Math.abs(this.armPower.getAsDouble());
-        this.arm_subsystem.setRawPower(this.armPower);
+        double power = this.armPower.getAsDouble();
+        if (Math.abs(power) < OIConstants.kDeadband) {
+            power = 0;
+        }
+        // SQUARE IT!
+        power = power * Math.abs(power);
+        this.arm_subsystem.setRawPower(power);
     }
 }

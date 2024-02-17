@@ -9,10 +9,13 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import java.util.function.DoubleSupplier;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkBase.IdleMode;
 
 /**
  * Subsystem for the robot's arm
@@ -86,6 +89,8 @@ public class ArmSubsystem extends SubsystemBase {
         this.profile = new TrapezoidProfile(new TrapezoidProfile.Constraints(this.max_velocity, this.max_acceleration));
         this.goal = new TrapezoidProfile.State();
         this.setpoint = new TrapezoidProfile.State();
+
+        this.armMotor.setIdleMode(IdleMode.kBrake);
     }
 
     /**
@@ -105,9 +110,14 @@ public class ArmSubsystem extends SubsystemBase {
      * 
      * @param power in volts
      */
-    public void setRawPower(DoubleSupplier power) {
-        this.voltage = power.getAsDouble() * 6;
+    public void setRawPower(double power) {
+        this.voltage = power * Constants.ArmConstants.kVoltageMultiplier;
         this.armMotor.setVoltage(this.voltage);
+    }
+
+    public void setSpeed(DoubleSupplier speed) {
+        double vroom = speed.getAsDouble();
+        armMotor.set(vroom);
     }
 
     /**

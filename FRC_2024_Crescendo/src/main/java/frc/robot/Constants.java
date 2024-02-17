@@ -134,6 +134,8 @@ public final class Constants {
     public static final double kArmLow = 2;
     public static final double kArmMid = 12;
     public static final double kArmHigh = 24;
+
+    public static final double kVoltageMultiplier = 3;
   }
 
   /**
