@@ -4,12 +4,13 @@
 
 package frc.robot.commands;
 
+import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
 public class AutoResetArmEncoder extends Command {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+  @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private final ArmSubsystem m_subsystem;
   private boolean limit_switch_on = false;
 
@@ -21,7 +22,6 @@ public class AutoResetArmEncoder extends Command {
   public AutoResetArmEncoder(ArmSubsystem subsystem, boolean limitSwitchOn) {
     m_subsystem = subsystem;
     limit_switch_on = limitSwitchOn;
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
 
@@ -33,15 +33,26 @@ public class AutoResetArmEncoder extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    if (interrupted) {
+      m_subsystem.moveToPosition(Constants.ArmConstants.kArmMid);
+    } else {
+      m_subsystem.resetEncoders();
+    }
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if (limit_switch_on) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

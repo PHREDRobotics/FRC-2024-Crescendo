@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.SwerveSubsystem;
-import frc.robot.subsystems.VisionSubsystem;
+//import frc.robot.subsystems.VisionSubsystem;
 
 /** An example command that uses an example subsystem. */
 public class SwerveAimCmd extends Command {
@@ -28,7 +28,8 @@ public class SwerveAimCmd extends Command {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public SwerveAimCmd(SwerveSubsystem swerveSubsystem, Supplier<Double> ySpdFunction, Supplier<Double> turningSpdFunction,
+  public SwerveAimCmd(SwerveSubsystem swerveSubsystem, Supplier<Double> ySpdFunction,
+      Supplier<Double> turningSpdFunction,
       Supplier<Boolean> fieldOrientedFunction) {
     this.swerveSubsystem = swerveSubsystem;
     this.ySpdFunction = ySpdFunction;
@@ -42,7 +43,7 @@ public class SwerveAimCmd extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    }
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -66,7 +67,7 @@ public class SwerveAimCmd extends Command {
     // 4. Construct desired chassis speeds
     ChassisSpeeds chassisSpeeds;
     if (fieldOrientedFunction.get()) {
-       //Relative to field
+      // Relative to field
       chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
           0, ySpeed, turningSpeed, swerveSubsystem.getRotation2d());
     } else {
@@ -76,9 +77,9 @@ public class SwerveAimCmd extends Command {
     SmartDashboard.putBoolean("Is Field Oriented", fieldOrientedFunction.get());
     // 5. Convert chassis speeds to individual module states
     SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
-   //state.angle.getRadians());
+    // state.angle.getRadians());
     // 6. Output each module states to wheels
-   swerveSubsystem.setModuleStates(moduleStates);
+    swerveSubsystem.setModuleStates(moduleStates);
 
   }
 

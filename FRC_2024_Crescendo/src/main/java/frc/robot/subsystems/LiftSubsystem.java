@@ -5,11 +5,8 @@ import java.util.function.DoubleSupplier;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.CAN;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
@@ -56,6 +53,7 @@ public class LiftSubsystem extends SubsystemBase {
 
     /**
      * Automatically lifts the robot, must be called in a loop
+     * 
      * @param speed Value between 0 and 1
      */
     public void AutoLift(double speed) {
@@ -66,7 +64,7 @@ public class LiftSubsystem extends SubsystemBase {
         if (roll > 1) {
             leftLiftMotor.set(0);
             checkLevel = true;
-        } else if(roll < -1) {
+        } else if (roll < -1) {
             rightLiftMotor.set(0);
             checkLevel = true;
         } else if (checkLevel && roll < 1 && roll > -1) {
@@ -78,13 +76,14 @@ public class LiftSubsystem extends SubsystemBase {
     public double getLeftEncoder() {
         return leftEncoder.getPosition();
     }
-    
+
     public double getRightEncoder() {
         return rightEncoder.getPosition();
     }
 
     /**
      * Set the power of the left lift motor
+     * 
      * @param left_power Value between 0 and 1
      */
     public void setRawLeftPower(DoubleSupplier left_power) {
@@ -93,6 +92,7 @@ public class LiftSubsystem extends SubsystemBase {
 
     /**
      * Set the power of the right lift motor
+     * 
      * @param right_power Value between 0 and 1
      */
     public void setRawRightPower(DoubleSupplier right_power) {

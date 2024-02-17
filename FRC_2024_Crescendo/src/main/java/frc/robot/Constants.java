@@ -181,11 +181,15 @@ public final class Constants {
     public static final int kDriverXAxis = Axis.kLeftX.value;
     public static final int kDriverRotAxis = Axis.kRightX.value;
     public static final int kDriverFieldOrientedButtonIdx = Button.kB.value;
+    public static final int kLeftTriggerAxis = Axis.kLeftTrigger.value;
+    public static final int kRightTriggerAxis = Axis.kRightTrigger.value;
 
-    public static final int kZeroHeadingBtn = Button.kLeftBumper.value;
+    public static final int kLeftBumper = Button.kLeftBumper.value;
+    public static final int kRightBumper = Button.kRightBumper.value;
     public static final int kXButton = Button.kX.value;
     public static final int kYButton = Button.kY.value;
     public static final int kAButton = Button.kA.value;
+    public static final int kBButton = Button.kB.value;
 
     public static final double kDeadband = 0.15;
     

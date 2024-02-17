@@ -1,16 +1,11 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Constants.GrabberConstants;
 import frc.robot.Constants.IntakeConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import java.util.concurrent.TimeUnit;
-
 import edu.wpi.first.wpilibj.Timer;
-import javax.print.attribute.standard.RequestingUserName;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkLimitSwitch;
@@ -108,7 +103,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void ejectToAmp() {
-    
+
     // This will be faster ten ejectToShooter
   }
 
@@ -116,8 +111,8 @@ public class IntakeSubsystem extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putBoolean("Pressed?", isNoteLoaded());
     SmartDashboard.putBoolean("Manual Override Press", SmartDashboard.getBoolean("Manual Override Press", false));
-     
-    //Slider things VARIABLES
+
+    // Slider things VARIABLES
     m_outtakeSpeed = SmartDashboard.getNumber("Outtake Speed", m_outtakeSpeed);
     m_intakeSpeed = SmartDashboard.getNumber("Intake Speed", m_intakeSpeed);
     SmartDashboard.putNumber("Outtake Speed", m_outtakeSpeed);
