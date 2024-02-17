@@ -65,9 +65,9 @@ public class SwerveJoystickCmd extends Command {
     turningSpeed = turningLimiter.calculate(turningSpeed)
         * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
 
-    // 3.5. Square it
-    xSpeed = xSpeed * Math.abs(xSpeed);
-    ySpeed = ySpeed * Math.abs(ySpeed);
+    // 3.5. Square/cUBE it
+    xSpeed = xSpeed * Math.abs(xSpeed) * Math.abs(xSpeed);
+    ySpeed = ySpeed * Math.abs(ySpeed) * Math.abs(ySpeed);
 
     // 4. Construct desired chassis speeds
     ChassisSpeeds chassisSpeeds;

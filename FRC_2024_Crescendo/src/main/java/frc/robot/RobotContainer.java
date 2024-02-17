@@ -4,13 +4,18 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.GrabberConstants;
 //import frc.robot.commands.DriveMotor;
 //import frc.robot.commands.OuttakeCommand;
 //import frc.robot.subsystems.MotorTestSubsystem;
 import frc.robot.commands.*;
+import frc.robot.controls.LogitechPro;
 import frc.robot.subsystems.*;
 // import frc.robot.subsystems.MotorTestSubsystem;
 import com.revrobotics.CANSparkMax;
@@ -39,6 +44,8 @@ public class RobotContainer {
   private final VisionSubsystem visionSubsystem = new VisionSubsystem();
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
   private final LiftSubsystem liftSubsystem = new LiftSubsystem();
+  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+
   // private final MotorTestSubsystem motorTestSubsystem = new
   // MotorTestSubsystem();
   DigitalInput limitSwitch = new DigitalInput(Constants.ArmConstants.kLimitSwitchControllerPort);
@@ -52,7 +59,12 @@ public class RobotContainer {
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final XboxController driverJoystick = new XboxController(0);
 
-  
+  private final LogitechPro joyStick = new LogitechPro(1);
+
+  //DigitalInput limitSwitch = new DigitalInput(9);
+
+  //Trigger limitTrigger = new Trigger(limitSwitch::get);
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */

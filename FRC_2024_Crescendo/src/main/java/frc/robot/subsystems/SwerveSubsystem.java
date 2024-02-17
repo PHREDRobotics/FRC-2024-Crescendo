@@ -54,8 +54,12 @@ public class SwerveSubsystem extends SubsystemBase {
   //private final SimDeviceSim simGyro = new SimDeviceSim();
   private final Field2d m_field = new Field2d();
 
-  private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics,
-      new Rotation2d(), getModulePositions());
+  //private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics,
+  //    new Rotation2d(), getModulePositions());
+
+  SwerveDriveOdometry odometer = new SwerveDriveOdometry(
+      DriveConstants.kDriveKinematics, gyro.getRotation2d(),
+      getModulePositions(), new Pose2d(0.0, 0.0, new Rotation2d()));
 
   public SwerveModulePosition[] getModulePositions() {
     return new SwerveModulePosition[] {
@@ -79,7 +83,7 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public void zeroHeading() {
-   //gyro.zeroYaw();
+    // gyro.zeroYaw();
     gyro.reset();
     frontLeft.resetEncoders();
     frontRight.resetEncoders();
@@ -96,25 +100,26 @@ public class SwerveSubsystem extends SubsystemBase {
 
     // We have to invert the angle of the NavX so that rotating the robot
     // counter-clockwise makes the angle increase.
-    if (gyro.getYaw() >= 0) {
+    //if (-gyro.getYaw() >= 0) {
       return gyro.getYaw();
-      
-    } else {
-      return 360 + gyro.getYaw();
-    }
+
+    //} else {
+    //  return 360 + -gyro.getYaw();
+    //}
   }
 
   public Rotation2d getRotation2d() {
-    return Rotation2d.fromRadians(getHeading());
-    //change fromDegrees to fromRadians
+    return Rotation2d.fromDegrees(getHeading());
+    // change fromDegrees to fromRadians
   }
 
   public Pose2d getPose() {
     return odometer.getPoseMeters();
-}
-public void resetOdometry(Pose2d pose) {
-  odometer.resetPosition(getRotation2d(), getModulePositions(), getPose());
-}
+  }
+
+  public void resetOdometry(Pose2d pose) {
+    odometer.resetPosition(getRotation2d(), getModulePositions(), getPose());
+  }
 
   // -------------------------------------------------
   // ------------- Update Dashboard ----------------
@@ -122,17 +127,16 @@ public void resetOdometry(Pose2d pose) {
   public void periodic() {
     odometer.update(getRotation2d(), getModulePositions());
 
-    SmartDashboard.putNumber("Robot Heading (gyro)", getHeading());
-    SmartDashboard.putNumber("Front Left Turning Position", frontLeft.getTurningPosition() / (2 * Math.PI));
-    SmartDashboard.putNumber("Front Right Turning Position", frontRight.getTurningPosition() / (2 * Math.PI));
-    SmartDashboard.putNumber("Back Left Turning Position", backLeft.getTurningPosition() / (2 * Math.PI));
-    SmartDashboard.putNumber("Back Right Turning Position", backRight.getTurningPosition() / (2 * Math.PI));
-    
+    SmartDashboard.putString("Robot Heading (Rotation2d)", gyro.getRotation2d().toString());
+    SmartDashboard.putNumber("Robot Heading (Degrees)", getHeading());
+    SmartDashboard.putNumber("Front Left Turning Position", frontLeft.getTurningPosition() * (180/Math.PI));
+    SmartDashboard.putNumber("Front Right Turning Position", frontRight.getTurningPosition() * (180/Math.PI));
+    SmartDashboard.putNumber("Back Left Turning Position", backLeft.getTurningPosition() * (180/Math.PI));
+    SmartDashboard.putNumber("Back Right Turning Position", backRight.getTurningPosition() * (180/Math.PI));
 
     SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
- 
-    SmartDashboard.putBoolean("Should we blame hardware AND electrical?", true);
-    SmartDashboard.putBoolean("Is orca great?", true);
+
+    SmartDashboard.putBoolean("Should we blame Hardware/Electrical?", true);
   }
 
   @Override

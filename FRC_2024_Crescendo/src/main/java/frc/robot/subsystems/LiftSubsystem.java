@@ -77,6 +77,30 @@ public class LiftSubsystem extends SubsystemBase {
         return leftEncoder.getPosition();
     }
 
+    public void extendLeftLift() {
+        if (leftEncoder.getPosition() == 0) {
+
+            leftLiftMotor.set(0);
+
+        } else {
+
+            leftLiftMotor.set(.1);
+
+        }
+    }
+
+    public void extendRightLift() {
+        if (rightEncoder.getPosition() == 0) {
+
+            rightLiftMotor.set(0);
+
+        } else {
+
+            rightLiftMotor.set(.1);
+
+        }
+    }
+
     public double getRightEncoder() {
         return rightEncoder.getPosition();
     }
@@ -113,5 +137,6 @@ public class LiftSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("NavX y", navXMicro.getPitch());
         SmartDashboard.putNumber("NavX x", navXMicro.getRoll());
         SmartDashboard.putNumber("NavX z", navXMicro.getYaw());
+
     }
 }

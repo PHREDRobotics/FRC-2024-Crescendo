@@ -147,11 +147,16 @@ public final class Constants {
 
     public static final double kExtendSpeed = 0.5;
     public static final double kRetractSpeed = 0.5;
+
   }
 
   public static final class ShooterConstants {
     public static final int kLeftShooterControllerPort = 41;
     public static final int kRightShooterControllerPort = 42;
+    public static final int kXBtn = Button.kX.value;
+    public static final double kShooterSpeed = 0.75;
+    public static final double kShooterTime = 1.5;
+
   }
 
   /**
@@ -171,6 +176,8 @@ public final class Constants {
         new TrapezoidProfile.Constraints(
             kMaxAngularSpeedRadiansPerSecond,
             kMaxAngularAccelerationRadiansPerSecondSquared);
+
+    public static final double kAutoSpeedMetersPerSecond = kMaxSpeedMetersPerSecond - 1;
   }
 
   /**
@@ -211,8 +218,7 @@ public final class Constants {
 
   public static final class GrabberConstants {
     public static final int kABtn = Button.kA.value;
-    public static final int kBBtn = Button.kB.value;
-    public static final int kXBtn = Button.kX.value;
+    // public static final int kBBtn = Button.kB.value;
     public static final int kYBtn = Button.kY.value;
     public static final double kOuttakeTime = 1.0;
   }
@@ -229,7 +235,7 @@ public final class Constants {
     public static final int kLeftIntakeControllerPort = 31;
     public static final int kRightIntakeControllerPort = 32;
 
-    public static final double kIntakeSpeed = 0.25;
+    public static final double kIntakeSpeed = 0.15;
     public static final double kOuttakeSpeed = 0.25;
   }
 

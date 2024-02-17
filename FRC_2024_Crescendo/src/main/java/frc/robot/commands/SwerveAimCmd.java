@@ -10,33 +10,30 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.SwerveSubsystem;
-//import frc.robot.subsystems.VisionSubsystem;
 
 /** An example command that uses an example subsystem. */
 public class SwerveAimCmd extends Command {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private final SwerveSubsystem swerveSubsystem;
-  private final Supplier<Double> ySpdFunction, turningSpdFunction;
-  private final Supplier<Boolean> fieldOrientedFunction;
-  private final SlewRateLimiter yLimiter, turningLimiter;
+  private final Supplier<Double> xLimeFunction, yLimeFunction;
+  private final SlewRateLimiter xLimiter, yLimiter;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public SwerveAimCmd(SwerveSubsystem swerveSubsystem, Supplier<Double> ySpdFunction,
-      Supplier<Double> turningSpdFunction,
-      Supplier<Boolean> fieldOrientedFunction) {
+  public SwerveAimCmd(SwerveSubsystem swerveSubsystem,
+      Supplier<Double> xLimeFunction, Supplier<Double> yLimeFunction) {
     this.swerveSubsystem = swerveSubsystem;
-    this.ySpdFunction = ySpdFunction;
-    this.turningSpdFunction = turningSpdFunction;
-    this.fieldOrientedFunction = fieldOrientedFunction;
+    this.xLimeFunction = xLimeFunction;
+    this.yLimeFunction = yLimeFunction;
+    this.xLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
     this.yLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
-    this.turningLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
     addRequirements(swerveSubsystem);
   }
 
@@ -48,33 +45,22 @@ public class SwerveAimCmd extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // 1. Get real-time Aim inputs
-    double ySpeed = ySpdFunction.get();
-    double turningSpeed = turningSpdFunction.get();
+    // 1. Get real-time joystick inputs
+
+    //double xSpeed = yLimeFunction.get();
+    double ySpeed = xLimeFunction.get();
 
     // 2. Apply deadband
-    ySpeed = Math.abs(ySpeed) > OIConstants.kDeadband ? ySpeed : 0.0;
-    turningSpeed = Math.abs(turningSpeed) > OIConstants.kDeadband ? turningSpeed : 0.0;
 
     // 3. Make the driving smoother
-    ySpeed = yLimiter.calculate(ySpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
-    turningSpeed = turningLimiter.calculate(turningSpeed)
-        * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
-
-    // 3.5. Square it
-    ySpeed = ySpeed * Math.abs(ySpeed);
+    //xSpeed = xLimiter.calculate(xSpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
+    ySpeed = yLimiter.calculate(ySpeed) * AutoConstants.kAutoSpeedMetersPerSecond;
 
     // 4. Construct desired chassis speeds
     ChassisSpeeds chassisSpeeds;
-    if (fieldOrientedFunction.get()) {
-      // Relative to field
-      chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-          0, ySpeed, turningSpeed, swerveSubsystem.getRotation2d());
-    } else {
       // Relative to robot
-      chassisSpeeds = new ChassisSpeeds(0, ySpeed, turningSpeed);
-    }
-    SmartDashboard.putBoolean("Is Field Oriented", fieldOrientedFunction.get());
+      chassisSpeeds = new ChassisSpeeds(/*xSpeed*/0, ySpeed, 0);
+
     // 5. Convert chassis speeds to individual module states
     SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
     // state.angle.getRadians());
