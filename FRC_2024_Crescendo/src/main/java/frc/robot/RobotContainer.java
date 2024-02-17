@@ -139,6 +139,10 @@ public class RobotContainer {
     Trigger bButton = new JoystickButton(driverJoystick, Constants.OIConstants.kBButton);
 
     bButton.onTrue(Commands.parallel(new ShooterCommand(shooterSubsystem), new OuttakeCommand(intakeSubsystem)));
+
+    Trigger     kRightBumper = new JoystickButton(driverJoystick, Constants.OIConstants.kExtendLiftBtn);
+
+        kRightBumper.onTrue(new UnretractLift(liftSubsystem));
   }
 
   /**

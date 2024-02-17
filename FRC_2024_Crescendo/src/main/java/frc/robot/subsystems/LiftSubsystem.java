@@ -56,11 +56,27 @@ public class LiftSubsystem extends SubsystemBase {
     }
 
     public void extendLeftLift() {
-        leftLiftMotor.set(0);
+        if (leftEncoder.getPosition() == 0) {
+
+            leftLiftMotor.set(0);
+
+        } else {
+
+            leftLiftMotor.set(.1);
+
+        }
     }
 
     public void extendRightLift() {
-        rightLiftMotor.set(0);
+                if (rightEncoder.getPosition() == 0) {
+
+            rightLiftMotor.set(0);
+            
+        } else {
+
+            rightLiftMotor.set(.1);
+
+        }
     }
 
     public void setRawLeftPower(DoubleSupplier left_power) {

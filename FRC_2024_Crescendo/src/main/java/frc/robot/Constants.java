@@ -129,6 +129,7 @@ public final class Constants {
 
     public static final double kExtendSpeed = 0.5;
     public static final double kRetractSpeed = 0.5;
+
   }
 
   public static final class ShooterConstants {
@@ -154,6 +155,8 @@ public final class Constants {
         new TrapezoidProfile.Constraints(
             kMaxAngularSpeedRadiansPerSecond,
             kMaxAngularAccelerationRadiansPerSecondSquared);
+
+    public static final double kAutoSpeedMetersPerSecond = kMaxSpeedMetersPerSecond - 1;
   }
 
   public static final class OIConstants {
@@ -165,6 +168,7 @@ public final class Constants {
     public static final int kDriverFieldOrientedButtonIdx = Button.kB.value;
 
     public static final int kZeroHeadingBtn = Button.kLeftBumper.value;
+    public static final int kExtendLiftBtn = Button.kRightBumper.value;
     public static final int kBButton = Button.kB.value;
     public static final int kXButton = Button.kX.value;
     public static final int kYButton = Button.kY.value;

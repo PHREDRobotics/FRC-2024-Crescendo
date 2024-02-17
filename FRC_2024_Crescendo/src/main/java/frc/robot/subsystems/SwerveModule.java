@@ -168,16 +168,16 @@ public class SwerveModule {
     correctedDesiredState.speedMetersPerSecond = desiredState.speedMetersPerSecond;
     correctedDesiredState.angle = desiredState.angle.plus(Rotation2d.fromRadians(chassisAngularOffset));
     // changed fromRadians to fromDegrees
-  }
-    // SwerveModuleState optimizedDesiredState = SwerveModuleState.optimize(correctedDesiredState,
-    //     new Rotation2d(turningEncoder.getPosition()));
+  
+     SwerveModuleState optimizedDesiredState = SwerveModuleState.optimize(correctedDesiredState,
+         new Rotation2d(turningEncoder.getPosition()));
 
-    // drivingPidController.setReference(optimizedDesiredState.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity);
-    // turningPidController.setReference(optimizedDesiredState.angle.getRadians(), CANSparkMax.ControlType.kPosition);
-    // //changed getRadians to getDegrees
+    drivingPidController.setReference(optimizedDesiredState.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity);
+    turningPidController.setReference(optimizedDesiredState.angle.getRadians(), CANSparkMax.ControlType.kPosition);
+    //changed getRadians to getDegrees
     
     //MIGHT OF DONE A THING UP THERE IM NOT SURE HAVENT BEEN ABLE TO TEST YET!!!!!!!!
-
+  }
   public void stop() {
     driveSparkMax.set(0);
     turningSparkMax.set(0);
