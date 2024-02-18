@@ -50,37 +50,33 @@ public class RobotContainer {
 
   // private final MotorTestSubsystem motorTestSubsystem = new
   // MotorTestSubsystem();
-/*   DigitalInput limitSwitch = new DigitalInput(Constants.ArmConstants.kLimitSwitchControllerPort);
-  private final ArmSubsystem armSubsystem = new ArmSubsystem(
-      Constants.ArmConstants.kArmControllerPort, CANSparkMax.MotorType.kBrushless,
-      limitSwitch,
-      0.6, 0, 0, 0.02,
-      0, 0.1, 0, 0,
-      10, 5);
- */
+  /*
+   * DigitalInput limitSwitch = new
+   * DigitalInput(Constants.ArmConstants.kLimitSwitchControllerPort);
+   * private final ArmSubsystem armSubsystem = new ArmSubsystem(
+   * Constants.ArmConstants.kArmControllerPort, CANSparkMax.MotorType.kBrushless,
+   * limitSwitch,
+   * 0.6, 0, 0, 0.02,
+   * 0, 0.1, 0, 0,
+   * 10, 5);
+   */
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final XboxController driverJoystick = new XboxController(0);
 
   private final LogitechPro joyStick = new LogitechPro(1);
 
-  //DigitalInput limitSwitch = new DigitalInput(9);
+  // DigitalInput limitSwitch = new DigitalInput(9);
 
-  //Trigger limitTrigger = new Trigger(limitSwitch::get);
+  // Trigger limitTrigger = new Trigger(limitSwitch::get);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
 
-    swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
-        swerveSubsystem,
-        () -> -joyStick.getPitch(),
-        () -> -joyStick.getRoll(),
-        () -> -joyStick.getYaw(),
-        () -> joyStick.getTrigger()));
     configureBindings();
   }
-  
+
   /**
    * Use this method to define your trigger->command mappings. Triggers can be
    * created via the
@@ -106,26 +102,30 @@ public class RobotContainer {
 
     // Set default commands
     visionSubsystem.setDefaultCommand(new VisionCommand(visionSubsystem));
+
     armSubsystem.setDefaultCommand(new ManualArmCmd(() -> (driverJoystick.getLeftY()), armSubsystem));
     
+    swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
+        swerveSubsystem,
+        () -> -joyStick.getPitch(),
+        () -> -joyStick.getRoll(),
+        () -> -joyStick.getYaw(),
+        () -> joyStick.getTrigger()));
+
     // Configure mechanical triggers
     // limitTrigger.onTrue(
-        // new AutoResetArmEncoder(armSubsystem, limitSwitch.get()));
-        
+    // new AutoResetArmEncoder(armSubsystem, limitSwitch.get()));
+
     // Configure gamepad buttons
     // xButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmLow, armSubsystem));
     // yButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmMid, armSubsystem));
     // bButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmHigh, armSubsystem));
-
-    bButton.onTrue(new ParallelCommandGroup( new ShooterCommand(shooterSubsystem), new OuttakeCommand(intakeSubsystem)));
+    xButton.onTrue(new OuttakeCommand(intakeSubsystem));
+    bButton.onTrue(new ParallelCommandGroup(new ShooterCommand(shooterSubsystem), new OuttakeCommand(intakeSubsystem)));
     aButton.onTrue(new IntakeCommand(intakeSubsystem));
     leftBumper.onTrue(new AutoResetArmEncoder(armSubsystem));
     rightBumper.onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
 
-    
-    
-
-    
     /*
      * Use this to pass the autonomous command to the main {@link Robot} class.
      *
