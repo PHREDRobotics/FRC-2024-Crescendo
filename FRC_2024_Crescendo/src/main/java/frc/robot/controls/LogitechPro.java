@@ -81,6 +81,10 @@ public class LogitechPro extends FlightStick {
     return getButton(1);
   }
 
+  public boolean getMary() {
+    return getButton(2);
+  }
+
   public double getXSlow() {
     return -getX() * (getTrigger() == true ? Math.abs(getX()) : 1);
   }
