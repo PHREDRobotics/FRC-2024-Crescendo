@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
@@ -45,17 +46,18 @@ public class RobotContainer {
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
   private final LiftSubsystem liftSubsystem = new LiftSubsystem();
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+  private final ArmSubsystem armSubsystem = new ArmSubsystem();
 
   // private final MotorTestSubsystem motorTestSubsystem = new
   // MotorTestSubsystem();
-  DigitalInput limitSwitch = new DigitalInput(Constants.ArmConstants.kLimitSwitchControllerPort);
+/*   DigitalInput limitSwitch = new DigitalInput(Constants.ArmConstants.kLimitSwitchControllerPort);
   private final ArmSubsystem armSubsystem = new ArmSubsystem(
       Constants.ArmConstants.kArmControllerPort, CANSparkMax.MotorType.kBrushless,
       limitSwitch,
       0.6, 0, 0, 0.02,
       0, 0.1, 0, 0,
       10, 5);
-
+ */
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final XboxController driverJoystick = new XboxController(0);
 
@@ -69,6 +71,13 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+
+    swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
+        swerveSubsystem,
+        () -> -joyStick.getPitch(),
+        () -> -joyStick.getRoll(),
+        () -> -joyStick.getYaw(),
+        () -> joyStick.getTrigger()));
     configureBindings();
   }
   
@@ -88,14 +97,13 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Define triggers
-    Trigger limitTrigger = new Trigger(limitSwitch::get);
     Trigger xButton = new JoystickButton(driverJoystick, Constants.OIConstants.kXButton);
     Trigger yButton = new JoystickButton(driverJoystick, Constants.OIConstants.kYButton);
     Trigger aButton = new JoystickButton(driverJoystick, Constants.OIConstants.kAButton);
     Trigger bButton = new JoystickButton(driverJoystick, Constants.OIConstants.kBButton);
-    // Trigger leftBumper = new JoystickButton(driverJoystick, Constants.OIConstants.kLeftBumper);
+    Trigger leftBumper = new JoystickButton(driverJoystick, Constants.OIConstants.kLeftBumper);
     Trigger rightBumper = new JoystickButton(driverJoystick, Constants.OIConstants.kRightBumper);
-    
+
     // Set default commands
     visionSubsystem.setDefaultCommand(new VisionCommand(visionSubsystem));
     armSubsystem.setDefaultCommand(new ManualArmCmd(() -> (driverJoystick.getLeftY()), armSubsystem));
@@ -108,20 +116,16 @@ public class RobotContainer {
     // xButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmLow, armSubsystem));
     // yButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmMid, armSubsystem));
     // bButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmHigh, armSubsystem));
+
+    bButton.onTrue(new ParallelCommandGroup( new ShooterCommand(shooterSubsystem), new OuttakeCommand(intakeSubsystem)));
     aButton.onTrue(new IntakeCommand(intakeSubsystem));
+    leftBumper.onTrue(new AutoResetArmEncoder(armSubsystem));
     rightBumper.onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
 
-    /*
-     * swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
-     * swerveSubsystem,
-     * () -> driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
-     * () -> -driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
-     * () -> driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
-     * () ->
-     * !driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
-     * 
-     */
+    
+    
 
+    
     /*
      * Use this to pass the autonomous command to the main {@link Robot} class.
      *

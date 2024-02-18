@@ -68,6 +68,7 @@ public class SwerveJoystickCmd extends Command {
     // 3.5. Square/cUBE it
     xSpeed = xSpeed * Math.abs(xSpeed) * Math.abs(xSpeed);
     ySpeed = ySpeed * Math.abs(ySpeed) * Math.abs(ySpeed);
+    turningSpeed = turningSpeed * Math.abs(turningSpeed) * Math.abs(turningSpeed);
 
     // 4. Construct desired chassis speeds
     ChassisSpeeds chassisSpeeds;

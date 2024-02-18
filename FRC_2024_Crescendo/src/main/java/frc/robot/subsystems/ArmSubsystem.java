@@ -50,47 +50,45 @@ public class ArmSubsystem extends SubsystemBase {
      * @param canID     ID of the arm's spark max controller
      * @param motorType Type of motor the arm is
      */
-    public ArmSubsystem(
-            int canID, MotorType motorType, DigitalInput limitSwitch,
-            double p, double i, double d, double dt,
-            double s, double g, double v, double a,
-            double maxVelocity, double maxAcceleration) {
-        this.m_can_id = canID;
-        this.m_motor_type = motorType;
-        this.m_limit_switch = limitSwitch;
 
-        this.kP = p;
-        this.kI = i;
-        this.kD = d;
 
-        // this.kP = SmartDashboard.getNumber("kP", this.kP);
-        // this.kI = SmartDashboard.getNumber("kI", this.kI);
-        // this.kD = SmartDashboard.getNumber("kD", this.kD);
+    public ArmSubsystem() {
+        m_can_id = Constants.ArmConstants.kArmControllerPort;
+        m_motor_type = CANSparkMax.MotorType.kBrushless;
+        m_limit_switch = new DigitalInput(Constants.ArmConstants.kLimitSwitchControllerPort);
 
-        this.kDt = dt;
+        kP = .6;
+        kI = 0;
+        kD = 0;
 
-        this.kS = s;
-        this.kG = g;
-        this.kV = v;
-        this.kA = a;
+        // kP = SmartDashboard.getNumber("kP", kP);
+        // kI = SmartDashboard.getNumber("kI", kI);
+        // kD = SmartDashboard.getNumber("kD", kD);
 
-        this.max_velocity = maxVelocity;
-        this.max_acceleration = maxAcceleration;
+        kDt = 0.2;
 
-        // this.max_velocity = SmartDashboard.getNumber("Max Vel", this.max_velocity);
-        // this.max_acceleration = SmartDashboard.getNumber("Max Accel",
-        // this.max_acceleration);
+        kS = 0;
+        kG = .1;
+        kV = 0;
+        kA = 0;
 
-        this.armMotor = new CANSparkMax(m_can_id, m_motor_type);
-        this.armEncoder = armMotor.getEncoder();
-        this.feedforward = new ArmFeedforward(kS, kG, kV, kA);
-        this.setpoint = new TrapezoidProfile.State();
-        this.pidController = new PIDController(kP, kI, kD);
-        this.profile = new TrapezoidProfile(new TrapezoidProfile.Constraints(this.max_velocity, this.max_acceleration));
-        this.goal = new TrapezoidProfile.State();
-        this.setpoint = new TrapezoidProfile.State();
+        max_velocity = 10;
+        max_acceleration = 5;
 
-        this.armMotor.setIdleMode(IdleMode.kBrake);
+        // max_velocity = SmartDashboard.getNumber("Max Vel", max_velocity);
+        // max_acceleration = SmartDashboard.getNumber("Max Accel",
+        // max_acceleration);
+
+        armMotor = new CANSparkMax(m_can_id, m_motor_type);
+        armEncoder = armMotor.getEncoder();
+        feedforward = new ArmFeedforward(kS, kG, kV, kA);
+        setpoint = new TrapezoidProfile.State();
+        pidController = new PIDController(kP, kI, kD);
+        profile = new TrapezoidProfile(new TrapezoidProfile.Constraints(max_velocity, max_acceleration));
+        goal = new TrapezoidProfile.State();
+        setpoint = new TrapezoidProfile.State();
+
+        armMotor.setIdleMode(IdleMode.kBrake);
     }
 
     /**
@@ -99,10 +97,10 @@ public class ArmSubsystem extends SubsystemBase {
      * @param position Target position in encoder ticks
      */
     public void moveToPosition(double position) {
-        this.goal = new TrapezoidProfile.State(position, 0);
-        this.setpoint = this.profile.calculate(this.kDt, this.setpoint, this.goal);
-        this.armMotor.setVoltage(pidController.calculate(this.armEncoder.getPosition(), this.setpoint.position)
-                + this.feedforward.calculate(Math.toRadians(this.armEncoder.getPosition()), this.setpoint.velocity));
+        goal = new TrapezoidProfile.State(position, 0);
+        setpoint = profile.calculate(kDt, setpoint, goal);
+        armMotor.setVoltage(pidController.calculate(armEncoder.getPosition(), setpoint.position)
+                + feedforward.calculate(Math.toRadians(armEncoder.getPosition()), setpoint.velocity));
     }
 
     /**
@@ -111,8 +109,8 @@ public class ArmSubsystem extends SubsystemBase {
      * @param power in volts
      */
     public void setRawPower(double power) {
-        this.voltage = power * Constants.ArmConstants.kVoltageMultiplier;
-        this.armMotor.setVoltage(this.voltage);
+        voltage = power * Constants.ArmConstants.kVoltageMultiplier;
+        armMotor.setVoltage(voltage);
     }
 
     public void setSpeed(DoubleSupplier speed) {
@@ -120,26 +118,35 @@ public class ArmSubsystem extends SubsystemBase {
         armMotor.set(vroom);
     }
 
+    public boolean limitSwitchTriggered() {
+        return m_limit_switch.get();
+    }
+
     /**
      * Reset the encoder on the arm
      */
     public void resetEncoders() {
-        this.armMotor.set(0);
-        this.armEncoder.setPosition(0);
+        armMotor.set(0);
+        armEncoder.setPosition(0);
     }
 
     @Override
     public void simulationPeriodic() {
-        SmartDashboard.putNumber("position", this.armEncoder.getPosition());
-        SmartDashboard.putBoolean("Limit Switch:", this.m_limit_switch.get());
-        SmartDashboard.putNumber("voltage: ", this.voltage);
+        SmartDashboard.putNumber("position", armEncoder.getPosition());
+     //   SmartDashboard.putBoolean("Limit Switch:", m_limit_switch.get());
+        SmartDashboard.putNumber("voltage: ", voltage);
 
-        SmartDashboard.putNumber("kP", this.kP);
-        SmartDashboard.putNumber("kI", this.kI);
-        SmartDashboard.putNumber("kD", this.kD);
-        SmartDashboard.putNumber("Setpoint", this.setpoint.position);
+        SmartDashboard.putNumber("kP", kP);
+        SmartDashboard.putNumber("kI", kI);
+        SmartDashboard.putNumber("kD", kD);
+        SmartDashboard.putNumber("Setpoint", setpoint.position);
 
-        SmartDashboard.putNumber("Max Vel", this.max_velocity);
-        SmartDashboard.putNumber("Max Accel", this.max_acceleration);
+        SmartDashboard.putNumber("Max Vel", max_velocity);
+        SmartDashboard.putNumber("Max Accel", max_acceleration);
+    }
+
+    public void periodic() {
+        SmartDashboard.putBoolean("Limit Switch:", this.limitSwitchTriggered());
+        kDt = kDt + 1 / 50;
     }
 }
