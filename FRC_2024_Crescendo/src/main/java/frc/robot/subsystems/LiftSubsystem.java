@@ -78,28 +78,44 @@ public class LiftSubsystem extends SubsystemBase {
     }
 
     public void extendLeftLift() {
-        if (leftEncoder.getPosition() == 0) {
+            leftLiftMotor.set(.1);
+    }
 
-            leftLiftMotor.set(0);
+    public boolean isLeftDone(){
+ if (leftEncoder.getPosition() == 0) {
+
+            return true;
 
         } else {
 
-            leftLiftMotor.set(.1);
-
+        return false;
         }
     }
 
     public void extendRightLift() {
-        if (rightEncoder.getPosition() == 0) {
+            leftLiftMotor.set(.1);
+            }
 
-            rightLiftMotor.set(0);
+                public void stopLeftLift(){
+        leftLiftMotor.set(0);
+    }
+
+        public boolean isRightDone(){
+ if (rightEncoder.getPosition() == 0) {
+
+            return true;
 
         } else {
 
-            rightLiftMotor.set(.1);
-
+        return false;
         }
     }
+
+    public void stopRightLift(){
+        rightLiftMotor.set(0);
+    }
+
+
 
     public double getRightEncoder() {
         return rightEncoder.getPosition();

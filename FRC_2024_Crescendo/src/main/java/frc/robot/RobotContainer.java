@@ -7,22 +7,39 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.AutoConstants;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.GrabberConstants;
 //import frc.robot.commands.DriveMotor;
 //import frc.robot.commands.OuttakeCommand;
 //import frc.robot.subsystems.MotorTestSubsystem;
 import frc.robot.commands.*;
+import frc.robot.controls.FlightStick;
 import frc.robot.controls.LogitechPro;
 import frc.robot.subsystems.*;
+
+import java.util.List;
+
 // import frc.robot.subsystems.MotorTestSubsystem;
 import com.revrobotics.CANSparkMax;
+
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.DigitalInput;
 // import frc.robot.commands.Autos;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -69,6 +86,16 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    
+      swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
+      swerveSubsystem,
+      () -> -joyStick.getPitch(),
+      () -> -joyStick.getRoll(),
+      () -> -joyStick.getYaw(),
+      () ->
+      joyStick.getTrigger()));
+      
+    
     configureBindings();
   }
   
@@ -86,6 +113,47 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
+   public Command getAutonomousCommand() {
+        // 1. Create trajectory settings
+        TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
+                AutoConstants.kMaxSpeedMetersPerSecond,
+                AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+                        .setKinematics(DriveConstants.kDriveKinematics);
+
+        // 2. Generate trajectory
+        Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
+                new Pose2d(0, 0, new Rotation2d(0)),
+                List.of(
+                        new Translation2d(1, 0),
+                        new Translation2d(1, -1)),
+                new Pose2d(2, -1, Rotation2d.fromDegrees(180)),
+                trajectoryConfig);
+
+        // 3. Define PID controllers for tracking trajectory
+        PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
+        PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);
+        ProfiledPIDController thetaController = new ProfiledPIDController(
+                AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
+        thetaController.enableContinuousInput(-Math.PI, Math.PI);
+
+        // 4. Construct command to follow trajectory
+        SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
+                trajectory,
+                swerveSubsystem::getPose,
+                DriveConstants.kDriveKinematics,
+                xController,
+                yController,
+                thetaController,
+                swerveSubsystem::setModuleStates,
+                swerveSubsystem);
+
+        // 5. Add some init and wrap-up, and return everything
+        return new SequentialCommandGroup(
+                new InstantCommand(() -> swerveSubsystem.resetOdometry(trajectory.getInitialPose())),
+                swerveControllerCommand,
+                new InstantCommand(() -> swerveSubsystem.stopModules()));
+    }
+    
   private void configureBindings() {
     // Define triggers
     Trigger limitTrigger = new Trigger(limitSwitch::get);
@@ -93,12 +161,13 @@ public class RobotContainer {
     Trigger yButton = new JoystickButton(driverJoystick, Constants.OIConstants.kYButton);
     Trigger aButton = new JoystickButton(driverJoystick, Constants.OIConstants.kAButton);
     Trigger bButton = new JoystickButton(driverJoystick, Constants.OIConstants.kBButton);
+    Trigger maryButton = new JoystickButton(joyStick, 2);
     // Trigger leftBumper = new JoystickButton(driverJoystick, Constants.OIConstants.kLeftBumper);
     Trigger rightBumper = new JoystickButton(driverJoystick, Constants.OIConstants.kRightBumper);
     
     // Set default commands
     visionSubsystem.setDefaultCommand(new VisionCommand(visionSubsystem));
-    armSubsystem.setDefaultCommand(new ManualArmCmd(() -> (driverJoystick.getLeftY()), armSubsystem));
+    //armSubsystem.setDefaultCommand(new ManualArmCmd(() -> (driverJoystick.getLeftY()), armSubsystem));
     
     // Configure mechanical triggers
     limitTrigger.onTrue(
@@ -107,20 +176,15 @@ public class RobotContainer {
     // Configure gamepad buttons
     xButton.whileTrue(new ArmMotor(Constants.ArmConstants.kArmLow, armSubsystem));
     yButton.whileTrue(new ArmMotor(Constants.ArmConstants.kArmMid, armSubsystem));
-    bButton.whileTrue(new ArmMotor(Constants.ArmConstants.kArmHigh, armSubsystem));
+    //bButton.whileTrue(new ArmMotor(Constants.ArmConstants.kArmHigh, armSubsystem));
+    bButton.onTrue(new ParallelCommandGroup(new ShooterCommand(shooterSubsystem), new OuttakeCommand(intakeSubsystem)));
     aButton.onTrue(new IntakeCommand(intakeSubsystem));
     rightBumper.onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
 
-    /*
-     * swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
-     * swerveSubsystem,
-     * () -> driverJoystick.getRawAxis(OIConstants.kDriverYAxis),
-     * () -> -driverJoystick.getRawAxis(OIConstants.kDriverXAxis),
-     * () -> driverJoystick.getRawAxis(OIConstants.kDriverRotAxis),
-     * () ->
-     * !driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
-     * 
-     */
+
+  
+    maryButton.onTrue(new ParallelCommandGroup(new ExtendLeft(liftSubsystem), new ExtendRight(liftSubsystem)));
+    
 
     /*
      * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -182,5 +246,7 @@ public class RobotContainer {
      */
 
     // return null;
+
+
   }
 }

@@ -16,7 +16,6 @@ import com.revrobotics.SparkLimitSwitch;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class ShooterSubsystem extends SubsystemBase {
-<<<<<<< HEAD
   private static final Timer m_timer = new Timer();
 
   public CANSparkMax m_upMotor = new CANSparkMax(ShooterConstants.kLeftShooterControllerPort, MotorType.kBrushless);
@@ -83,13 +82,6 @@ public class ShooterSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     // We will have a pull in fast and slow and a push out fast and slow
     // When we pull in we will use the beam break sensor to stop the motor
-=======
-  /** Creates a new ExampleSubsystem. */
-  public ShooterSubsystem() {
-  }
-
-  public void ejectToSpeaker() {
->>>>>>> 8d1241fdda7cc2f7df762f352eb771201423a337
 
   }
 

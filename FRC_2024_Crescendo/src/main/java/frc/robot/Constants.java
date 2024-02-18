@@ -7,7 +7,6 @@ import edu.wpi.first.math.util.Units;
 
 import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.XboxController.Button;
-
 import com.revrobotics.CANSparkBase.IdleMode;
 
 /**
@@ -198,6 +197,8 @@ public final class Constants {
     public static final int kAButton = Button.kA.value;
     public static final int kBButton = Button.kB.value;
 
+
+
     public static final double kDeadband = 0.15;
     
   }
@@ -233,8 +234,8 @@ public final class Constants {
     public static final int kLeftIntakeControllerPort = 31;
     public static final int kRightIntakeControllerPort = 32;
 
-    public static final double kIntakeSpeed = 0.15;
-    public static final double kOuttakeSpeed = 0.25;
+    public static final double kIntakeSpeed = 0.25;
+    public static final double kOuttakeSpeed = 0.3;
   }
 
 }
