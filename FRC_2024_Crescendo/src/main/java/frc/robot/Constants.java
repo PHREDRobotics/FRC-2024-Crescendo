@@ -8,6 +8,8 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.XboxController.Button;
 
+import java.nio.Buffer;
+
 import com.revrobotics.CANSparkBase.IdleMode;
 
 /**
@@ -135,7 +137,7 @@ public final class Constants {
     public static final double kArmMid = 12;
     public static final double kArmHigh = 24;
 
-    public static final double kVoltageMultiplier = 3;
+    public static final double kVoltageMultiplier = 1.5;
   }
 
   /**
@@ -193,6 +195,7 @@ public final class Constants {
     public static final int kLeftTriggerAxis = Axis.kLeftTrigger.value;
     public static final int kRightTriggerAxis = Axis.kRightTrigger.value;
 
+    public static final int kStartButton = Button.kStart.value;
     public static final int kLeftBumper = Button.kLeftBumper.value;
     public static final int kRightBumper = Button.kRightBumper.value;
     public static final int kXButton = Button.kX.value;
@@ -201,7 +204,8 @@ public final class Constants {
     public static final int kBButton = Button.kB.value;
 
     public static final double kDeadband = 0.15;
-    
+    public static final double kHighDeadband = 0.25;
+
   }
 
   // public static final class TestConstants {
@@ -235,8 +239,8 @@ public final class Constants {
     public static final int kLeftIntakeControllerPort = 31;
     public static final int kRightIntakeControllerPort = 32;
 
-    public static final double kIntakeSpeed = 0.15;
-    public static final double kOuttakeSpeed = 0.25;
+    public static final double kIntakeSpeed = 0.25;
+    public static final double kOuttakeSpeed = 0.6;
   }
 
 }

@@ -97,10 +97,10 @@ public class ArmSubsystem extends SubsystemBase {
      * @param position Target position in encoder ticks
      */
     public void moveToPosition(double position) {
-        goal = new TrapezoidProfile.State(position, 0);
-        setpoint = profile.calculate(kDt, setpoint, goal);
-        armMotor.setVoltage(pidController.calculate(armEncoder.getPosition(), setpoint.position)
-                + feedforward.calculate(Math.toRadians(armEncoder.getPosition()), setpoint.velocity));
+        // goal = new TrapezoidProfile.State(position, 0);
+        // setpoint = profile.calculate(kDt, setpoint, goal);
+        // armMotor.setVoltage(pidController.calculate(armEncoder.getPosition(), setpoint.position)
+        //         + feedforward.calculate(Math.toRadians(armEncoder.getPosition()), setpoint.velocity));
     }
 
     /**

@@ -57,7 +57,12 @@ public class SwerveJoystickCmd extends Command {
     // 2. Apply deadband
     xSpeed = Math.abs(xSpeed) > OIConstants.kDeadband ? xSpeed : 0.0;
     ySpeed = Math.abs(ySpeed) > OIConstants.kDeadband ? ySpeed : 0.0;
-    turningSpeed = Math.abs(turningSpeed) > OIConstants.kDeadband ? turningSpeed : 0.0;
+    turningSpeed = Math.abs(turningSpeed) > OIConstants.kHighDeadband ? turningSpeed : 0.0;
+
+    // 2.5. Square/cUBE it
+    xSpeed = xSpeed * Math.abs(xSpeed);// * Math.abs(xSpeed);
+    ySpeed = ySpeed * Math.abs(ySpeed);// * Math.abs(ySpeed);
+    turningSpeed = turningSpeed * Math.abs(turningSpeed);// * Math.abs(turningSpeed);
 
     // 3. Make the driving smoother
     xSpeed = xLimiter.calculate(xSpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
@@ -65,10 +70,7 @@ public class SwerveJoystickCmd extends Command {
     turningSpeed = turningLimiter.calculate(turningSpeed)
         * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
 
-    // 3.5. Square/cUBE it
-    xSpeed = xSpeed * Math.abs(xSpeed) * Math.abs(xSpeed);
-    ySpeed = ySpeed * Math.abs(ySpeed) * Math.abs(ySpeed);
-    turningSpeed = turningSpeed * Math.abs(turningSpeed) * Math.abs(turningSpeed);
+
 
     // 4. Construct desired chassis speeds
     ChassisSpeeds chassisSpeeds;
