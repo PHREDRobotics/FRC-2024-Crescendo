@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.controls.LogitechPro;
 
 public class SwerveSubsystem extends SubsystemBase {
   private final SwerveModule frontLeft = new SwerveModule(
@@ -51,11 +52,14 @@ public class SwerveSubsystem extends SubsystemBase {
       DriveConstants.kBackRightDriveInverted);
 
   private final AHRS gyro = new AHRS(SPI.Port.kMXP);
-  //private final SimDeviceSim simGyro = new SimDeviceSim();
+  // private final SimDeviceSim simGyro = new SimDeviceSim();
   private final Field2d m_field = new Field2d();
 
-  //private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics,
-  //    new Rotation2d(), getModulePositions());
+  private final LogitechPro m_joyStick;
+
+  // private final SwerveDriveOdometry odometer = new
+  // SwerveDriveOdometry(DriveConstants.kDriveKinematics,
+  // new Rotation2d(), getModulePositions());
 
   SwerveDriveOdometry odometer = new SwerveDriveOdometry(
       DriveConstants.kDriveKinematics, gyro.getRotation2d(),
@@ -70,7 +74,8 @@ public class SwerveSubsystem extends SubsystemBase {
     };
   }
 
-  public SwerveSubsystem() {
+  public SwerveSubsystem(LogitechPro joystick) {
+    m_joyStick = joystick;
     SmartDashboard.putData("Field", m_field);
     new Thread(() -> {
       try {
@@ -100,12 +105,12 @@ public class SwerveSubsystem extends SubsystemBase {
 
     // We have to invert the angle of the NavX so that rotating the robot
     // counter-clockwise makes the angle increase.
-    //if (-gyro.getYaw() >= 0) {
-      return gyro.getYaw();
+    // if (-gyro.getYaw() >= 0) {
+    return gyro.getYaw();
 
-    //} else {
-    //  return 360 + -gyro.getYaw();
-    //}
+    // } else {
+    // return 360 + -gyro.getYaw();
+    // }
   }
 
   public Rotation2d getRotation2d() {
@@ -127,12 +132,14 @@ public class SwerveSubsystem extends SubsystemBase {
   public void periodic() {
     odometer.update(getRotation2d(), getModulePositions());
 
+    SmartDashboard.putNumber("throttle", m_joyStick.getThrottl());
+
     SmartDashboard.putString("Robot Heading (Rotation2d)", gyro.getRotation2d().toString());
     SmartDashboard.putNumber("Robot Heading (Degrees)", getHeading());
-    SmartDashboard.putNumber("Front Left Turning Position", frontLeft.getTurningPosition() * (180/Math.PI));
-    SmartDashboard.putNumber("Front Right Turning Position", frontRight.getTurningPosition() * (180/Math.PI));
-    SmartDashboard.putNumber("Back Left Turning Position", backLeft.getTurningPosition() * (180/Math.PI));
-    SmartDashboard.putNumber("Back Right Turning Position", backRight.getTurningPosition() * (180/Math.PI));
+    SmartDashboard.putNumber("Front Left Turning Position", frontLeft.getTurningPosition() * (180 / Math.PI));
+    SmartDashboard.putNumber("Front Right Turning Position", frontRight.getTurningPosition() * (180 / Math.PI));
+    SmartDashboard.putNumber("Back Left Turning Position", backLeft.getTurningPosition() * (180 / Math.PI));
+    SmartDashboard.putNumber("Back Right Turning Position", backRight.getTurningPosition() * (180 / Math.PI));
 
     SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
 

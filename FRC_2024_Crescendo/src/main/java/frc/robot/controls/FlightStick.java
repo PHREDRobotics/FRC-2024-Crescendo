@@ -115,7 +115,7 @@ public abstract class FlightStick extends Joystick implements Sendable {
    * 
    * @return the current throttle of the joystick in the range -1.0 to 1.0.
    */
-  //public abstract double getThrottle();
+  public abstract double getThrottl();
 
   /**
    * Returns the throttle as double in the range 0 to 1.0.

@@ -41,9 +41,11 @@ public class RobotContainer {
         // private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
         // private final MotorTestSubsystem motorTestSubsystem = new
         // MotorTestSubsystem();
+        private final LogitechPro joyStick = new LogitechPro(1);
+
         private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
         private final VisionSubsystem visionSubsystem = new VisionSubsystem();
-        private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
+        private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem(joyStick);
         private final LiftSubsystem liftSubsystem = new LiftSubsystem();
         private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
         private final ArmSubsystem armSubsystem = new ArmSubsystem();
@@ -63,7 +65,7 @@ public class RobotContainer {
         // Replace with CommandPS4Controller or CommandJoystick if needed
         private final XboxController driverJoystick = new XboxController(0);
 
-        private final LogitechPro joyStick = new LogitechPro(1);
+       
 
         // DigitalInput limitSwitch = new DigitalInput(9);
 
@@ -111,6 +113,7 @@ public class RobotContainer {
                                 () -> -joyStick.getPitch(),
                                 () -> -joyStick.getRoll(),
                                 () -> -joyStick.getYaw(),
+                                () -> joyStick.getThrottl(),
                                 () -> joyStick.getTrigger()));
                 liftSubsystem.setDefaultCommand(new ManualUnretractLift(
                                 () -> leftBumper.getAsBoolean(),
@@ -137,6 +140,7 @@ public class RobotContainer {
                 aButton.onTrue(new IntakeCommand(intakeSubsystem));
                 // leftBumper.onTrue(new AutoResetArmEncoder(armSubsystem));
                 startButton.onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+                
 
                 /*
                  * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -199,4 +203,5 @@ public class RobotContainer {
 
                 // return null;
         }
+        
 }

@@ -67,10 +67,10 @@ public class LogitechPro extends FlightStick {
     return getNormalizedAxis(ROLL_AXIS);
   }
 
-  // @Override
-  //public double getThrottle() {
-  //  return -1 * getAxis(THROTTLE_AXIS);
-  //}
+  @Override
+  public double getThrottl() {
+   return ((1+(-1 * getAxis(THROTTLE_AXIS)))/2);
+  }
 
   // @Override
   public double getNormalThrottle() {

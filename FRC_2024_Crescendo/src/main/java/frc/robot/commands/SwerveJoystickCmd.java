@@ -18,7 +18,7 @@ import frc.robot.subsystems.SwerveSubsystem;
 public class SwerveJoystickCmd extends Command {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private final SwerveSubsystem swerveSubsystem;
-  private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
+  private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction, throttleBonusFunction;
   private final Supplier<Boolean> fieldOrientedFunction;
   private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
 
@@ -28,12 +28,13 @@ public class SwerveJoystickCmd extends Command {
    * @param subsystem The subsystem used by this command.
    */
   public SwerveJoystickCmd(SwerveSubsystem swerveSubsystem,
-      Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction, Supplier<Double> turningSpdFunction,
+      Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction, Supplier<Double> turningSpdFunction, Supplier<Double> throttleBonusFunction,
       Supplier<Boolean> fieldOrientedFunction) {
     this.swerveSubsystem = swerveSubsystem;
     this.xSpdFunction = xSpdFunction;
     this.ySpdFunction = ySpdFunction;
     this.turningSpdFunction = turningSpdFunction;
+    this.throttleBonusFunction = throttleBonusFunction;
     this.fieldOrientedFunction = fieldOrientedFunction;
     this.xLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
     this.yLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
@@ -65,8 +66,8 @@ public class SwerveJoystickCmd extends Command {
     turningSpeed = turningSpeed * Math.abs(turningSpeed);// * Math.abs(turningSpeed);
 
     // 3. Make the driving smoother
-    xSpeed = xLimiter.calculate(xSpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
-    ySpeed = yLimiter.calculate(ySpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
+    xSpeed = xLimiter.calculate(xSpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond + throttleBonusFunction.get() * DriveConstants.kTeleDriveThrottleMultiplier;
+    ySpeed = yLimiter.calculate(ySpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond + throttleBonusFunction.get() * DriveConstants.kTeleDriveThrottleMultiplier;
     turningSpeed = turningLimiter.calculate(turningSpeed)
         * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
 
