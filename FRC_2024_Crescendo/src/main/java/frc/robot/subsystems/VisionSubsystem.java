@@ -15,7 +15,7 @@ public class VisionSubsystem extends SubsystemBase {
   public boolean m_LimelightHasValidTarget = false;
   public boolean m_IsLimeLightCentered = false;
   NetworkTable m_table = NetworkTableInstance.getDefault().getTable("limelight");
-  double tv = m_table.getEntry("tv").getDouble(0);
+  //double tv = m_table.getEntry("tv").getDouble(0);
   double tx = m_table.getEntry("tx").getDouble(0);
   double ty = m_table.getEntry("ty").getDouble(0);
   double ta = m_table.getEntry("ta").getDouble(0);
@@ -64,6 +64,10 @@ public class VisionSubsystem extends SubsystemBase {
     double d = (VisionConstants.kAmpOrSourceHeightInches - VisionConstants.kLimelightLensHeightInches)
         / Math.tan(angleToGoalRadians);
     return d;
+    //17.2 = 5
+    //27.1 = 18.75
+    //36=32
+    //47.8~=49.75
   }
 
   /**
@@ -80,7 +84,7 @@ public class VisionSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     m_table = NetworkTableInstance.getDefault().getTable("limelight-phred");
-    tv = m_table.getEntry("tv").getDouble(0);
+    //tv = m_table.getEntry("tv").getDouble(0);
     tx = m_table.getEntry("tx").getDouble(0);
     ty = m_table.getEntry("ty").getDouble(0);
     ta = m_table.getEntry("ta").getDouble(0);
@@ -90,7 +94,8 @@ public class VisionSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Limelight a value.", ta);
     SmartDashboard.putNumber("Limelight y value.", ty);
     SmartDashboard.putNumber("Limelight x value.", tx);
-    SmartDashboard.putNumber("Limelight v value.", tv);
+    SmartDashboard.putNumber("Estimated Distance", targetDistance());
+    //SmartDashboard.putNumber("Limelight v value.", tv);
     SmartDashboard.putBoolean("Is the target in range?", m_LimelightHasValidTarget);
     SmartDashboard.putBoolean("Is the target centered", m_IsLimeLightCentered);
     // This method will be called once per scheduler run
