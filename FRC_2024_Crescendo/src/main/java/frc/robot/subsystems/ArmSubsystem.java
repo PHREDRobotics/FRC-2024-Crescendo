@@ -51,7 +51,6 @@ public class ArmSubsystem extends SubsystemBase {
      * @param motorType Type of motor the arm is
      */
 
-
     public ArmSubsystem() {
         m_can_id = Constants.ArmConstants.kArmControllerPort;
         m_motor_type = CANSparkMax.MotorType.kBrushless;
@@ -72,8 +71,8 @@ public class ArmSubsystem extends SubsystemBase {
         kV = 0;
         kA = 0;
 
-        max_velocity = 10;
-        max_acceleration = 5;
+        max_velocity = 1;
+        max_acceleration = .5;
 
         // max_velocity = SmartDashboard.getNumber("Max Vel", max_velocity);
         // max_acceleration = SmartDashboard.getNumber("Max Accel",
@@ -97,10 +96,10 @@ public class ArmSubsystem extends SubsystemBase {
      * @param position Target position in encoder ticks
      */
     public void moveToPosition(double position) {
-        // goal = new TrapezoidProfile.State(position, 0);
-        // setpoint = profile.calculate(kDt, setpoint, goal);
-        // armMotor.setVoltage(pidController.calculate(armEncoder.getPosition(), setpoint.position)
-        //         + feedforward.calculate(Math.toRadians(armEncoder.getPosition()), setpoint.velocity));
+        goal = new TrapezoidProfile.State(position, 0);
+        setpoint = profile.calculate(kDt, setpoint, goal);
+        armMotor.setVoltage(pidController.calculate(armEncoder.getPosition(), setpoint.position)
+                + feedforward.calculate(Math.toRadians(armEncoder.getPosition()), setpoint.velocity));
     }
 
     /**
@@ -133,7 +132,7 @@ public class ArmSubsystem extends SubsystemBase {
     @Override
     public void simulationPeriodic() {
         SmartDashboard.putNumber("position", armEncoder.getPosition());
-     //   SmartDashboard.putBoolean("Limit Switch:", m_limit_switch.get());
+        // SmartDashboard.putBoolean("Limit Switch:", m_limit_switch.get());
         SmartDashboard.putNumber("voltage: ", voltage);
 
         SmartDashboard.putNumber("kP", kP);

@@ -108,13 +108,13 @@ public class RobotContainer {
 
                 armSubsystem.setDefaultCommand(new ManualArmCmd(() -> (driverJoystick.getLeftY()), armSubsystem));
 
-                swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
-                                swerveSubsystem,
-                                () -> -joyStick.getPitch(),
-                                () -> -joyStick.getRoll(),
-                                () -> -joyStick.getYaw(),
-                                () -> joyStick.getThrottl(),
-                                () -> joyStick.getTrigger()));
+                // swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
+                //                 swerveSubsystem,
+                //                 () -> -joyStick.getPitch(),
+                //                 () -> -joyStick.getRoll(),
+                //                 () -> -joyStick.getYaw(),
+                //                 () -> joyStick.getThrottl(),
+                //                 () -> joyStick.getTrigger()));
                 liftSubsystem.setDefaultCommand(new ManualUnretractLift(
                                 () -> leftBumper.getAsBoolean(),
                                 () -> rightBumper.getAsBoolean(),
@@ -126,20 +126,20 @@ public class RobotContainer {
                 // new AutoResetArmEncoder(armSubsystem, limitSwitch.get()));
 
                 // Configure gamepad buttons
-                // xButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmLow, armSubsystem));
-                // yButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmMid, armSubsystem));
-                // bButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmHigh, armSubsystem));
+                xButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmLow, armSubsystem));
+                yButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmMid, armSubsystem));
+                bButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmHigh, armSubsystem));
                 // yButton.onTrue(new UnretractLift(liftSubsystem));
-                yButton.whileTrue(new ManualLiftCmd(
-                                                () -> driverJoystick.getLeftTriggerAxis(),
-                                                () -> driverJoystick.getRightTriggerAxis(),
-                                                liftSubsystem));
-                xButton.onTrue(new OuttakeCommand(intakeSubsystem));
-                bButton.onTrue(new ParallelCommandGroup(new ShooterCommand(shooterSubsystem),
-                                new OuttakeCommand(intakeSubsystem)));
-                aButton.onTrue(new IntakeCommand(intakeSubsystem));
-                // leftBumper.onTrue(new AutoResetArmEncoder(armSubsystem));
-                startButton.onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+                // yButton.whileTrue(new ManualLiftCmd(
+                //                                 () -> driverJoystick.getLeftTriggerAxis(),
+                //                                 () -> driverJoystick.getRightTriggerAxis(),
+                //                                 liftSubsystem));
+                // xButton.onTrue(new OuttakeCommand(intakeSubsystem));
+                // bButton.onTrue(new ParallelCommandGroup(new ShooterCommand(shooterSubsystem),
+                //                new OuttakeCommand(intakeSubsystem)));
+                // aButton.onTrue(new IntakeCommand(intakeSubsystem));
+                startButton.onTrue(new AutoResetArmEncoder(armSubsystem));
+                // startButton.onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
                 
 
                 /*
