@@ -135,9 +135,10 @@ public final class Constants {
     public static final int kLimitSwitchControllerPort = 9;
 
     // Change later after arm built -------------------------------------
-    public static final double kArmLow = 2;
-    public static final double kArmMid = 12;
-    public static final double kArmHigh = 24;
+    public static final double kArmPickup = 24;
+    public static final double kArmAmp = 16;
+    public static final double kArmUp = 12;
+    public static final double kArmShooter = 2;
 
     public static final double kVoltageMultiplier = 1.5;
   }

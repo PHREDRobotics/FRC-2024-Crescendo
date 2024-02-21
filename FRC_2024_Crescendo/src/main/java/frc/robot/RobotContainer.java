@@ -126,9 +126,10 @@ public class RobotContainer {
                 // new AutoResetArmEncoder(armSubsystem, limitSwitch.get()));
 
                 // Configure gamepad buttons
-                xButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmLow, armSubsystem));
-                yButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmMid, armSubsystem));
-                bButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmHigh, armSubsystem));
+                aButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmPickup, armSubsystem));
+                xButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmAmp, armSubsystem));
+                yButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmUp, armSubsystem));
+                bButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmShooter, armSubsystem));
                 // yButton.onTrue(new UnretractLift(liftSubsystem));
                 // yButton.whileTrue(new ManualLiftCmd(
                 //                                 () -> driverJoystick.getLeftTriggerAxis(),
