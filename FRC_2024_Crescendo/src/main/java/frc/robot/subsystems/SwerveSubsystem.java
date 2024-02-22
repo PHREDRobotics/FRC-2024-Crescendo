@@ -94,7 +94,6 @@ public class SwerveSubsystem extends SubsystemBase {
     frontRight.resetEncoders();
     backLeft.resetEncoders();
     backRight.resetEncoders();
-
   }
 
   public double getHeading() {

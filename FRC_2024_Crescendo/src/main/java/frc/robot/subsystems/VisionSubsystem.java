@@ -64,7 +64,7 @@ public class VisionSubsystem extends SubsystemBase {
     double d = (VisionConstants.kAmpOrSourceHeightInches - VisionConstants.kLimelightLensHeightInches)
         / Math.tan(angleToGoalRadians);
     return d;
-    //17.2 = 5
+    //14.75 against amp
     //27.1 = 18.75
     //36=32
     //47.8~=49.75
