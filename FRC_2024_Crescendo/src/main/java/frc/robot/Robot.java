@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 /*
 import java.util.ArrayList;
 
@@ -58,6 +59,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
+    CameraServer.startAutomaticCapture();
   }
 
   public RobotContainer getRidOfThatWarning() {

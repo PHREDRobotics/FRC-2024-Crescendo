@@ -1,3 +1,18 @@
+// WARNING: NUCLEAR CODE INCOMING
+// ---------------------------
+// --------_____________------
+// ------/              \-----
+// -----/   --      --   \----
+// ----/   ----    ----   \---
+// ----|  ------  ------  |---
+// ----\        --        /---
+// -----\      ----      /----
+// ------\    ------    /-----
+// ------ \            /------
+// -------/            \------
+// ------/______________\-----
+// ---------------------------
+
 package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -135,7 +150,7 @@ public class SwerveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("throttle", m_joyStick.getThrottl());
 
     SmartDashboard.putString("Robot Heading (Rotation2d)", gyro.getRotation2d().toString());
-    SmartDashboard.putNumber("Robot Heading (Degrees)", getHeading());
+    SmartDashboard.putNumber("Gameboard/Robot Heading (Degrees)", getHeading());
     SmartDashboard.putNumber("Front Left Turning Position", frontLeft.getTurningPosition() * (180 / Math.PI));
     SmartDashboard.putNumber("Front Right Turning Position", frontRight.getTurningPosition() * (180 / Math.PI));
     SmartDashboard.putNumber("Back Left Turning Position", backLeft.getTurningPosition() * (180 / Math.PI));
@@ -143,7 +158,9 @@ public class SwerveSubsystem extends SubsystemBase {
 
     SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
 
-    SmartDashboard.putBoolean("Should we blame Hardware/Electrical?", true);
+    SmartDashboard.putBoolean("Gameboard/Should we blame Hardware/Electrical?", true);
+
+    
   }
 
   @Override

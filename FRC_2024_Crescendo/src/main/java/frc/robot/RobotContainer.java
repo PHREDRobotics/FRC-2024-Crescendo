@@ -119,8 +119,7 @@ public class RobotContainer {
                                 () -> leftBumper.getAsBoolean(),
                                 () -> rightBumper.getAsBoolean(),
                                 liftSubsystem));
-                                
-
+        
                 // Configure mechanical triggers
                 // limitTrigger.onTrue(
                 // new AutoResetArmEncoder(armSubsystem, limitSwitch.get()));

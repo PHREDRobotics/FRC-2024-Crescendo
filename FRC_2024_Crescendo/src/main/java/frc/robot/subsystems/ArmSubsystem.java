@@ -44,6 +44,8 @@ public class ArmSubsystem extends SubsystemBase {
     private TrapezoidProfile.State goal;
     private TrapezoidProfile.State setpoint;
 
+    public String armPosition;
+
     /**
      * Subsystem for the robot's arm
      * 
@@ -95,7 +97,22 @@ public class ArmSubsystem extends SubsystemBase {
      * 
      * @param position Target position in encoder ticks
      */
-    public void moveToPosition(double position) {
+    public void moveToPosition(int position) {
+        switch(position) {
+            case Constants.ArmConstants.kArmPickup:
+                armPosition = "Pickup";
+                break;
+            case Constants.ArmConstants.kArmAmp:
+                armPosition = "Amp";
+                break;
+            case Constants.ArmConstants.kArmUp:
+                armPosition = "Up";
+                break;
+            case Constants.ArmConstants.kArmShooter:
+                armPosition = "Shooter";
+                break;
+        }
+
         goal = new TrapezoidProfile.State(position, 0);
         setpoint = profile.calculate(kDt, setpoint, goal);
         armMotor.setVoltage(pidController.calculate(armEncoder.getPosition(), setpoint.position)
@@ -142,6 +159,9 @@ public class ArmSubsystem extends SubsystemBase {
 
         SmartDashboard.putNumber("Max Vel", max_velocity);
         SmartDashboard.putNumber("Max Accel", max_acceleration);
+        
+        
+        SmartDashboard.putString("Gameboard/Arm Position", armPosition);
     }
 
     public void periodic() {

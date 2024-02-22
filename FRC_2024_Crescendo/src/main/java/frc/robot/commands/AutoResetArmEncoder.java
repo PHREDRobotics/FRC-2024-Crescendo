@@ -38,7 +38,7 @@ public class AutoResetArmEncoder extends Command {
   @Override
   public void end(boolean interrupted) {
     if (interrupted) {
-      m_subsystem.moveToPosition(Constants.ArmConstants.kArmMid);
+      m_subsystem.moveToPosition(Constants.ArmConstants.kArmUp);
     } else {
       m_subsystem.resetEncoders();
     }
