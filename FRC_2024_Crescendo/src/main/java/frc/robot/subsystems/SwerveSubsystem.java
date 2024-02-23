@@ -1,20 +1,30 @@
 package frc.robot.subsystems;
 
+import java.util.List;
+
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.controls.LogitechPro;
+import edu.wpi.first.math.trajectory.Trajectory;
 
 public class SwerveSubsystem extends SubsystemBase {
+
   private final SwerveModule frontLeft = new SwerveModule(
       DriveConstants.kFrontLeftDriveMotorPort,
       DriveConstants.kFrontLeftTurningMotorPort,
@@ -65,6 +75,12 @@ public class SwerveSubsystem extends SubsystemBase {
       DriveConstants.kDriveKinematics, gyro.getRotation2d(),
       getModulePositions(), new Pose2d(0.0, 0.0, new Rotation2d()));
 
+  // 3
+  public PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
+  public PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);
+  public ProfiledPIDController thetaController = new ProfiledPIDController(
+      AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
+
   public SwerveModulePosition[] getModulePositions() {
     return new SwerveModulePosition[] {
         frontLeft.getPosition(),
@@ -75,6 +91,7 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public SwerveSubsystem(LogitechPro joystick) {
+    thetaController.enableContinuousInput(-Math.PI, Math.PI);
     m_joyStick = joystick;
     SmartDashboard.putData("Field", m_field);
     new Thread(() -> {
@@ -85,15 +102,6 @@ public class SwerveSubsystem extends SubsystemBase {
       } catch (Exception e) {
       }
     }).start();
-  }
-
-  public void zeroHeading() {
-    // gyro.zeroYaw();
-    gyro.reset();
-    frontLeft.resetEncoders();
-    frontRight.resetEncoders();
-    backLeft.resetEncoders();
-    backRight.resetEncoders();
   }
 
   public double getHeading() {
@@ -121,8 +129,29 @@ public class SwerveSubsystem extends SubsystemBase {
     return odometer.getPoseMeters();
   }
 
+  public Trajectory getTrajectory(Pose2d startPos, Translation2d midPos, Pose2d endPos) {
+    // 2
+    Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
+        startPos,
+        List.of(
+            midPos),
+        endPos,
+        AutoConstants.trajectoryConfig);
+    return trajectory;
+  }
+
   public void resetOdometry(Pose2d pose) {
     odometer.resetPosition(getRotation2d(), getModulePositions(), getPose());
+  }
+
+  public void zeroHeading() {
+    // gyro.zeroYaw();
+    gyro.reset();
+    frontLeft.resetEncoders();
+    frontRight.resetEncoders();
+    backLeft.resetEncoders();
+    backRight.resetEncoders();
+    resetOdometry(new Pose2d(0, 0, getRotation2d()));
   }
 
   // -------------------------------------------------

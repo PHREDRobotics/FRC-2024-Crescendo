@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 
@@ -70,10 +71,10 @@ public final class Constants {
     // Distance between front and back wheels in inches
     public static final double kWheelBase = Units.inchesToMeters(24.5);
     public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
-        new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
-        new Translation2d(kWheelBase / 2, kTrackWidth / 2),
+        new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
         new Translation2d(-kWheelBase / 2, -kTrackWidth / 2),
-        new Translation2d(-kWheelBase / 2, kTrackWidth / 2));
+        new Translation2d(kWheelBase / 2, kTrackWidth / 2),
+        new Translation2d(kWheelBase / 2, -kTrackWidth / 2));
 
     public static final int kBackLeftDriveMotorPort = 21;
     public static final int kFrontLeftDriveMotorPort = 11;
@@ -167,6 +168,9 @@ public final class Constants {
    * Constants for autonomous
    */
   public static final class AutoConstants {
+
+      
+
     public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 4;
     public static final double kMaxAngularSpeedRadiansPerSecond = //
         DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 10;
@@ -182,6 +186,12 @@ public final class Constants {
             kMaxAngularAccelerationRadiansPerSecondSquared);
 
     public static final double kAutoSpeedMetersPerSecond = kMaxSpeedMetersPerSecond - 1;
+
+    //1
+    public static TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
+      AutoConstants.kAutoSpeedMetersPerSecond,
+      AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+      .setKinematics(DriveConstants.kDriveKinematics);
   }
 
   /**

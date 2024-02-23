@@ -126,9 +126,9 @@ public class RobotContainer {
 
                 swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
                                 swerveSubsystem,
-                                () -> -joyStick.getPitch(),
-                                () -> -joyStick.getRoll(),
-                                () -> -joyStick.getYaw(),
+                                () -> joyStick.getPitch(),
+                                () -> joyStick.getRoll(),
+                                () -> joyStick.getYaw(),
                                 () -> joyStick.getThrottl(),
                                 () -> joyStick.getTrigger()));
                 liftSubsystem.setDefaultCommand(new ManualUnretractLift(
@@ -171,41 +171,23 @@ public class RobotContainer {
          * @return the command to run in autonomous
          */
         public Command getAutonomousCommand() {
-                // 1. Create trajectory settings
-                TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
-                                AutoConstants.kMaxSpeedMetersPerSecond,
-                                AutoConstants.kMaxAccelerationMetersPerSecondSquared)
-                                .setKinematics(DriveConstants.kDriveKinematics);
-
-                // 2. Generate trajectory
-                Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
-                                new Pose2d(0, 0, new Rotation2d(0)),
-                                List.of(
-                                                new Translation2d(0.05, 0)),
-                                new Pose2d(.1, 0, Rotation2d.fromDegrees(0)),
-                                trajectoryConfig);
-
-                // 3. Define PID controllers for tracking trajectory
-                PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
-                PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);
-                ProfiledPIDController thetaController = new ProfiledPIDController(
-                                AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
-                thetaController.enableContinuousInput(-Math.PI, Math.PI);
-
                 // 4. Construct command to follow trajectory
                 SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
-                                trajectory,
+                                swerveSubsystem.getTrajectory(
+                                        new Pose2d(0.0,0.0,new Rotation2d()),
+                                 new Translation2d(.5,0.0),
+                                  new Pose2d(  1.0,0.0,new Rotation2d())),
                                 swerveSubsystem::getPose,
                                 DriveConstants.kDriveKinematics,
-                                xController,
-                                yController,
-                                thetaController,
+                                swerveSubsystem.xController,
+                                swerveSubsystem.yController,
+                                swerveSubsystem.thetaController,
                                 swerveSubsystem::setModuleStates,
                                 swerveSubsystem);
 
                 // 5. Add some init and wrap-up, and return everything
                 return new SequentialCommandGroup(
-                                new InstantCommand(() -> swerveSubsystem.resetOdometry(trajectory.getInitialPose())),
+                                new InstantCommand(() -> swerveSubsystem.resetOdometry(swerveSubsystem.getTrajectory(new Pose2d(0.0,0.0,new Rotation2d()), new Translation2d(.5,0.0), new Pose2d(  1.0,0.0,new Rotation2d())).getInitialPose())),
                                 swerveControllerCommand,
                                 new InstantCommand(() -> swerveSubsystem.stopModules()));
                 // return null;

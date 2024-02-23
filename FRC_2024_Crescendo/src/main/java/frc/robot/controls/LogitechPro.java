@@ -49,7 +49,7 @@ public class LogitechPro extends FlightStick {
 
   // @Override
   public double getYaw() {
-    return getAxis(YAW_AXIS);
+    return -getAxis(YAW_AXIS);
   }
 
   // @Override
