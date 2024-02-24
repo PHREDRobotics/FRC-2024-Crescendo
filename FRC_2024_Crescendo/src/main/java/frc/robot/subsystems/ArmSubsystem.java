@@ -44,6 +44,8 @@ public class ArmSubsystem extends SubsystemBase {
     private TrapezoidProfile.State goal;
     private TrapezoidProfile.State setpoint;
 
+    public String armPosition;
+
     /**
      * Subsystem for the robot's arm
      * 
@@ -71,8 +73,8 @@ public class ArmSubsystem extends SubsystemBase {
         kV = 0;
         kA = 0;
 
-        max_velocity = 10;
-        max_acceleration = 5;
+        max_velocity = 1;
+        max_acceleration = .5;
 
         // max_velocity = SmartDashboard.getNumber("Max Vel", max_velocity);
         // max_acceleration = SmartDashboard.getNumber("Max Accel",
@@ -95,7 +97,22 @@ public class ArmSubsystem extends SubsystemBase {
      * 
      * @param position Target position in encoder ticks
      */
-    public void moveToPosition(double position) {
+    public void moveToPosition(int position) {
+        switch(position) {
+            case Constants.ArmConstants.kArmPickup:
+                armPosition = "Pickup";
+                break;
+            case Constants.ArmConstants.kArmAmp:
+                armPosition = "Amp";
+                break;
+            case Constants.ArmConstants.kArmUp:
+                armPosition = "Up";
+                break;
+            case Constants.ArmConstants.kArmShooter:
+                armPosition = "Shooter";
+                break;
+        }
+
         goal = new TrapezoidProfile.State(position, 0);
         setpoint = profile.calculate(kDt, setpoint, goal);
         armMotor.setVoltage(pidController.calculate(armEncoder.getPosition(), setpoint.position)
@@ -142,9 +159,13 @@ public class ArmSubsystem extends SubsystemBase {
 
         SmartDashboard.putNumber("Max Vel", max_velocity);
         SmartDashboard.putNumber("Max Accel", max_acceleration);
+        
+        
+        SmartDashboard.putString("Gameboard/Arm Position", armPosition);
     }
 
     public void periodic() {
+        SmartDashboard.putNumber("position", armEncoder.getPosition());
         SmartDashboard.putBoolean("Limit Switch:", this.limitSwitchTriggered());
         kDt = kDt + 1 / 50;
     }

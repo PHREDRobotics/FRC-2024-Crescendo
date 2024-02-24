@@ -20,6 +20,7 @@ import frc.robot.Constants.GrabberConstants;
 //import frc.robot.commands.OuttakeCommand;
 //import frc.robot.subsystems.MotorTestSubsystem;
 import frc.robot.commands.*;
+import frc.robot.composition.ShootTwoNotes;
 import frc.robot.controls.FlightStick;
 import frc.robot.controls.LogitechPro;
 import frc.robot.subsystems.*;
@@ -93,50 +94,59 @@ public class RobotContainer {
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
          */
-                // 4. Construct command to follow trajectory
-        SwerveControllerCommand TrajectoryShootNote = new SwerveControllerCommand(
+        // 4. Construct command to follow trajectory
+       /*  SwerveControllerCommand TrajectoryShootNote = new SwerveControllerCommand(
                         swerveSubsystem.getTrajectory(
                                         new Pose2d(0.0, 0.0, new Rotation2d()),
-                                        new Translation2d(1.0, 0.0),
-                                        new Pose2d(1.0, 0.0, new Rotation2d())),
+                                        new Translation2d(2.5, 0.0),
+                                        new Pose2d(5.0, 0.0, new Rotation2d())),
                         swerveSubsystem::getPose,
                         DriveConstants.kDriveKinematics,
                         swerveSubsystem.xController,
                         swerveSubsystem.yController,
                         swerveSubsystem.thetaController,
                         swerveSubsystem::setModuleStates,
-                        swerveSubsystem);
-
-        SwerveControllerCommand TrajectoryNoteShoot = new SwerveControllerCommand(
-                        swerveSubsystem.getTrajectory(
-                                        new Pose2d(1.0, 0.0, new Rotation2d()),
-                                        new Translation2d(0.0, 0.0),
-                                        new Pose2d(0.0, 0.0, new Rotation2d())),
-                        swerveSubsystem::getPose,
-                        DriveConstants.kDriveKinematics,
-                        swerveSubsystem.xController,
-                        swerveSubsystem.yController,
-                        swerveSubsystem.thetaController,
-                        swerveSubsystem::setModuleStates,
-                        swerveSubsystem);
-
-        // 5. Add some init and wrap-up, and return everything
-        final Command ShootTwoNotes = new SequentialCommandGroup(
-                        new ParallelCommandGroup(new ShooterCommand(shooterSubsystem),
-                                        new OuttakeCommand(intakeSubsystem)),
-                        new ParallelCommandGroup(TrajectoryShootNote,
-                                        new IntakeCommand(intakeSubsystem)),
-                        ///new ArmMotor(Constants.ArmConstants.kArmPickup)),
-                        new InstantCommand(() -> swerveSubsystem.stopModules()));
+                        swerveSubsystem);*/
                         
 
+        // SwerveControllerCommand TrajectoryNoteShoot = new SwerveControllerCommand(
+        //                 swerveSubsystem.getTrajectory(
+        //                                 swerveSubsystem.getPose(),
+        //                                 new Translation2d(0.0, 0.0),
+        //                                 new Pose2d(0.0, 0.0, new Rotation2d())),
+        //                 swerveSubsystem::getPose,
+        //                 DriveConstants.kDriveKinematics,
+        //                 swerveSubsystem.xController,
+        //                 swerveSubsystem.yController,
+        //                 swerveSubsystem.thetaController,
+        //                 swerveSubsystem::setModuleStates,
+        //                 swerveSubsystem);
+
+        // // 5. Add some init and wrap-up, and return everything
+        // final Command ShootTwoNotes = new SequentialCommandGroup(new AutoResetArmEncoder(armSubsystem),
+        //                 new ParallelCommandGroup(
+        //                                 new ShooterCommand(shooterSubsystem),
+        //                                 new OuttakeCommand(intakeSubsystem)),
+
+
+        //                 new ParallelDeadlineGroup(new IntakeCommand(intakeSubsystem),
+        //                                 //TrajectoryShootNote,
+        //                                 new ArmMotor(Constants.ArmConstants.kArmPickup, armSubsystem)),
+        //                                 new InstantCommand(() -> swerveSubsystem.stopModules()),
+        //                                 TrajectoryNoteShoot,
+        //                                 new InstantCommand(() -> swerveSubsystem.stopModules()),
+        //                                 new ParallelCommandGroup(
+
+        //                                 new ShooterCommand(shooterSubsystem),
+        //                                 new OuttakeCommand(intakeSubsystem)));
+
         public RobotContainer() {
- m_chooser.setDefaultOption("Shoot Two Notes",ShootTwoNotes);
+                m_chooser.setDefaultOption("Shoot Two Notes", new ShootTwoNotes(armSubsystem, intakeSubsystem,shooterSubsystem,swerveSubsystem));
 
-       // m_chooser.addOption("Complex Auto", ShootNote);
+                // m_chooser.addOption("Complex Auto", ShootNote);
 
-   SmartDashboard.putData(m_chooser);
-        configureBindings();
+                SmartDashboard.putData(m_chooser);
+                configureBindings();
         }
 
         /**
@@ -191,14 +201,14 @@ public class RobotContainer {
                 // yButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmMid, armSubsystem));
                 // bButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmHigh, armSubsystem));
                 // yButton.onTrue(new UnretractLift(liftSubsystem));
-                yButton.whileTrue(new ManualLiftCmd(
-                                () -> driverJoystick.getLeftTriggerAxis(),
-                                () -> driverJoystick.getRightTriggerAxis(),
-                                liftSubsystem));
-                xButton.onTrue(new OuttakeCommand(intakeSubsystem));
-                bButton.onTrue(new ParallelCommandGroup(new ShooterCommand(shooterSubsystem),
-                                new OuttakeCommand(intakeSubsystem)));
-                aButton.onTrue(new IntakeCommand(intakeSubsystem));
+                //yButton.whileTrue(new ManualLiftCmd(
+                //                () -> driverJoystick.getLeftTriggerAxis(),
+                //                () -> driverJoystick.getRightTriggerAxis(),
+                //                liftSubsystem));
+                //xButton.onTrue(new OuttakeCommand(intakeSubsystem));
+                //bButton.onTrue(new ParallelCommandGroup(new ShooterCommand(shooterSubsystem),
+                //                new OuttakeCommand(intakeSubsystem)));
+                //aButton.onTrue(new IntakeCommand(intakeSubsystem));
                 // leftBumper.onTrue(new AutoResetArmEncoder(armSubsystem));
                 maryButton.onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
 
@@ -209,6 +219,10 @@ public class RobotContainer {
                  */
 
                 // return null;
+                aButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmPickup, armSubsystem));
+                xButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmAmp, armSubsystem));
+                yButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmUp, armSubsystem));
+                bButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmShooter, armSubsystem));
         }
 
         /*
@@ -220,7 +234,8 @@ public class RobotContainer {
 
         // return null;
         // }
-
-       
-
+        public Command getAutonomousCommand() {
+                // The selected command will be run in autonomous
+                return m_chooser.getSelected();
+        }
 }
