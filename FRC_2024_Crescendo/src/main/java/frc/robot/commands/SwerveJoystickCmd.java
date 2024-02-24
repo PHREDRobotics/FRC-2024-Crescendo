@@ -60,14 +60,14 @@ public class SwerveJoystickCmd extends Command {
     ySpeed = Math.abs(ySpeed) > OIConstants.kDeadband ? ySpeed : 0.0;
     turningSpeed = Math.abs(turningSpeed) > OIConstants.kHighDeadband ? turningSpeed : 0.0;
 
-    // 2.5. Square/cUBE it
+    // 2.5. Square/Cube it
     xSpeed = xSpeed * Math.abs(xSpeed);// * Math.abs(xSpeed);
     ySpeed = ySpeed * Math.abs(ySpeed);// * Math.abs(ySpeed);
     turningSpeed = turningSpeed * Math.abs(turningSpeed);// * Math.abs(turningSpeed);
 
     // 3. Make the driving smoother
-    xSpeed = xLimiter.calculate(xSpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond + throttleBonusFunction.get() * DriveConstants.kTeleDriveThrottleMultiplier;
-    ySpeed = yLimiter.calculate(ySpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond + throttleBonusFunction.get() * DriveConstants.kTeleDriveThrottleMultiplier;
+    xSpeed = xLimiter.calculate(xSpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond * throttleBonusFunction.get() * DriveConstants.kTeleDriveThrottleMultiplier;
+    ySpeed = yLimiter.calculate(ySpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond * throttleBonusFunction.get() * DriveConstants.kTeleDriveThrottleMultiplier;
     turningSpeed = turningLimiter.calculate(turningSpeed)
         * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
 

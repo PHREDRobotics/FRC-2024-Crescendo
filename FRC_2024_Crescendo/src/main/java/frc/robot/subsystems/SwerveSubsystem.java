@@ -25,6 +25,10 @@ import edu.wpi.first.math.trajectory.Trajectory;
 
 public class SwerveSubsystem extends SubsystemBase {
 
+  public double throttleAdjust(double rawThrottle){
+    return ((-(DriveConstants.kThrottleMax-DriveConstants.kThrottleMin)/2)*rawThrottle)+(DriveConstants.kThrottleMin+DriveConstants.kThrottleMax)/2;
+  }
+
   private final SwerveModule frontLeft = new SwerveModule(
       DriveConstants.kFrontLeftDriveMotorPort,
       DriveConstants.kFrontLeftTurningMotorPort,
@@ -141,7 +145,7 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public void resetOdometry(Pose2d pose) {
-    odometer.resetPosition(getRotation2d(), getModulePositions(), getPose());
+    odometer.resetPosition(getRotation2d(), getModulePositions(), pose);
   }
 
   public void zeroHeading() {
@@ -160,7 +164,7 @@ public class SwerveSubsystem extends SubsystemBase {
   public void periodic() {
     odometer.update(getRotation2d(), getModulePositions());
 
-    SmartDashboard.putNumber("throttle", m_joyStick.getThrottl());
+    SmartDashboard.putNumber("throttle", m_joyStick.getThrottle());
 
     SmartDashboard.putString("Robot Heading (Rotation2d)", gyro.getRotation2d().toString());
     SmartDashboard.putNumber("Robot Heading (Degrees)", getHeading());
@@ -172,6 +176,8 @@ public class SwerveSubsystem extends SubsystemBase {
     SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
 
     SmartDashboard.putBoolean("Should we blame Hardware/Electrical?", true);
+        SmartDashboard.putNumber("Adjusted Throttle", throttleAdjust(m_joyStick.getThrottle()));
+
   }
 
   @Override

@@ -121,7 +121,7 @@ public class SwerveModule {
   }
 
   public double getDrivePosition() {
-    return -driveEncoder.getPosition();
+    return driveEncoder.getPosition();
   }
 
   /**

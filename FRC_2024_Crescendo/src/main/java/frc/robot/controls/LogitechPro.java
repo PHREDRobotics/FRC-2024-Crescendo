@@ -39,6 +39,10 @@ public class LogitechPro extends FlightStick {
 
   // @Override
   public double getPitch() {
+    return getAxis(PITCH_AXIS);
+  }
+
+    public double getBackToFront(){
     return -getAxis(PITCH_AXIS);
   }
 
@@ -49,8 +53,12 @@ public class LogitechPro extends FlightStick {
 
   // @Override
   public double getYaw() {
+    return getAxis(YAW_AXIS);
+  }
+    public double getclockwise() {
     return -getAxis(YAW_AXIS);
   }
+
 
   // @Override
   public double getNormalYaw() {
@@ -62,15 +70,17 @@ public class LogitechPro extends FlightStick {
     return getAxis(ROLL_AXIS);
   }
 
+
+
+  public double getLeftToRight() {
+    return getAxis(ROLL_AXIS);
+  }
+
   // @Override
   public double getNormalRoll() {
     return getNormalizedAxis(ROLL_AXIS);
   }
 
-  @Override
-  public double getThrottl() {
-   return ((1+(-1 * getAxis(THROTTLE_AXIS)))/2);
-  }
 
   // @Override
   public double getNormalThrottle() {

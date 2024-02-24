@@ -41,6 +41,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 // import frc.robot.commands.Autos;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -54,6 +56,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
+        SendableChooser<Command> m_chooser = new SendableChooser<>();
+
         // The robot's subsystems and commands are defined here...
         // private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
         // private final MotorTestSubsystem motorTestSubsystem = new
@@ -89,9 +93,50 @@ public class RobotContainer {
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
          */
-        public RobotContainer() {
+                // 4. Construct command to follow trajectory
+        SwerveControllerCommand TrajectoryShootNote = new SwerveControllerCommand(
+                        swerveSubsystem.getTrajectory(
+                                        new Pose2d(0.0, 0.0, new Rotation2d()),
+                                        new Translation2d(1.0, 0.0),
+                                        new Pose2d(1.0, 0.0, new Rotation2d())),
+                        swerveSubsystem::getPose,
+                        DriveConstants.kDriveKinematics,
+                        swerveSubsystem.xController,
+                        swerveSubsystem.yController,
+                        swerveSubsystem.thetaController,
+                        swerveSubsystem::setModuleStates,
+                        swerveSubsystem);
 
-                configureBindings();
+        SwerveControllerCommand TrajectoryNoteShoot = new SwerveControllerCommand(
+                        swerveSubsystem.getTrajectory(
+                                        new Pose2d(1.0, 0.0, new Rotation2d()),
+                                        new Translation2d(0.0, 0.0),
+                                        new Pose2d(0.0, 0.0, new Rotation2d())),
+                        swerveSubsystem::getPose,
+                        DriveConstants.kDriveKinematics,
+                        swerveSubsystem.xController,
+                        swerveSubsystem.yController,
+                        swerveSubsystem.thetaController,
+                        swerveSubsystem::setModuleStates,
+                        swerveSubsystem);
+
+        // 5. Add some init and wrap-up, and return everything
+        final Command ShootTwoNotes = new SequentialCommandGroup(
+                        new ParallelCommandGroup(new ShooterCommand(shooterSubsystem),
+                                        new OuttakeCommand(intakeSubsystem)),
+                        new ParallelCommandGroup(TrajectoryShootNote,
+                                        new IntakeCommand(intakeSubsystem)),
+                        ///new ArmMotor(Constants.ArmConstants.kArmPickup)),
+                        new InstantCommand(() -> swerveSubsystem.stopModules()));
+                        
+
+        public RobotContainer() {
+ m_chooser.setDefaultOption("Shoot Two Notes",ShootTwoNotes);
+
+       // m_chooser.addOption("Complex Auto", ShootNote);
+
+   SmartDashboard.putData(m_chooser);
+        configureBindings();
         }
 
         /**
@@ -108,6 +153,7 @@ public class RobotContainer {
          * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
          * joysticks}.
          */
+
         private void configureBindings() {
                 // Define triggers
                 Trigger xButton = new JoystickButton(driverJoystick, Constants.OIConstants.kXButton);
@@ -120,16 +166,16 @@ public class RobotContainer {
                 Trigger maryButton = new JoystickButton(joyStick, 2);
 
                 // Set default commands
-                //visionSubsystem.setDefaultCommand(new VisionCommand(visionSubsystem));
+                // visionSubsystem.setDefaultCommand(new VisionCommand(visionSubsystem));
 
                 armSubsystem.setDefaultCommand(new ManualArmCmd(() -> (driverJoystick.getLeftY()), armSubsystem));
 
                 swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
                                 swerveSubsystem,
-                                () -> joyStick.getPitch(),
-                                () -> joyStick.getRoll(),
+                                () -> joyStick.getBackToFront(),
+                                () -> joyStick.getLeftToRight(),
                                 () -> joyStick.getYaw(),
-                                () -> joyStick.getThrottl(),
+                                () -> swerveSubsystem.throttleAdjust(joyStick.getThrottle()),
                                 () -> joyStick.getTrigger()));
                 liftSubsystem.setDefaultCommand(new ManualUnretractLift(
                                 () -> leftBumper.getAsBoolean(),
@@ -170,26 +216,11 @@ public class RobotContainer {
          *
          * @return the command to run in autonomous
          */
-        public Command getAutonomousCommand() {
-                // 4. Construct command to follow trajectory
-                SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
-                                swerveSubsystem.getTrajectory(
-                                        new Pose2d(0.0,0.0,new Rotation2d()),
-                                 new Translation2d(.5,0.0),
-                                  new Pose2d(  1.0,0.0,new Rotation2d())),
-                                swerveSubsystem::getPose,
-                                DriveConstants.kDriveKinematics,
-                                swerveSubsystem.xController,
-                                swerveSubsystem.yController,
-                                swerveSubsystem.thetaController,
-                                swerveSubsystem::setModuleStates,
-                                swerveSubsystem);
+        // public Command getAutonomousCommand() {
 
-                // 5. Add some init and wrap-up, and return everything
-                return new SequentialCommandGroup(
-                                new InstantCommand(() -> swerveSubsystem.resetOdometry(swerveSubsystem.getTrajectory(new Pose2d(0.0,0.0,new Rotation2d()), new Translation2d(.5,0.0), new Pose2d(  1.0,0.0,new Rotation2d())).getInitialPose())),
-                                swerveControllerCommand,
-                                new InstantCommand(() -> swerveSubsystem.stopModules()));
-                // return null;
-        }
+        // return null;
+        // }
+
+       
+
 }

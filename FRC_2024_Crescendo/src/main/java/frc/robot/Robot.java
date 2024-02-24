@@ -39,9 +39,11 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * build.gradle file in the
  * project.
  */
+
 public class Robot extends TimedRobot {
   @SuppressWarnings("all")
   private Command m_autonomousCommand;
+  
   
   private RobotContainer m_robotContainer;
 
@@ -102,7 +104,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-      m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+      //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+      //return m_chooser.getSelected();
   
       // schedule the autonomous command (example)
       if (m_autonomousCommand != null) {
@@ -115,6 +118,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
+    CommandScheduler.getInstance().run();
   }
 
   @Override
