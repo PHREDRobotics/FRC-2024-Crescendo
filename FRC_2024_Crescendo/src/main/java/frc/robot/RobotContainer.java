@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.GrabberConstants;
 //import frc.robot.commands.DriveMotor;
@@ -37,12 +38,13 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-        // The robot's subsystems and commands are defined here...
-        // private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-        // private final MotorTestSubsystem motorTestSubsystem = new
-        // MotorTestSubsystem();
-        private final LogitechPro joyStick = new LogitechPro(1);
 
+        // Define Joysticks
+        private final LogitechPro joyStick = new LogitechPro(1);
+        // Replace with CommandPS4Controller or CommandJoystick if needed
+        private final XboxController driverJoystick = new XboxController(0);
+
+        // Define subsystems
         private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
         private final VisionSubsystem visionSubsystem = new VisionSubsystem();
         private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem(joyStick);
@@ -50,32 +52,12 @@ public class RobotContainer {
         private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
         private final ArmSubsystem armSubsystem = new ArmSubsystem();
 
-        // private final MotorTestSubsystem motorTestSubsystem = new
-        // MotorTestSubsystem();
-        /*
-         * DigitalInput limitSwitch = new
-         * DigitalInput(Constants.ArmConstants.kLimitSwitchControllerPort);
-         * private final ArmSubsystem armSubsystem = new ArmSubsystem(
-         * Constants.ArmConstants.kArmControllerPort, CANSparkMax.MotorType.kBrushless,
-         * limitSwitch,
-         * 0.6, 0, 0, 0.02,
-         * 0, 0.1, 0, 0,
-         * 10, 5);
-         */
-        // Replace with CommandPS4Controller or CommandJoystick if needed
-        private final XboxController driverJoystick = new XboxController(0);
-
-       
-
-        // DigitalInput limitSwitch = new DigitalInput(9);
-
-        // Trigger limitTrigger = new Trigger(limitSwitch::get);
+        
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
          */
         public RobotContainer() {
-
                 configureBindings();
         }
 
@@ -102,46 +84,47 @@ public class RobotContainer {
                 Trigger leftBumper = new JoystickButton(driverJoystick, Constants.OIConstants.kLeftBumper);
                 Trigger rightBumper = new JoystickButton(driverJoystick, Constants.OIConstants.kRightBumper);
                 Trigger startButton = new JoystickButton(driverJoystick, Constants.OIConstants.kStartButton);
+                Trigger dPadUp = new POVButton(driverJoystick, 0);
+                Trigger dPadDown = new POVButton(driverJoystick, 180);
 
-                // Set default commands
-                visionSubsystem.setDefaultCommand(new VisionCommand(visionSubsystem));
-
-                armSubsystem.setDefaultCommand(new ManualArmCmd(() -> (driverJoystick.getLeftY()), armSubsystem));
-
-                // swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
-                //                 swerveSubsystem,
-                //                 () -> -joyStick.getPitch(),
-                //                 () -> -joyStick.getRoll(),
-                //                 () -> -joyStick.getYaw(),
-                //                 () -> joyStick.getThrottl(),
-                //                 () -> joyStick.getTrigger()));
+                // Configure Bindings
+                /*
+                swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
+                                swerveSubsystem,
+                                () -> -joyStick.getPitch(),
+                                () -> -joyStick.getRoll(),
+                                () -> -joyStick.getYaw(),
+                                () -> joyStick.getThrottl(),
+                                () -> joyStick.getTrigger()));
+                */
+                /*
                 liftSubsystem.setDefaultCommand(new ManualUnretractLift(
                                 () -> leftBumper.getAsBoolean(),
                                 () -> rightBumper.getAsBoolean(),
                                 liftSubsystem));
-        
-                // Configure mechanical triggers
-                // limitTrigger.onTrue(
-                // new AutoResetArmEncoder(armSubsystem, limitSwitch.get()));
+                */
 
-                // Configure gamepad buttons
-                aButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmPickup, armSubsystem));
-                xButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmAmp, armSubsystem));
-                yButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmUp, armSubsystem));
-                bButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmShooter, armSubsystem));
-                // yButton.onTrue(new UnretractLift(liftSubsystem));
-                // yButton.whileTrue(new ManualLiftCmd(
-                //                                 () -> driverJoystick.getLeftTriggerAxis(),
-                //                                 () -> driverJoystick.getRightTriggerAxis(),
-                //                                 liftSubsystem));
-                // xButton.onTrue(new OuttakeCommand(intakeSubsystem));
-                // bButton.onTrue(new ParallelCommandGroup(new ShooterCommand(shooterSubsystem),
-                //                new OuttakeCommand(intakeSubsystem)));
-                // aButton.onTrue(new IntakeCommand(intakeSubsystem));
+                liftSubsystem.setDefaultCommand(new ManualLiftCmd(
+                        () -> driverJoystick.getLeftTriggerAxis(),
+                        () -> driverJoystick.getRightTriggerAxis(),
+                        liftSubsystem));
+
+                leftBumper.whileTrue(new ManualUnretractLift(() -> true, () -> false, liftSubsystem));
+                rightBumper.whileTrue(new ManualUnretractLift(() -> false, () -> true, liftSubsystem));
+
+                aButton.onTrue(new IntakeCommand(intakeSubsystem));
+                xButton.onTrue(new OuttakeCommand(intakeSubsystem));
+                bButton.onTrue(new ParallelCommandGroup(new ShooterCommand(shooterSubsystem),
+                                new OuttakeCommand(intakeSubsystem)));
+
                 startButton.onTrue(new AutoResetArmEncoder(armSubsystem));
-                // startButton.onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
                 
+                dPadUp.onTrue(new ArmMotor(Constants.ArmConstants.kArmShooter, armSubsystem));
+                dPadDown.onTrue(new ArmMotor(Constants.ArmConstants.kArmPickup, armSubsystem));
+                yButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmAmp, armSubsystem));
 
+                visionSubsystem.setDefaultCommand(new VisionCommand(visionSubsystem));
+                
                 /*
                  * Use this to pass the autonomous command to the main {@link Robot} class.
                  *

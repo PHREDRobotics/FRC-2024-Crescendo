@@ -62,10 +62,6 @@ public class Robot extends TimedRobot {
     CameraServer.startAutomaticCapture();
   }
 
-  public RobotContainer getRidOfThatWarning() {
-    return m_robotContainer;
-  }
-
   /**
    * This function is called every 20 ms, no matter the mode. Use this for items
    * like diagnostics

@@ -17,6 +17,7 @@ package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -91,7 +92,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   public SwerveSubsystem(LogitechPro joystick) {
     m_joyStick = joystick;
-    SmartDashboard.putData("Field", m_field);
+    SmartDashboard.putData(m_field);
     new Thread(() -> {
       try {
         Thread.sleep(1000);
@@ -156,16 +157,15 @@ public class SwerveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Back Left Turning Position", backLeft.getTurningPosition() * (180 / Math.PI));
     SmartDashboard.putNumber("Back Right Turning Position", backRight.getTurningPosition() * (180 / Math.PI));
 
-    SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
+    m_field.setRobotPose(odometer.getPoseMeters());
 
-    SmartDashboard.putBoolean("Gameboard/Should we blame Hardware/Electrical?", true);
+    SmartDashboard.putBoolean("Gameboard/Power of Orca?", true);
 
     
   }
 
   @Override
   public void simulationPeriodic() {
-    odometer.update(new Rotation2d(-Math.PI), getModulePositions());
     m_field.setRobotPose(odometer.getPoseMeters());
   }
 

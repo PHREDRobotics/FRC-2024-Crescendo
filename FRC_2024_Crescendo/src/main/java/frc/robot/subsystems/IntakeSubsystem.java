@@ -113,10 +113,10 @@ public class IntakeSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("Manual Override Press", SmartDashboard.getBoolean("Manual Override Press", false));
 
     // Slider things VARIABLES
-    m_outtakeSpeed = SmartDashboard.getNumber("Outtake Speed", m_outtakeSpeed);
-    m_intakeSpeed = SmartDashboard.getNumber("Intake Speed", m_intakeSpeed);
-    SmartDashboard.putNumber("Outtake Speed", m_outtakeSpeed);
-    SmartDashboard.putNumber("Intake Speed", m_intakeSpeed);
+    m_outtakeSpeed = SmartDashboard.getNumber("Gameboard/Outtake Speed", m_outtakeSpeed);
+    m_intakeSpeed = SmartDashboard.getNumber("Gameboard/Intake Speed", m_intakeSpeed);
+    SmartDashboard.putNumber("Gameboard/Outtake Speed", m_outtakeSpeed);
+    SmartDashboard.putNumber("Gameboard/Intake Speed", m_intakeSpeed);
     // This method will be called once per scheduler run
     // We will have a pull in fast and slow and a push out fast and slow
     // When we pull in we will use the beam break sensor to stop the motor

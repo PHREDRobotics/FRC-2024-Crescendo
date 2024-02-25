@@ -26,19 +26,19 @@ public class AutoResetArmEncoder extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_subsystem.setRawPower(-1);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_subsystem.setRawPower(-1);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     if (interrupted) {
-      m_subsystem.moveToPosition(Constants.ArmConstants.kArmUp);
+      m_subsystem.moveToPosition(Constants.ArmConstants.kArmPickup);
     } else {
       m_subsystem.resetEncoders();
     }

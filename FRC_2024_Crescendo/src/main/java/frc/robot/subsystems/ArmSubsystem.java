@@ -105,9 +105,6 @@ public class ArmSubsystem extends SubsystemBase {
             case Constants.ArmConstants.kArmAmp:
                 armPosition = "Amp";
                 break;
-            case Constants.ArmConstants.kArmUp:
-                armPosition = "Up";
-                break;
             case Constants.ArmConstants.kArmShooter:
                 armPosition = "Shooter";
                 break;
@@ -146,10 +143,18 @@ public class ArmSubsystem extends SubsystemBase {
         armEncoder.setPosition(0);
     }
 
+    public void periodic() {
+        if (limitSwitchTriggered()) {
+            resetEncoders();
+        }
+        SmartDashboard.putBoolean("Limit Switch:", this.limitSwitchTriggered());
+        kDt = kDt + 1 / 50;
+    }
+
     @Override
     public void simulationPeriodic() {
         SmartDashboard.putNumber("position", armEncoder.getPosition());
-        // SmartDashboard.putBoolean("Limit Switch:", m_limit_switch.get());
+        SmartDashboard.putBoolean("Limit Switch:", m_limit_switch.get());
         SmartDashboard.putNumber("voltage: ", voltage);
 
         SmartDashboard.putNumber("kP", kP);
@@ -162,10 +167,5 @@ public class ArmSubsystem extends SubsystemBase {
         
         
         SmartDashboard.putString("Gameboard/Arm Position", armPosition);
-    }
-
-    public void periodic() {
-        SmartDashboard.putBoolean("Limit Switch:", this.limitSwitchTriggered());
-        kDt = kDt + 1 / 50;
     }
 }

@@ -77,8 +77,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
      
     //Slider things VARIABLES
-    m_ShooterSpeed = SmartDashboard.getNumber("Shooter Speed", m_ShooterSpeed);
-    SmartDashboard.putNumber("Shooter Speed", m_ShooterSpeed);
+    m_ShooterSpeed = SmartDashboard.getNumber("Gameboard/Shooter Speed", m_ShooterSpeed);
+    SmartDashboard.putNumber("Gameboard/Shooter Speed", m_ShooterSpeed);
     // This method will be called once per scheduler run
     // We will have a pull in fast and slow and a push out fast and slow
     // When we pull in we will use the beam break sensor to stop the motor
