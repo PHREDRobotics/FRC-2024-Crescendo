@@ -21,100 +21,105 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 
 /** An example command that uses an example subsystem. */
 public class ShootTwoNotes extends SequentialCommandGroup {
-  @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
-  private final ArmSubsystem m_ArmSubsystem;
-  private final IntakeSubsystem m_IntakeSubsystem;
-  private final ShooterSubsystem m_ShoooterSubsystem;
-  private final SwerveSubsystem m_SwerveSubsystem;
+    @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
+    private final ArmSubsystem m_ArmSubsystem;
+    private final IntakeSubsystem m_IntakeSubsystem;
+    private final ShooterSubsystem m_ShoooterSubsystem;
+    private final SwerveSubsystem m_SwerveSubsystem;
 
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
-  public ShootTwoNotes(ArmSubsystem arm, IntakeSubsystem intake, ShooterSubsystem shoooter, SwerveSubsystem swerve) {
-    m_ArmSubsystem = arm;
-    m_IntakeSubsystem = intake;
-    m_ShoooterSubsystem = shoooter;
-    m_SwerveSubsystem = swerve;
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(arm);
-    addRequirements(intake);
-    addRequirements(shoooter);
-    addRequirements(swerve);
+    /**
+     * Creates a new ExampleCommand.
+     *
+     * @param subsystem The subsystem used by this command.
+     */
+    public ShootTwoNotes(ArmSubsystem arm, IntakeSubsystem intake, ShooterSubsystem shoooter, SwerveSubsystem swerve) {
+        m_ArmSubsystem = arm;
+        m_IntakeSubsystem = intake;
+        m_ShoooterSubsystem = shoooter;
+        m_SwerveSubsystem = swerve;
+        // Use addRequirements() here to declare subsystem dependencies.
+        addRequirements(arm);
+        addRequirements(intake);
+        addRequirements(shoooter);
+        addRequirements(swerve);
 
-    SwerveControllerCommand TrajectoryShootNote = new SwerveControllerCommand(
-        m_SwerveSubsystem.getTrajectory(
-            new Pose2d(0.0, 0.0, new Rotation2d()),
-            new Translation2d(2.5, 0.0),
-            new Pose2d(5.0, 0.0, new Rotation2d())),
-        m_SwerveSubsystem::getPose,
-        DriveConstants.kDriveKinematics,
-        m_SwerveSubsystem.xController,
-        m_SwerveSubsystem.yController,
-        m_SwerveSubsystem.thetaController,
-        m_SwerveSubsystem::setModuleStates,
-        m_SwerveSubsystem);
-
-    addCommands(
-        new AutoResetArmEncoder(m_ArmSubsystem),
-
-        new ParallelCommandGroup(
-            new ShooterCommand(m_ShoooterSubsystem),
-            new OuttakeCommand(m_IntakeSubsystem)),
-
-        new ParallelDeadlineGroup(
-            new IntakeCommand(m_IntakeSubsystem),
-            new SwerveControllerCommand(
+        SwerveControllerCommand TrajectoryShootNote = new SwerveControllerCommand(
                 m_SwerveSubsystem.getTrajectory(
-                    new Pose2d(0.0, 0.0, new Rotation2d()),
-                    new Translation2d(2.5, 0.0),
-                    new Pose2d(5.0, 0.0, new Rotation2d())),
+                        new Pose2d(0.0, 0.0, new Rotation2d()),
+                        new Translation2d(2.5, 0.0),
+                        new Pose2d(5.0, 0.0, new Rotation2d())),
                 m_SwerveSubsystem::getPose,
                 DriveConstants.kDriveKinematics,
                 m_SwerveSubsystem.xController,
                 m_SwerveSubsystem.yController,
                 m_SwerveSubsystem.thetaController,
                 m_SwerveSubsystem::setModuleStates,
-                m_SwerveSubsystem),
-            new ArmMotor(Constants.ArmConstants.kArmPickup, m_ArmSubsystem)),
+                m_SwerveSubsystem);
 
-        new InstantCommand(() -> m_SwerveSubsystem.stopModules()),
+        addCommands(
+            new InstantCommand(() -> m_SwerveSubsystem.zeroHeading()),
+                new AutoResetArmEncoder(m_ArmSubsystem),
 
-        new ParallelDeadlineGroup(
-          new SwerveControllerCommand(
-            new Trajectory(),
-            m_SwerveSubsystem::getPose,
-            DriveConstants.kDriveKinematics,
-            m_SwerveSubsystem.xController,
-            m_SwerveSubsystem.yController,
-            m_SwerveSubsystem.thetaController,
-            m_SwerveSubsystem::setModuleStates,
-            m_SwerveSubsystem),
-            new ArmMotor(Constants.ArmConstants.kArmShooter, m_ArmSubsystem)),
+                new ParallelCommandGroup(
+                        new ShooterCommand(m_ShoooterSubsystem),
+                        new OuttakeCommand(m_IntakeSubsystem)),
 
-        new InstantCommand(() -> m_SwerveSubsystem.stopModules()),
+                new ParallelDeadlineGroup(
+                        new IntakeCommand(m_IntakeSubsystem),
+                        new SwerveControllerCommand(
+                                m_SwerveSubsystem.getTrajectory(
+                                        new Pose2d(0.0, 0.0, new Rotation2d()),
+                                        new Translation2d(2.5, 0.0),
+                                        new Pose2d(5.0, 0.0, new Rotation2d())),
+                                m_SwerveSubsystem::getPose,
+                                DriveConstants.kDriveKinematics,
+                                m_SwerveSubsystem.xController,
+                                m_SwerveSubsystem.yController,
+                                m_SwerveSubsystem.thetaController,
+                                m_SwerveSubsystem::setModuleStates,
+                                m_SwerveSubsystem),
+                        new ArmMotor(Constants.ArmConstants.kArmPickup, m_ArmSubsystem)),
 
-        new ParallelCommandGroup(
-            new ShooterCommand(m_ShoooterSubsystem),
-            new OuttakeCommand(m_IntakeSubsystem)));
-  }
+                new InstantCommand(() -> m_SwerveSubsystem.stopModules()),
 
-  // // Called when the command is initially scheduled.
-  // @Override
-  // public void initialize() {}
+                new ParallelCommandGroup(
+                    
+                        // new SwerveControllerCommand(
+                        //         m_SwerveSubsystem.getTrajectory(
+                        //                 new Pose2d(1.0, 0.0, new Rotation2d()),
+                        //                 new Translation2d(0.5, 0.0),
+                        //                 new Pose2d(0.0, 0.0, new Rotation2d())),
+                        //         m_SwerveSubsystem::getPose,
+                        //         DriveConstants.kDriveKinematics,
+                        //         m_SwerveSubsystem.xController,
+                        //         m_SwerveSubsystem.yController,
+                        //         m_SwerveSubsystem.thetaController,
+                        //         m_SwerveSubsystem::setModuleStates,
+                        //         m_SwerveSubsystem),
+                        new ArmMotor(Constants.ArmConstants.kArmShooter, m_ArmSubsystem)),
 
-  // // Called every time the scheduler runs while the command is scheduled.
-  // @Override
-  // public void execute() {}
+                new InstantCommand(() -> m_SwerveSubsystem.stopModules()),
 
-  // // Called once the command ends or is interrupted.
-  // @Override
-  // public void end(boolean interrupted) {}
+                new ParallelCommandGroup(
+                        new ShooterCommand(m_ShoooterSubsystem),
+                        new OuttakeCommand(m_IntakeSubsystem)));
+    }
 
-  // // Returns true when the command should end.
-  // @Override
-  // public boolean isFinished() {
-  // return false;
-  // }
+    // // Called when the command is initially scheduled.
+    // @Override
+    // public void initialize() {}
+
+    // // Called every time the scheduler runs while the command is scheduled.
+    // @Override
+    // public void execute() {}
+
+    // // Called once the command ends or is interrupted.
+    // @Override
+    // public void end(boolean interrupted) {}
+
+    // // Returns true when the command should end.
+    // @Override
+    // public boolean isFinished() {
+    // return false;
+    // }
 }
