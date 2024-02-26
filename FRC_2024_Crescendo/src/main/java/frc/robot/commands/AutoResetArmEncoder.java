@@ -4,29 +4,31 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.Constants;
+import frc.robot.subsystems.ArmSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
-/** An Intake command that uses an Intake subsystem. */
-public class IntakeCommand extends Command {
+/** An example command that uses an example subsystem. */
+public class AutoResetArmEncoder extends Command {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
-  private final IntakeSubsystem m_subsystem;
+  private final ArmSubsystem m_subsystem;
 
   /**
-   * Creates a new IntakeCommand.
+   * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public IntakeCommand(IntakeSubsystem subsystem) {
+  public AutoResetArmEncoder(ArmSubsystem subsystem) {
     m_subsystem = subsystem;
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_subsystem.pickUpNote();
+    if(!m_subsystem.limitSwitchTriggered()){
+    m_subsystem.setRawPower(-1);
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -37,12 +39,16 @@ public class IntakeCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_subsystem.stopIntake();
+    if (interrupted) {
+      m_subsystem.moveToPosition(Constants.ArmConstants.kArmUp);
+    } else {
+      m_subsystem.resetEncoders();
+    }
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_subsystem.isNoteLoaded();
+    return m_subsystem.limitSwitchTriggered();
   }
 }

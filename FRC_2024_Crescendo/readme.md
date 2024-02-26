@@ -1,6 +1,6 @@
 # PHRED 2024
 
-## Control Mapping
+## Control Mapping  
 
 ### Flight Stick
 Forward/Back
@@ -12,14 +12,20 @@ Field Oriented      Main Trigger
 ### Operator 
 
 Intake      A-Button
-"Spit Out"  Y- Button
-Shooter     X- Button
+Outtake     X-Button
+Shooter     B-Button
 Arm Teleop  Yaxis on Left Joystick
-Reset Arm Encoder -- Left Bumper
 
-Lift Left   Left Trigger
-Lift Right  Right Trigger
+Reset Arm Encoder - Start Button
 
+Arm Shooter Position    D-Pad Up    
+Arm Pick Up Postiton    D-Pad Down  
+Arm Amp Position        Y-Button
+
+Lift Left Extend    Left-Bumper
+Lift Right Extend   Right-Bumper
+Lift Left Retract   Left-Trigger
+Lift Right Retract  Right-Trigger
 
 ## CAN Ids
 - Front Left: 11/12

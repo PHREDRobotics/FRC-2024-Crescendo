@@ -2,17 +2,26 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 
 import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.XboxController.Button;
 
+import java.nio.Buffer;
+
 import com.revrobotics.CANSparkBase.IdleMode;
 
+/**
+ * A class to keep all of the robot's constants
+ */
 public final class Constants {
   public static final double k2pi = Math.PI * 2;
 
+  /**
+   * General constants for the robot's build
+   */
   public static final class ModuleConstants {
     public static final double kWheelDiameterMeters = Units.inchesToMeters(4);
     public static final double kDriveMotorGearRatio = 1 / 6.75;
@@ -53,6 +62,9 @@ public final class Constants {
 
   }
 
+  /**
+   * Constants for driving
+   */
   public static final class DriveConstants {
     // Distance between right and left wheels in inches
     public static final double kTrackWidth = Units.inchesToMeters(24.5);
@@ -63,6 +75,7 @@ public final class Constants {
         new Translation2d(kWheelBase / 2, kTrackWidth / 2),
         new Translation2d(-kWheelBase / 2, -kTrackWidth / 2),
         new Translation2d(-kWheelBase / 2, kTrackWidth / 2));
+        
 
     public static final int kBackLeftDriveMotorPort = 21;
     public static final int kFrontLeftDriveMotorPort = 11;
@@ -79,20 +92,20 @@ public final class Constants {
     public static final boolean kFrontRightTurningEncoderReversed = false;
     public static final boolean kBackRightTurningEncoderReversed = false;
 
-    public static final boolean kFrontLeftDriveEncoderReversed = true;
-    public static final boolean kBackLeftDriveEncoderReversed = true;
-    public static final boolean kFrontRightDriveEncoderReversed = false;
-    public static final boolean kBackRightDriveEncoderReversed = false;
+    public static final boolean kFrontLeftDriveEncoderReversed = false;
+    public static final boolean kBackLeftDriveEncoderReversed = false;
+    public static final boolean kFrontRightDriveEncoderReversed = true;
+    public static final boolean kBackRightDriveEncoderReversed = true;
 
-    public static final boolean kFrontLeftDriveInverted = true;
+    public static final boolean kFrontLeftDriveInverted = false;
     public static final boolean kBackLeftDriveInverted = true;
     public static final boolean kFrontRightDriveInverted = false;
-    public static final boolean kBackRightDriveInverted = true;
+    public static final boolean kBackRightDriveInverted = false;
 
-    public static final int kFrontLeftDriveAbsoluteEncoderPort = 12;
-    public static final int kBackLeftDriveAbsoluteEncoderPort = 22;
-    public static final int kFrontRightDriveAbsoluteEncoderPort = 17;
-    public static final int kBackRightDriveAbsoluteEncoderPort = 27;
+    // public static final int kFrontLeftDriveAbsoluteEncoderPort = 12;
+    // public static final int kBackLeftDriveAbsoluteEncoderPort = 22;
+    // public static final int kFrontRightDriveAbsoluteEncoderPort = 17;
+    // public static final int kBackRightDriveAbsoluteEncoderPort = 27;
 
     public static final boolean kFrontLeftDriveAbsoluteEncoderReversed = false;
     public static final boolean kBackLeftDriveAbsoluteEncoderReversed = false;
@@ -112,31 +125,57 @@ public final class Constants {
         kPhysicalMaxAngularSpeedRadiansPerSecond / 4;
     public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
     public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
+
+    public static final double kTeleDriveThrottleMultiplier = 1;
+    public static final double kThrottleMin = 0.75;
+    public static final double kThrottleMax = 3;
   }
 
+  /**
+   * Constants for the arm
+   */
   public static final class ArmConstants {
     public static final int kArmControllerPort = 35;
+    public static final int kLimitSwitchControllerPort = 9;
 
     // Change later after arm built -------------------------------------
-    public static final double kArmLow = 10;
-    public static final double kArmMid = 30;
-    public static final double kArmHigh = 50;
+    public static final int kArmPickup = 24;
+    public static final int kArmAmp = 16;
+    public static final int kArmUp = 12;
+    public static final int kArmShooter = 1;
+
+    public static final double kVoltageMultiplier = 1.5;
   }
 
+
+  /**
+   * Constants for the lift
+   */
   public static final class LiftConstants {
-    public static final int kLeftLiftControllerPort = 45;
-    public static final int kRightLiftControllerPort = 46;
+    public static final int kLeftLiftControllerPort = 46;
+    public static final int kRightLiftControllerPort = 47;
 
     public static final double kExtendSpeed = 0.5;
     public static final double kRetractSpeed = 0.5;
+
   }
 
   public static final class ShooterConstants {
     public static final int kLeftShooterControllerPort = 41;
     public static final int kRightShooterControllerPort = 42;
+    public static final int kXBtn = Button.kX.value;
+    public static final double kShooterSpeed = 0.75;
+    public static final double kShooterTime = 1.5;
+
   }
 
+  /**
+   * Constants for autonomous
+   */
   public static final class AutoConstants {
+
+      
+
     public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 4;
     public static final double kMaxAngularSpeedRadiansPerSecond = //
         DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 10;
@@ -150,8 +189,19 @@ public final class Constants {
         new TrapezoidProfile.Constraints(
             kMaxAngularSpeedRadiansPerSecond,
             kMaxAngularAccelerationRadiansPerSecondSquared);
+
+    public static final double kAutoSpeedMetersPerSecond = kMaxSpeedMetersPerSecond - 1;
+
+    //1
+    public static TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
+      AutoConstants.kAutoSpeedMetersPerSecond,
+      AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+      .setKinematics(DriveConstants.kDriveKinematics);
   }
 
+  /**
+   * Constants for the controller
+   */
   public static final class OIConstants {
     public static final int kDriverControllerPort = 0;
 
@@ -159,12 +209,22 @@ public final class Constants {
     public static final int kDriverXAxis = Axis.kLeftX.value;
     public static final int kDriverRotAxis = Axis.kRightX.value;
     public static final int kDriverFieldOrientedButtonIdx = Button.kB.value;
+    public static final int kLeftTriggerAxis = Axis.kLeftTrigger.value;
+    public static final int kRightTriggerAxis = Axis.kRightTrigger.value;
 
-    public static final int kZeroHeadingBtn = Button.kLeftBumper.value;
+    public static final int kStartButton = Button.kStart.value;
+    public static final int kLeftBumper = Button.kLeftBumper.value;
+    public static final int kRightBumper = Button.kRightBumper.value;
     public static final int kXButton = Button.kX.value;
     public static final int kYButton = Button.kY.value;
+    public static final int kAButton = Button.kA.value;
+    public static final int kBButton = Button.kB.value;
+
+
 
     public static final double kDeadband = 0.15;
+    public static final double kHighDeadband = 0.25;
+
   }
 
   // public static final class TestConstants {
@@ -172,32 +232,34 @@ public final class Constants {
   // // public static final int kTestMotorCanIdTwo = 51;
   // }
 
+  /**
+   * Constants for the neo motors
+   */
   public final static class NeoMotorConstants {
     public static final double kFreeSpeedRpm = 5676;
   }
 
   public static final class GrabberConstants {
     public static final int kABtn = Button.kA.value;
-    public static final int kBBtn = Button.kB.value;
-    public static final int kXBtn = Button.kX.value;
+    // public static final int kBBtn = Button.kB.value;
     public static final int kYBtn = Button.kY.value;
     public static final double kOuttakeTime = 1.0;
   }
 
   public static final class VisionConstants {
-    public static final double kLimelightMountAngleDegrees = 0.0;
-    public static final double kLimelightLensHeightInches = 0.0;
+    public static final double kLimelightMountAngleDegrees = 33.0;
+    public static final double kLimelightLensHeightInches = 32.0;
     public static final double kAmpOrSourceHeightInches = 48.5;
     public static final double kSpeakerHeightInches = 51.0 + 7.0 / 8.0;
     public static final double kStageHeightInches = 47.5;
   }
 
   public static final class IntakeConstants {
-    //public static final int kLeftIntakeControllerPort = 31;
-    //public static final int kRightIntakeControllerPort = 32;
+    public static final int kLeftIntakeControllerPort = 31;
+    public static final int kRightIntakeControllerPort = 32;
 
     public static final double kIntakeSpeed = 0.25;
-    public static final double kOuttakeSpeed = 0.25;
+    public static final double kOuttakeSpeed = 0.6;
   }
 
 }

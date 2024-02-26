@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -8,10 +9,10 @@ import frc.robot.subsystems.LiftSubsystem;
 /**
  * Command for manually lifting the robot
  */
-public class ManualLiftCmd extends Command {
+public class ManualUnretractLift extends Command {
 
-    DoubleSupplier left_power;
-    DoubleSupplier right_power;
+    BooleanSupplier left_power;
+    BooleanSupplier right_power;
     LiftSubsystem lift_subsystem;
 
     /**
@@ -20,7 +21,7 @@ public class ManualLiftCmd extends Command {
      * @param rightLiftPower power for the right lift motor
      * @param liftSubsystem
      */
-    public ManualLiftCmd(DoubleSupplier leftLiftPower, DoubleSupplier rightLiftPower, LiftSubsystem liftSubsystem) {
+    public ManualUnretractLift(BooleanSupplier leftLiftPower, BooleanSupplier rightLiftPower, LiftSubsystem liftSubsystem) {
         this.left_power = leftLiftPower;
         this.right_power = rightLiftPower;
         this.lift_subsystem = liftSubsystem;
@@ -35,8 +36,16 @@ public class ManualLiftCmd extends Command {
 
     @Override
     public void execute() {
-        this.lift_subsystem.setRawLeftPower(this.left_power);
-        this.lift_subsystem.setRawRightPower(this.right_power);
+        if(this.left_power.getAsBoolean()){
+            this.lift_subsystem.setRawLeftPower(()->-0.1);
+        } else {
+            this.lift_subsystem.setRawLeftPower(()->0.0);
+        }
+        if(this.right_power.getAsBoolean()){
+            this.lift_subsystem.setRawRightPower(()->-0.1);
+        } else {
+            this.lift_subsystem.setRawRightPower(()->0.0);
+        }
     }
 
     @Override
