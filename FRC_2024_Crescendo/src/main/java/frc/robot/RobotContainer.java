@@ -220,12 +220,12 @@ public class RobotContainer {
                  * @return the command to run in autonomous
                  */
 
-                //Please don't break this (correct button mapings)
+                //Please don't break this (correct button mapings).
                 yButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmAmp, armSubsystem));
                 bButton.onTrue(new ParallelCommandGroup(new ShooterCommand(shooterSubsystem),
                                new OuttakeCommand(intakeSubsystem)));
                 xButton.onTrue(new OuttakeCommand(intakeSubsystem));
-                aButton.onFalse(new IntakeCommand(intakeSubsystem));
+                aButton.onTrue(new IntakeCommand(intakeSubsystem));
         }
 
         /*
