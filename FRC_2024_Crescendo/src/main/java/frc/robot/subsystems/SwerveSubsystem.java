@@ -156,10 +156,10 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public double StepTowards(double _current, double _target) {
-    if (Math.abs(_current - _target) <= AutoConstants.kAutoSpeedMetersPerSecond) {
-        return -(_current - _target);
+    if (Math.abs(_current - _target) <= AutoConstants.kAutoSpeedMetersPerSecond/2) {
+        return 2*(_target - _current );
     }
-    else if (_current - _target < -AutoConstants.kAutoSpeedMetersPerSecond) {
+    else if (_current - _target < -AutoConstants.kAutoSpeedMetersPerSecond/2) {
         return AutoConstants.kAutoSpeedMetersPerSecond;
     } else {
       return -AutoConstants.kAutoSpeedMetersPerSecond;

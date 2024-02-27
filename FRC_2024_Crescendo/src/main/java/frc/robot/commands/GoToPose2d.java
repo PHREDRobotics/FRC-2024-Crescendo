@@ -23,6 +23,8 @@ public class GoToPose2d extends Command {
     @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
     private final SwerveSubsystem swerveSubsystem;
     private final Translation2d targetPos;
+    private double xSpeed;
+    private double ySpeed;
 
     /**
      * Creates a new ExampleCommand.
@@ -32,6 +34,8 @@ public class GoToPose2d extends Command {
     public GoToPose2d(SwerveSubsystem swerveSubsystem, Translation2d targetPos) {
         this.swerveSubsystem = swerveSubsystem;
         this.targetPos = targetPos;
+        this.xSpeed = 0;
+        this.ySpeed = 0;
         addRequirements(swerveSubsystem);
     }
 
@@ -44,8 +48,8 @@ public class GoToPose2d extends Command {
     @Override
     public void execute() {
 
-        double xSpeed = swerveSubsystem.StepTowards(swerveSubsystem.getPose().getX(), targetPos.getX());
-        double ySpeed = swerveSubsystem.StepTowards(swerveSubsystem.getPose().getY(), targetPos.getY());
+        xSpeed = swerveSubsystem.StepTowards(swerveSubsystem.getPose().getX(), targetPos.getX());
+        ySpeed = swerveSubsystem.StepTowards(swerveSubsystem.getPose().getY(), targetPos.getY());
         // 4. Construct desired chassis speeds
         ChassisSpeeds chassisSpeeds;
         // Relative to field
@@ -68,8 +72,8 @@ public class GoToPose2d extends Command {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        if (Math.abs(xSpeed) <= 0.05)
-                & Math.abs((swerveSubsystem.StepTowards(swerveSubsystem.getPose().getY(), targetPos.getY())) <= 0.05) {
+        if (Math.abs(xSpeed) <= 0.025
+                & Math.abs(ySpeed) <= 0.025) {
             return true;
         } else {
             return false;

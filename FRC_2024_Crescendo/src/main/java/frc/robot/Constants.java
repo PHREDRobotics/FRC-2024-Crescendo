@@ -190,7 +190,7 @@ public final class Constants {
             kMaxAngularSpeedRadiansPerSecond,
             kMaxAngularAccelerationRadiansPerSecondSquared);
 
-    public static final double kAutoSpeedMetersPerSecond = kMaxSpeedMetersPerSecond - 1;
+    public static final double kAutoSpeedMetersPerSecond = kMaxSpeedMetersPerSecond - .5;
 
     //1
     public static TrajectoryConfig trajectoryConfig = new TrajectoryConfig(

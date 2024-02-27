@@ -44,84 +44,27 @@ public class ShootTwoNotes extends SequentialCommandGroup {
                 addRequirements(shoooter);
                 addRequirements(swerve);
 
-                SwerveControllerCommand TrajectoryShootNote = new SwerveControllerCommand(
-                                m_SwerveSubsystem.getTrajectory(
-                                                new Pose2d(0.0, 0.0, new Rotation2d()),
-                                                new Translation2d(2.5, 0.0),
-                                                new Pose2d(5.0, 0.0, new Rotation2d())),
-                                m_SwerveSubsystem::getPose,
-                                DriveConstants.kDriveKinematics,
-                                m_SwerveSubsystem.xController,
-                                m_SwerveSubsystem.yController,
-                                m_SwerveSubsystem.thetaController,
-                                m_SwerveSubsystem::setModuleStates,
-                                m_SwerveSubsystem);
-
                 addCommands(
+                                // Resets odometery and heading
                                 new InstantCommand(() -> m_SwerveSubsystem.zeroHeading()),
-                                new GoToPose2d(swerve, new Translation2d(1.0, 0.0))
-                // new AutoResetArmEncoder(m_ArmSubsystem),
-
-                // new ParallelCommandGroup(
-                // new ShooterCommand(m_ShoooterSubsystem),
-                // new OuttakeCommand(m_IntakeSubsystem)),
-
-                // new ParallelDeadlineGroup(
-                // new IntakeCommand(m_IntakeSubsystem),
-                // new SwerveControllerCommand(
-                // m_SwerveSubsystem.getTrajectory(
-                // new Pose2d(0.0, 0.0, new Rotation2d()),
-                // new Translation2d(2.5, 0.0),
-                // new Pose2d(5.0, 0.0, new Rotation2d())),
-                // m_SwerveSubsystem::getPose,
-                // DriveConstants.kDriveKinematics,
-                // m_SwerveSubsystem.xController,
-                // m_SwerveSubsystem.yController,
-                // m_SwerveSubsystem.thetaController,
-                // m_SwerveSubsystem::setModuleStates,
-                // m_SwerveSubsystem),
-                // new ArmMotor(Constants.ArmConstants.kArmPickup, m_ArmSubsystem)),
-
-                // new InstantCommand(() -> m_SwerveSubsystem.stopModules()),
-
-                // new ParallelCommandGroup(
-
-                // // new SwerveControllerCommand(
-                // // m_SwerveSubsystem.getGoToTrajectory(
-                // // new Pose2d(1.0, 0.0, new Rotation2d()),
-                // // new Pose2d(0.0, 0.0, new Rotation2d())),
-                // // m_SwerveSubsystem::getPose,
-                // // DriveConstants.kDriveKinematics,
-                // // m_SwerveSubsystem.xController,
-                // // m_SwerveSubsystem.yController,
-                // // m_SwerveSubsystem.thetaController,
-                // // m_SwerveSubsystem::setModuleStates,
-                // // m_SwerveSubsystem),
-                // new ArmMotor(Constants.ArmConstants.kArmShooter, m_ArmSubsystem)),
-
-                // new InstantCommand(() -> m_SwerveSubsystem.stopModules()),
-
-                // new ParallelCommandGroup(
-                // new ShooterCommand(m_ShoooterSubsystem),
-                // new OuttakeCommand(m_IntakeSubsystem))
-                );
+                                // automatically reset the arm using the limit switch
+                                new AutoResetArmEncoder(m_ArmSubsystem),
+                                // outtake and shoot a note
+                                new ParallelCommandGroup(
+                                                new ShooterCommand(m_ShoooterSubsystem),
+                                                new OuttakeCommand(m_IntakeSubsystem)),
+                                // intakes, drives forwards, and lowers the arm
+                                new ParallelDeadlineGroup(
+                                                new IntakeCommand(m_IntakeSubsystem),
+                                                new GoToPose2d(swerve, new Translation2d(2, 0.0)),
+                                                new ArmMotor(Constants.ArmConstants.kArmPickup, m_ArmSubsystem)),
+                                // drives backwards, and raises the arm
+                                new ParallelDeadlineGroup(
+                                                new GoToPose2d(swerve, new Translation2d(0.0, 0.0)),
+                                                new ArmMotor(Constants.ArmConstants.kArmShooter, m_ArmSubsystem)),
+                                // outtake and shoot a note
+                                new ParallelCommandGroup(
+                                                new ShooterCommand(m_ShoooterSubsystem),
+                                                new OuttakeCommand(m_IntakeSubsystem)));
         }
-
-        // // Called when the command is initially scheduled.
-        // @Override
-        // public void initialize() {}
-
-        // // Called every time the scheduler runs while the command is scheduled.
-        // @Override
-        // public void execute() {}
-
-        // // Called once the command ends or is interrupted.
-        // @Override
-        // public void end(boolean interrupted) {}
-
-        // // Returns true when the command should end.
-        // @Override
-        // public boolean isFinished() {
-        // return false;
-        // }
 }
