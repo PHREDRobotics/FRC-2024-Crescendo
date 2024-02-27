@@ -205,10 +205,12 @@ public class RobotContainer {
                 //                () -> driverJoystick.getLeftTriggerAxis(),
                 //                () -> driverJoystick.getRightTriggerAxis(),
                 //                liftSubsystem));
-                //xButton.onTrue(new OuttakeCommand(intakeSubsystem));
-                //bButton.onTrue(new ParallelCommandGroup(new ShooterCommand(shooterSubsystem),
-                //                new OuttakeCommand(intakeSubsystem)));
-                //aButton.onTrue(new IntakeCommand(intakeSubsystem));
+                
+                xButton.onTrue(new OuttakeCommand(intakeSubsystem));
+                bButton.onTrue(new ParallelCommandGroup(new ShooterCommand(shooterSubsystem),
+                               new OuttakeCommand(intakeSubsystem)));
+                aButton.onTrue(new IntakeCommand(intakeSubsystem));
+                
                 // leftBumper.onTrue(new AutoResetArmEncoder(armSubsystem));
                 maryButton.onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
 
