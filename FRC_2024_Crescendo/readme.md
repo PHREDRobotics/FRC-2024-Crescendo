@@ -15,11 +15,12 @@ Intake      A-Button
 "Spit Out"  Y- Button
 Shooter     X- Button
 Arm Teleop  Yaxis on Left Joystick
-Reset Arm Encoder -- Left Bumper
+Reset Arm Encoder -- start button
 
 Lift Left   Left Trigger
 Lift Right  Right Trigger
 Extend Lift Right Bumper
+Extend Lift Left Bumper
 
 
 

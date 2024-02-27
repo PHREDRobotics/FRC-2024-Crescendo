@@ -18,6 +18,7 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.controls.LogitechPro;
@@ -145,14 +146,25 @@ public class SwerveSubsystem extends SubsystemBase {
     return trajectory;
   }
 
-  public Trajectory getGoToTrajectory(Pose2d waypoint) {
-    Trajectory trajectory = TrajectoryGenerator.generateTrajectory(List.of(waypoint), AutoConstants.trajectoryConfig);
+  public Trajectory getGoToTrajectory(Pose2d targetWaypoint, Pose2d secondPoint) {
+    Trajectory trajectory = TrajectoryGenerator.generateTrajectory(List.of(), AutoConstants.trajectoryConfig);
     return trajectory;
   }
 
   public void resetOdometry(Pose2d pose) {
     odometer.resetPosition(getRotation2d(), getModulePositions(), pose);
   }
+
+  public double StepTowards(double _current, double _target) {
+    if (Math.abs(_current - _target) <= AutoConstants.kAutoSpeedMetersPerSecond) {
+        return -(_current - _target);
+    }
+    else if (_current - _target < -AutoConstants.kAutoSpeedMetersPerSecond) {
+        return AutoConstants.kAutoSpeedMetersPerSecond;
+    } else {
+      return -AutoConstants.kAutoSpeedMetersPerSecond;
+    }
+}
 
   public void zeroHeading() {
     // gyro.zeroYaw();
