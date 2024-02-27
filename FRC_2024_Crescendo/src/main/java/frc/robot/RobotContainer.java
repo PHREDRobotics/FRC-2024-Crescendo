@@ -206,10 +206,10 @@ public class RobotContainer {
                 //                () -> driverJoystick.getRightTriggerAxis(),
                 //                liftSubsystem));
                 
-                xButton.onTrue(new OuttakeCommand(intakeSubsystem));
-                bButton.onTrue(new ParallelCommandGroup(new ShooterCommand(shooterSubsystem),
-                               new OuttakeCommand(intakeSubsystem)));
-                aButton.onTrue(new IntakeCommand(intakeSubsystem));
+                // xButton.onTrue(new OuttakeCommand(intakeSubsystem));
+                // bButton.onTrue(new ParallelCommandGroup(new ShooterCommand(shooterSubsystem),
+                //                new OuttakeCommand(intakeSubsystem)));
+                // aButton.onTrue(new IntakeCommand(intakeSubsystem));
                 
                 // leftBumper.onTrue(new AutoResetArmEncoder(armSubsystem));
                 maryButton.onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
@@ -220,11 +220,12 @@ public class RobotContainer {
                  * @return the command to run in autonomous
                  */
 
-                // return null;
-                aButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmPickup, armSubsystem));
-                xButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmAmp, armSubsystem));
-                yButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmUp, armSubsystem));
-                bButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmShooter, armSubsystem));
+                //Please don't break this (correct button mapings)
+                yButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmAmp, armSubsystem));
+                bButton.onTrue(new ParallelCommandGroup(new ShooterCommand(shooterSubsystem),
+                               new OuttakeCommand(intakeSubsystem)));
+                xButton.onTrue(new OuttakeCommand(intakeSubsystem));
+                aButton.onFalse(new IntakeCommand(intakeSubsystem));
         }
 
         /*
