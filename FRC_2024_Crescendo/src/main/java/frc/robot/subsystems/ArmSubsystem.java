@@ -154,6 +154,7 @@ public class ArmSubsystem extends SubsystemBase {
     @Override
     public void simulationPeriodic() {
         SmartDashboard.putNumber("position", armEncoder.getPosition());
+        SmartDashboard.putString("Gameoard/Arm Position:", armPosition);
         SmartDashboard.putBoolean("Limit Switch:", m_limit_switch.get());
         SmartDashboard.putNumber("voltage: ", voltage);
 

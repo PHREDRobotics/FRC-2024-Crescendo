@@ -151,7 +151,7 @@ public class SwerveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("throttle", m_joyStick.getThrottl());
 
     SmartDashboard.putString("Robot Heading (Rotation2d)", gyro.getRotation2d().toString());
-    SmartDashboard.putNumber("Gameboard/Robot Heading (Degrees)", getHeading());
+    SmartDashboard.putNumber("Gameboard/Robot Heading (Degrees)", gyro.getYaw());
     SmartDashboard.putNumber("Front Left Turning Position", frontLeft.getTurningPosition() * (180 / Math.PI));
     SmartDashboard.putNumber("Front Right Turning Position", frontRight.getTurningPosition() * (180 / Math.PI));
     SmartDashboard.putNumber("Back Left Turning Position", backLeft.getTurningPosition() * (180 / Math.PI));

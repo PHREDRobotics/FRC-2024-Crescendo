@@ -130,8 +130,8 @@ public class LiftSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Left Power", leftLiftMotor.get());
-        SmartDashboard.putNumber("Right Power", rightLiftMotor.get());
+        SmartDashboard.putNumber("Gameboard/Left Power", leftLiftMotor.get());
+        SmartDashboard.putNumber("Gameboard/Right Power", rightLiftMotor.get());
         SmartDashboard.putNumber("Left Encoder", leftEncoder.getPosition());
         SmartDashboard.putNumber("Right Encoder", rightEncoder.getPosition());
         SmartDashboard.putNumber("NavX y", navXMicro.getPitch());
