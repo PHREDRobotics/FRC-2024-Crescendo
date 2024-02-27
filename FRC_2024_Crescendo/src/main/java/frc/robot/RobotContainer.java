@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
@@ -174,6 +175,8 @@ public class RobotContainer {
                 Trigger rightBumper = new JoystickButton(driverJoystick, Constants.OIConstants.kRightBumper);
                 Trigger startButton = new JoystickButton(driverJoystick, Constants.OIConstants.kStartButton);
                 Trigger maryButton = new JoystickButton(joyStick, 2);
+                Trigger dpadUp = new POVButton(driverJoystick, 0);
+                Trigger dpadDown = new POVButton(driverJoystick, 180);
 
                 // Set default commands
                 // visionSubsystem.setDefaultCommand(new VisionCommand(visionSubsystem));
@@ -220,12 +223,14 @@ public class RobotContainer {
                  * @return the command to run in autonomous
                  */
 
-                //Please don't break this (correct button mapings).
+                //Please don't break this (correct button mapings)
                 yButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmAmp, armSubsystem));
                 bButton.onTrue(new ParallelCommandGroup(new ShooterCommand(shooterSubsystem),
                                new OuttakeCommand(intakeSubsystem)));
                 xButton.onTrue(new OuttakeCommand(intakeSubsystem));
                 aButton.onTrue(new IntakeCommand(intakeSubsystem));
+                dpadUp.onTrue(new ArmMotor(Constants.ArmConstants.kArmShooter, armSubsystem));
+                dpadDown.onTrue(new ArmMotor(Constants.ArmConstants.kArmPickup, armSubsystem));
         }
 
         /*
