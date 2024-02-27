@@ -95,54 +95,10 @@ public class RobotContainer {
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
          */
-        // 4. Construct command to follow trajectory
-       /*  SwerveControllerCommand TrajectoryShootNote = new SwerveControllerCommand(
-                        swerveSubsystem.getTrajectory(
-                                        new Pose2d(0.0, 0.0, new Rotation2d()),
-                                        new Translation2d(2.5, 0.0),
-                                        new Pose2d(5.0, 0.0, new Rotation2d())),
-                        swerveSubsystem::getPose,
-                        DriveConstants.kDriveKinematics,
-                        swerveSubsystem.xController,
-                        swerveSubsystem.yController,
-                        swerveSubsystem.thetaController,
-                        swerveSubsystem::setModuleStates,
-                        swerveSubsystem);*/
-                        
-
-        // SwerveControllerCommand TrajectoryNoteShoot = new SwerveControllerCommand(
-        //                 swerveSubsystem.getTrajectory(
-        //                                 swerveSubsystem.getPose(),
-        //                                 new Translation2d(0.0, 0.0),
-        //                                 new Pose2d(0.0, 0.0, new Rotation2d())),
-        //                 swerveSubsystem::getPose,
-        //                 DriveConstants.kDriveKinematics,
-        //                 swerveSubsystem.xController,
-        //                 swerveSubsystem.yController,
-        //                 swerveSubsystem.thetaController,
-        //                 swerveSubsystem::setModuleStates,
-        //                 swerveSubsystem);
-
-        // // 5. Add some init and wrap-up, and return everything
-        // final Command ShootTwoNotes = new SequentialCommandGroup(new AutoResetArmEncoder(armSubsystem),
-        //                 new ParallelCommandGroup(
-        //                                 new ShooterCommand(shooterSubsystem),
-        //                                 new OuttakeCommand(intakeSubsystem)),
-
-
-        //                 new ParallelDeadlineGroup(new IntakeCommand(intakeSubsystem),
-        //                                 //TrajectoryShootNote,
-        //                                 new ArmMotor(Constants.ArmConstants.kArmPickup, armSubsystem)),
-        //                                 new InstantCommand(() -> swerveSubsystem.stopModules()),
-        //                                 TrajectoryNoteShoot,
-        //                                 new InstantCommand(() -> swerveSubsystem.stopModules()),
-        //                                 new ParallelCommandGroup(
-
-        //                                 new ShooterCommand(shooterSubsystem),
-        //                                 new OuttakeCommand(intakeSubsystem)));
 
         public RobotContainer() {
-                m_chooser.setDefaultOption("Shoot Two Notes", new ShootTwoNotes(armSubsystem, intakeSubsystem,shooterSubsystem,swerveSubsystem));
+                m_chooser.setDefaultOption("Shoot Two Notes",
+                                new ShootTwoNotes(armSubsystem, intakeSubsystem, shooterSubsystem, swerveSubsystem));
 
                 // m_chooser.addOption("Complex Auto", ShootNote);
 
@@ -181,8 +137,6 @@ public class RobotContainer {
                 // Set default commands
                 // visionSubsystem.setDefaultCommand(new VisionCommand(visionSubsystem));
 
-                armSubsystem.setDefaultCommand(new ManualArmCmd(() -> (driverJoystick.getLeftY()), armSubsystem));
-
                 swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
                                 swerveSubsystem,
                                 () -> joyStick.getBackToFront(),
@@ -196,41 +150,18 @@ public class RobotContainer {
                                 liftSubsystem));
 
                 // Configure mechanical triggers
-                // limitTrigger.onTrue(
-                // new AutoResetArmEncoder(armSubsystem, limitSwitch.get()));
 
-                // Configure gamepad buttons
-                // xButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmLow, armSubsystem));
-                // yButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmMid, armSubsystem));
-                // bButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmHigh, armSubsystem));
-                // yButton.onTrue(new UnretractLift(liftSubsystem));
-                //yButton.whileTrue(new ManualLiftCmd(
-                //                () -> driverJoystick.getLeftTriggerAxis(),
-                //                () -> driverJoystick.getRightTriggerAxis(),
-                //                liftSubsystem));
-                
-                // xButton.onTrue(new OuttakeCommand(intakeSubsystem));
-                // bButton.onTrue(new ParallelCommandGroup(new ShooterCommand(shooterSubsystem),
-                //                new OuttakeCommand(intakeSubsystem)));
-                // aButton.onTrue(new IntakeCommand(intakeSubsystem));
-                
-                // leftBumper.onTrue(new AutoResetArmEncoder(armSubsystem));
-                maryButton.onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
-
-                /*
-                 * Use this to pass the autonomous command to the main {@link Robot} class.
-                 *
-                 * @return the command to run in autonomous
-                 */
-
-                //Please don't break this (correct button mapings)
+                // Please don't break this (correct button mapings).
                 yButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmAmp, armSubsystem));
                 bButton.onTrue(new ParallelCommandGroup(new ShooterCommand(shooterSubsystem),
-                               new OuttakeCommand(intakeSubsystem)));
+                                new OuttakeCommand(intakeSubsystem)));
                 xButton.onTrue(new OuttakeCommand(intakeSubsystem));
                 aButton.onTrue(new IntakeCommand(intakeSubsystem));
                 dpadUp.onTrue(new ArmMotor(Constants.ArmConstants.kArmShooter, armSubsystem));
                 dpadDown.onTrue(new ArmMotor(Constants.ArmConstants.kArmPickup, armSubsystem));
+                armSubsystem.setDefaultCommand(new ManualArmCmd(() -> (driverJoystick.getLeftY()), armSubsystem));
+                maryButton.onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+
         }
 
         /*
