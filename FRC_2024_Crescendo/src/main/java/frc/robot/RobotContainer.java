@@ -5,43 +5,15 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-import frc.robot.Constants.OIConstants;
-import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.GrabberConstants;
-//import frc.robot.commands.DriveMotor;
-//import frc.robot.commands.OuttakeCommand;
-//import frc.robot.subsystems.MotorTestSubsystem;
 import frc.robot.commands.*;
 import frc.robot.composition.ShootTwoNotes;
-import frc.robot.controls.FlightStick;
 import frc.robot.controls.LogitechPro;
 import frc.robot.subsystems.*;
 
-import java.util.List;
-
-// import frc.robot.subsystems.MotorTestSubsystem;
-import com.revrobotics.CANSparkMax;
-
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Joystick;
-// import frc.robot.commands.Autos;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -61,9 +33,7 @@ public class RobotContainer {
         SendableChooser<Command> m_chooser = new SendableChooser<>();
 
         // The robot's subsystems and commands are defined here...
-        // private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-        // private final MotorTestSubsystem motorTestSubsystem = new
-        // MotorTestSubsystem();
+
         private final LogitechPro joyStick = new LogitechPro(1);
 
         private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
@@ -73,8 +43,7 @@ public class RobotContainer {
         private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
         private final ArmSubsystem armSubsystem = new ArmSubsystem();
 
-        // private final MotorTestSubsystem motorTestSubsystem = new
-        // MotorTestSubsystem();
+
         /*
          * DigitalInput limitSwitch = new
          * DigitalInput(Constants.ArmConstants.kLimitSwitchControllerPort);
@@ -88,9 +57,6 @@ public class RobotContainer {
         // Replace with CommandPS4Controller or CommandJoystick if needed
         private final XboxController driverJoystick = new XboxController(0);
 
-        // DigitalInput limitSwitch = new DigitalInput(9);
-
-        // Trigger limitTrigger = new Trigger(limitSwitch::get);
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -151,7 +117,7 @@ public class RobotContainer {
 
                 // Configure mechanical triggers
 
-                // Please don't break this (correct button mapings).
+                // Please don't break this (correct button mapings)
                 yButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmAmp, armSubsystem));
                 bButton.onTrue(new ParallelCommandGroup(new ShooterCommand(shooterSubsystem),
                                 new OuttakeCommand(intakeSubsystem)));

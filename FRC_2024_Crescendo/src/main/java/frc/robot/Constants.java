@@ -9,8 +9,6 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.XboxController.Button;
 
-import java.nio.Buffer;
-
 import com.revrobotics.CANSparkBase.IdleMode;
 
 /**
@@ -75,7 +73,6 @@ public final class Constants {
         new Translation2d(kWheelBase / 2, kTrackWidth / 2),
         new Translation2d(-kWheelBase / 2, -kTrackWidth / 2),
         new Translation2d(-kWheelBase / 2, kTrackWidth / 2));
-        
 
     public static final int kBackLeftDriveMotorPort = 21;
     public static final int kFrontLeftDriveMotorPort = 11;
@@ -121,8 +118,7 @@ public final class Constants {
     public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * k2pi;
 
     public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 4;
-    public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = //
-        kPhysicalMaxAngularSpeedRadiansPerSecond / 4;
+    public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond / 4;
     public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
     public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
 
@@ -146,7 +142,6 @@ public final class Constants {
 
     public static final double kVoltageMultiplier = 1.5;
   }
-
 
   /**
    * Constants for the lift
@@ -174,8 +169,6 @@ public final class Constants {
    */
   public static final class AutoConstants {
 
-      
-
     public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 4;
     public static final double kMaxAngularSpeedRadiansPerSecond = //
         DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 10;
@@ -192,11 +185,11 @@ public final class Constants {
 
     public static final double kAutoSpeedMetersPerSecond = kMaxSpeedMetersPerSecond - 1;
 
-    //1
+    // 1
     public static TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
-      AutoConstants.kAutoSpeedMetersPerSecond,
-      AutoConstants.kMaxAccelerationMetersPerSecondSquared)
-      .setKinematics(DriveConstants.kDriveKinematics);
+        AutoConstants.kAutoSpeedMetersPerSecond,
+        AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+        .setKinematics(DriveConstants.kDriveKinematics);
   }
 
   /**
@@ -220,17 +213,10 @@ public final class Constants {
     public static final int kAButton = Button.kA.value;
     public static final int kBButton = Button.kB.value;
 
-
-
     public static final double kDeadband = 0.15;
     public static final double kHighDeadband = 0.25;
 
   }
-
-  // public static final class TestConstants {
-  // // public static final int kTestMotorCanId = 52;
-  // // public static final int kTestMotorCanIdTwo = 51;
-  // }
 
   /**
    * Constants for the neo motors
@@ -241,7 +227,7 @@ public final class Constants {
 
   public static final class GrabberConstants {
     public static final int kABtn = Button.kA.value;
-    // public static final int kBBtn = Button.kB.value;
+    public static final int kBBtn = Button.kB.value;
     public static final int kYBtn = Button.kY.value;
     public static final double kOuttakeTime = 1.0;
   }
