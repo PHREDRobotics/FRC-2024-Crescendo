@@ -223,9 +223,10 @@ public class RobotContainer {
                 // xButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmAmp, armSubsystem));
                 
 
-                //Please don't breat this 
+                //Please don't break this
                 yButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmAmp, armSubsystem));
-                bButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmShooter, armSubsystem));
+                bButton.onTrue(new ParallelCommandGroup(new ShooterCommand(shooterSubsystem),
+                               new OuttakeCommand(intakeSubsystem)));
                 xButton.onTrue(new OuttakeCommand(intakeSubsystem));
                 aButton.onFalse(new IntakeCommand(intakeSubsystem));
         }
