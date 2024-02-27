@@ -219,10 +219,16 @@ public class RobotContainer {
                  */
 
                 // return null;
-                aButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmPickup, armSubsystem));
-                xButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmAmp, armSubsystem));
-                yButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmUp, armSubsystem));
-                bButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmShooter, armSubsystem));
+                // aButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmPickup, armSubsystem));
+                // xButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmAmp, armSubsystem));
+                
+
+                //Please don't break this
+                yButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmAmp, armSubsystem));
+                bButton.onTrue(new ParallelCommandGroup(new ShooterCommand(shooterSubsystem),
+                               new OuttakeCommand(intakeSubsystem)));
+                xButton.onTrue(new OuttakeCommand(intakeSubsystem));
+                aButton.onFalse(new IntakeCommand(intakeSubsystem));
         }
 
         /*
