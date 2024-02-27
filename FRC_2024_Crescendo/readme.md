@@ -3,42 +3,43 @@
 ## Control Mapping
 
 ### Flight Stick
-Forward/Back
-Left/Right
-Turn (Yaw) Left/Right
+Forward/Back:       Joystick Pitch
+Left/Right:         Joystick Roll
+Spin (Left/Right):  Joystick Yaw / Spin
 
-Field Oriented      Main Trigger
+Field Oriented:     Hold Main Trigger
 
 ### Operator 
 
-Intake      A-Button
-"Spit Out"  Y- Button
-Shooter     X- Button
-Arm Teleop  Yaxis on Left Joystick
-Reset Arm Encoder -- start button
+- Intake:              A-Button
+- Outtake:             X-Button
+- Shooter:             B-Button
+- Retract Lift Left:   Left Trigger
+- Retract Lift Right:  Right Trigger
+- Extend Left Lift:    Left Bumper
+- Extend Right Lift:   Right Bumper
 
-Lift Left   Left Trigger
-Lift Right  Right Trigger
-Extend Lift Right Bumper
-Extend Lift Left Bumper
+- Arm Pickup:          Dpad Down
+- Arm Shooter:         Dpad Up
+- Arm Amp:             Y-Button
 
-
+- Reset Arm Encoder:   Start Button
 
 
 ## CAN Ids
-- Front Left: 11/12
-- Front Right: 16/17
-- Back Left: 21/22
-- Back Right: 25/26
-
-- Intake Left: 31
-- Intake Right: 32
-
-- Arm: 35
-
-- Shooter Left: 41
-- Shooter Right: 42
-
-- Lift Left: 46
-- Lift Right: 47
+- Front Left:     11/12
+- Front Right:    16/17
+- Back Left:      21/22
+- Back Right:     25/26
+  
+- Intake Left:    31
+- Intake Right:   32
+  
+- Arm:            35
+  
+- Shooter Left:   41
+- Shooter Right:  42
+  
+- Lift Left:      46
+- Lift Right:     47
 

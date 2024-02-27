@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
@@ -63,8 +64,12 @@ public class RobotContainer {
         // private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
         // private final MotorTestSubsystem motorTestSubsystem = new
         // MotorTestSubsystem();
+        // Define Joysticks
         private final LogitechPro joyStick = new LogitechPro(1);
+        // Replace with CommandPS4Controller or CommandJoystick if needed
+        private final XboxController driverJoystick = new XboxController(0);
 
+        // Define subsystems
         private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
         private final VisionSubsystem visionSubsystem = new VisionSubsystem();
         private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem(joyStick);
@@ -72,24 +77,7 @@ public class RobotContainer {
         private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
         private final ArmSubsystem armSubsystem = new ArmSubsystem();
 
-        // private final MotorTestSubsystem motorTestSubsystem = new
-        // MotorTestSubsystem();
-        /*
-         * DigitalInput limitSwitch = new
-         * DigitalInput(Constants.ArmConstants.kLimitSwitchControllerPort);
-         * private final ArmSubsystem armSubsystem = new ArmSubsystem(
-         * Constants.ArmConstants.kArmControllerPort, CANSparkMax.MotorType.kBrushless,
-         * limitSwitch,
-         * 0.6, 0, 0, 0.02,
-         * 0, 0.1, 0, 0,
-         * 10, 5);
-         */
-        // Replace with CommandPS4Controller or CommandJoystick if needed
-        private final XboxController driverJoystick = new XboxController(0);
-
-        // DigitalInput limitSwitch = new DigitalInput(9);
-
-        // Trigger limitTrigger = new Trigger(limitSwitch::get);
+        
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -180,6 +168,11 @@ public class RobotContainer {
 
                 armSubsystem.setDefaultCommand(new ManualArmCmd(() -> (driverJoystick.getLeftY()), armSubsystem));
 
+                Trigger dPadUp = new POVButton(driverJoystick, 0);
+                Trigger dPadDown = new POVButton(driverJoystick, 180);
+
+                // Configure Bindings
+                /*
                 swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
                                 swerveSubsystem,
                                 () -> joyStick.getBackToFront(),
@@ -187,14 +180,18 @@ public class RobotContainer {
                                 () -> joyStick.getYaw(),
                                 () -> swerveSubsystem.throttleAdjust(joyStick.getThrottle()),
                                 () -> joyStick.getTrigger()));
+                */
+                /*
                 liftSubsystem.setDefaultCommand(new ManualUnretractLift(
                                 () -> leftBumper.getAsBoolean(),
                                 () -> rightBumper.getAsBoolean(),
                                 liftSubsystem));
+                */
 
-                // Configure mechanical triggers
-                // limitTrigger.onTrue(
-                // new AutoResetArmEncoder(armSubsystem, limitSwitch.get()));
+                liftSubsystem.setDefaultCommand(new ManualLiftCmd(
+                        () -> driverJoystick.getLeftTriggerAxis(),
+                        () -> driverJoystick.getRightTriggerAxis(),
+                        liftSubsystem));
 
                 // Configure gamepad buttons
                 // xButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmLow, armSubsystem));
@@ -211,7 +208,22 @@ public class RobotContainer {
                 //aButton.onTrue(new IntakeCommand(intakeSubsystem));
                 // leftBumper.onTrue(new AutoResetArmEncoder(armSubsystem));
                 maryButton.onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+                leftBumper.whileTrue(new ManualUnretractLift(() -> true, () -> false, liftSubsystem));
+                rightBumper.whileTrue(new ManualUnretractLift(() -> false, () -> true, liftSubsystem));
 
+                aButton.onTrue(new IntakeCommand(intakeSubsystem));
+                xButton.onTrue(new OuttakeCommand(intakeSubsystem));
+                bButton.onTrue(new ParallelCommandGroup(new ShooterCommand(shooterSubsystem),
+                                new OuttakeCommand(intakeSubsystem)));
+
+                startButton.onTrue(new AutoResetArmEncoder(armSubsystem));
+                
+                dPadUp.onTrue(new ArmMotor(Constants.ArmConstants.kArmShooter, armSubsystem));
+                dPadDown.onTrue(new ArmMotor(Constants.ArmConstants.kArmPickup, armSubsystem));
+                yButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmAmp, armSubsystem));
+
+                visionSubsystem.setDefaultCommand(new VisionCommand(visionSubsystem));
+                
                 /*
                  * Use this to pass the autonomous command to the main {@link Robot} class.
                  *

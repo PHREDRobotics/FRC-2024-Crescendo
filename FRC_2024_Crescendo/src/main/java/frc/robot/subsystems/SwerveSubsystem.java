@@ -1,9 +1,25 @@
+// WARNING: NUCLEAR CODE INCOMING
+// ---------------------------
+// --------_____________------
+// ------/              \-----
+// -----/   --      --   \----
+// ----/   ----    ----   \---
+// ----|  ------  ------  |---
+// ----\        --        /---
+// -----\      ----      /----
+// ------\    ------    /-----
+// ------ \            /------
+// -------/            \------
+// ------/______________\-----
+// ---------------------------
+
 package frc.robot.subsystems;
 
 import java.util.List;
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.controller.PIDController;
@@ -99,7 +115,7 @@ public class SwerveSubsystem extends SubsystemBase {
   public SwerveSubsystem(LogitechPro joystick) {
     thetaController.enableContinuousInput(-Math.PI, Math.PI);
     m_joyStick = joystick;
-    SmartDashboard.putData("Field", m_field);
+    SmartDashboard.putData(m_field);
     new Thread(() -> {
       try {
         Thread.sleep(1000);
@@ -185,22 +201,24 @@ public class SwerveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("throttle", m_joyStick.getThrottle());
 
     SmartDashboard.putString("Robot Heading (Rotation2d)", gyro.getRotation2d().toString());
-    SmartDashboard.putNumber("Robot Heading (Degrees)", getHeading());
+    SmartDashboard.putNumber("Gameboard/Robot Heading (Degrees)", gyro.getYaw());
     SmartDashboard.putNumber("Front Left Turning Position", frontLeft.getTurningPosition() * (180 / Math.PI));
     SmartDashboard.putNumber("Front Right Turning Position", frontRight.getTurningPosition() * (180 / Math.PI));
     SmartDashboard.putNumber("Back Left Turning Position", backLeft.getTurningPosition() * (180 / Math.PI));
     SmartDashboard.putNumber("Back Right Turning Position", backRight.getTurningPosition() * (180 / Math.PI));
 
-    SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
+    m_field.setRobotPose(odometer.getPoseMeters());
 
     SmartDashboard.putBoolean("Should we blame Hardware/Electrical?", true);
-    SmartDashboard.putNumber("Adjusted Throttle", throttleAdjust(m_joyStick.getThrottle()));
+    SmartDashboard.putNumber("Gameboard/Adjusted Throttle", throttleAdjust(m_joyStick.getThrottle()));
 
+    SmartDashboard.putBoolean("Gameboard/Power of Orca?", true);
+
+    
   }
 
   @Override
   public void simulationPeriodic() {
-    odometer.update(new Rotation2d(-Math.PI), getModulePositions());
     m_field.setRobotPose(odometer.getPoseMeters());
   }
 
