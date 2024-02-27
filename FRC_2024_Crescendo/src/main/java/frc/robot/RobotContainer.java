@@ -172,7 +172,7 @@ public class RobotContainer {
                 Trigger dPadDown = new POVButton(driverJoystick, 180);
 
                 // Configure Bindings
-                /*
+                
                 swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
                                 swerveSubsystem,
                                 () -> joyStick.getBackToFront(),
@@ -180,7 +180,7 @@ public class RobotContainer {
                                 () -> joyStick.getYaw(),
                                 () -> swerveSubsystem.throttleAdjust(joyStick.getThrottle()),
                                 () -> joyStick.getTrigger()));
-                */
+                
                 /*
                 liftSubsystem.setDefaultCommand(new ManualUnretractLift(
                                 () -> leftBumper.getAsBoolean(),
@@ -236,11 +236,11 @@ public class RobotContainer {
                 
 
                 //Please don't break this
-                yButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmAmp, armSubsystem));
-                bButton.onTrue(new ParallelCommandGroup(new ShooterCommand(shooterSubsystem),
-                               new OuttakeCommand(intakeSubsystem)));
-                xButton.onTrue(new OuttakeCommand(intakeSubsystem));
-                aButton.onFalse(new IntakeCommand(intakeSubsystem));
+                //yButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmAmp, armSubsystem));
+                //bButton.onTrue(new ParallelCommandGroup(new ShooterCommand(shooterSubsystem),
+                //               new OuttakeCommand(intakeSubsystem)));
+                //xButton.onTrue(new OuttakeCommand(intakeSubsystem));
+                //aButton.onFalse(new IntakeCommand(intakeSubsystem));
         }
 
         /*

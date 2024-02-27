@@ -72,8 +72,8 @@ public class GoToPose2d extends Command {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        if (Math.abs(xSpeed) <= 0.025
-                & Math.abs(ySpeed) <= 0.025) {
+        if (Math.abs(xSpeed) <= 0.05
+                & Math.abs(ySpeed) <= 0.05) {
             return true;
         } else {
             return false;

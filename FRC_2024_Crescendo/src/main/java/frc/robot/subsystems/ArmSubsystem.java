@@ -148,7 +148,7 @@ public class ArmSubsystem extends SubsystemBase {
             resetEncoders();
         }
         SmartDashboard.putBoolean("Limit Switch:", this.limitSwitchTriggered());
-        SmartDashboard.putString("Gameboard/Arm Position:", armPosition);
+        // SmartDashboard.putString("Gameboard/Arm Position:", armPosition);
         kDt = kDt + 1 / 50;
     }
 

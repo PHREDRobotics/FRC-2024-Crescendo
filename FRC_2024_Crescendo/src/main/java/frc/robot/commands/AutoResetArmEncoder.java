@@ -40,11 +40,11 @@ public class AutoResetArmEncoder extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if (interrupted) {
-      m_subsystem.moveToPosition(Constants.ArmConstants.kArmPickup);
-    } else {
+    //if (interrupted) {
+    //  m_subsystem.moveToPosition(Constants.ArmConstants.kArmPickup);
+//} else {
       m_subsystem.resetEncoders();
-    }
+    //}
   }
 
   // Returns true when the command should end.
