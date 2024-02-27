@@ -117,7 +117,7 @@ public class RobotContainer {
 
                 // Configure mechanical triggers
 
-                // Please don't break this (correct button mapings)
+                // Please don't break this (correct button mapings).
                 yButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmAmp, armSubsystem));
                 bButton.onTrue(new ParallelCommandGroup(new ShooterCommand(shooterSubsystem),
                                 new OuttakeCommand(intakeSubsystem)));
