@@ -129,7 +129,10 @@ public class RobotContainer {
         //                                 new OuttakeCommand(intakeSubsystem)));
 
         public RobotContainer() {
-                m_chooser.setDefaultOption("Shoot Two Notes", new ShootTwoNotes(armSubsystem, intakeSubsystem,shooterSubsystem,swerveSubsystem));
+                m_chooser.setDefaultOption("Gameboard/Shoot Two Notes", new ShootTwoNotes(armSubsystem, intakeSubsystem,shooterSubsystem,swerveSubsystem));
+                m_chooser.addOption("Gameboard/Drive Foward", new SequentialCommandGroup(
+                new InstantCommand(() -> swerveSubsystem.zeroHeading()),
+                new GoToPose2d(swerveSubsystem, new Translation2d(3.0,0.0))));
 
                 // m_chooser.addOption("Complex Auto", ShootNote);
 
@@ -211,7 +214,7 @@ public class RobotContainer {
                 leftBumper.whileTrue(new ManualUnretractLift(() -> true, () -> false, liftSubsystem));
                 rightBumper.whileTrue(new ManualUnretractLift(() -> false, () -> true, liftSubsystem));
 
-                aButton.onTrue(new IntakeCommand(intakeSubsystem));
+                aButton.onTrue(new SequentialCommandGroup(new IntakeCommand(intakeSubsystem), new AutoResetArmEncoder(armSubsystem)));
                 xButton.onTrue(new OuttakeCommand(intakeSubsystem));
                 bButton.onTrue(new ParallelCommandGroup(new ShooterCommand(shooterSubsystem),
                                 new OuttakeCommand(intakeSubsystem)));
@@ -255,5 +258,8 @@ public class RobotContainer {
         public Command getAutonomousCommand() {
                 // The selected command will be run in autonomous
                 return m_chooser.getSelected();
+        }
+        public Command getTeleopCommand() {
+                return new AutoResetArmEncoder(armSubsystem);
         }
 }

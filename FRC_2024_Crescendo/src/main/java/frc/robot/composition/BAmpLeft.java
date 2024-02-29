@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 
 /** An example command that uses an example subsystem. */
-public class ShootTwoNotes extends SequentialCommandGroup {
+public class BAmpLeft extends SequentialCommandGroup {
         @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
         private final ArmSubsystem m_ArmSubsystem;
         private final IntakeSubsystem m_IntakeSubsystem;
@@ -32,7 +32,7 @@ public class ShootTwoNotes extends SequentialCommandGroup {
          *
          * @param subsystem The subsystem used by this command.
          */
-        public ShootTwoNotes(ArmSubsystem arm, IntakeSubsystem intake, ShooterSubsystem shoooter,
+        public BAmpLeft(ArmSubsystem arm, IntakeSubsystem intake, ShooterSubsystem shoooter,
                         SwerveSubsystem swerve) {
                 m_ArmSubsystem = arm;
                 m_IntakeSubsystem = intake;
@@ -47,25 +47,25 @@ public class ShootTwoNotes extends SequentialCommandGroup {
                 addCommands(
                                 // Resets odometery and heading
                                 new InstantCommand(() -> m_SwerveSubsystem.zeroHeading()),
-                                // automatically reset the arm using the limit switch
-                                new AutoResetArmEncoder(m_ArmSubsystem),
-                                // outtake and shoot a note
-                                new ParallelCommandGroup(
-                                                new ShooterCommand(m_ShoooterSubsystem),
-                                                new OuttakeCommand(m_IntakeSubsystem)),
-                                // intakes, drives forwards, and lowers the arm
-                                new ParallelDeadlineGroup(
-                                                new IntakeCommand(m_IntakeSubsystem),
-                                                new GoToPose2d(swerve, new Translation2d(2, 0.0)),
-                                                new ArmMotor(Constants.ArmConstants.kArmPickup, m_ArmSubsystem)),
-                                // drives backwards, and raises the arm
-                                new ParallelDeadlineGroup(
-                                                new GoToPose2d(swerve, new Translation2d(0.0, 0.0)),
-                                                new ArmMotor(Constants.ArmConstants.kArmShooter, m_ArmSubsystem)),
-                                // outtake and shoot a note
-                                new ParallelCommandGroup(
-                                                new ShooterCommand(m_ShoooterSubsystem),
-                                                new OuttakeCommand(m_IntakeSubsystem)),
+                                // // automatically reset the arm using the limit switch
+                                // new AutoResetArmEncoder(m_ArmSubsystem),
+                                // // outtake and shoot a note
+                                // new ParallelCommandGroup(
+                                //                 new ShooterCommand(m_ShoooterSubsystem),
+                                //                 new OuttakeCommand(m_IntakeSubsystem)),
+                                // // intakes, drives forwards, and lowers the arm
+                                // new ParallelDeadlineGroup(
+                                //                 new IntakeCommand(m_IntakeSubsystem),
+                                //                 new GoToPose2d(swerve, new Translation2d(2, 0.0)),
+                                //                 new ArmMotor(Constants.ArmConstants.kArmPickup, m_ArmSubsystem)),
+                                // // drives backwards, and raises the arm
+                                // new ParallelDeadlineGroup(
+                                //                 new GoToPose2d(swerve, new Translation2d(0.0, 0.0)),
+                                //                 new ArmMotor(Constants.ArmConstants.kArmShooter, m_ArmSubsystem)),
+                                // // outtake and shoot a note
+                                // new ParallelCommandGroup(
+                                //                 new ShooterCommand(m_ShoooterSubsystem),
+                                //                 new OuttakeCommand(m_IntakeSubsystem)),
                                 new GoToPose2d(swerve, new Translation2d(3.0, 0.0)));
         }
 }

@@ -140,7 +140,7 @@ public final class Constants {
 
     // Change later after arm built -------------------------------------
     public static final int kArmPickup = 24;
-    public static final int kArmAmp = 10;
+    public static final int kArmAmp = 8;
     public static final int kArmShooter = 0;
 
     public static final double kVoltageMultiplier = 1.5;
