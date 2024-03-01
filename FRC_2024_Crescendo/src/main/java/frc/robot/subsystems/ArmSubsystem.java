@@ -7,6 +7,7 @@ import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -67,14 +68,15 @@ public class ArmSubsystem extends SubsystemBase {
         // kD = SmartDashboard.getNumber("kD", kD);
 
         kDt = 0.2;
+;
 
         kS = 0;
         kG = .1;
         kV = 0;
         kA = 0;
 
-        max_velocity = 1;
-        max_acceleration = .5;
+        max_velocity = 0.05;
+        max_acceleration = 0.25;
 
         // max_velocity = SmartDashboard.getNumber("Max Vel", max_velocity);
         // max_acceleration = SmartDashboard.getNumber("Max Accel",
@@ -143,12 +145,20 @@ public class ArmSubsystem extends SubsystemBase {
         armEncoder.setPosition(0);
     }
 
+    public void resetClock(){
+        kDt = 0.2;
+    }
+
     public void periodic() {
         if (limitSwitchTriggered()) {
             resetEncoders();
+            
         }
         SmartDashboard.putBoolean("Limit Switch:", this.limitSwitchTriggered());
         SmartDashboard.putNumber("Gameboard/Arm Position:", armEncoder.getPosition());
+        
+        SmartDashboard.putNumber("Gameboard/Current arm time:", kDt);
+
         kDt = kDt + 1 / 50;
     }
 

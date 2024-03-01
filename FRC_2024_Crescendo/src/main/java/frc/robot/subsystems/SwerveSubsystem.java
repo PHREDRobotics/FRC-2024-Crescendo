@@ -203,7 +203,7 @@ public class SwerveSubsystem extends SubsystemBase {
     SmartDashboard.putString("Robot Heading (Rotation2d)", gyro.getRotation2d().toString());
     SmartDashboard.putNumber("Gameboard/Robot Heading (Degrees)", gyro.getYaw());
     
-SmartDashboard.putString("Robot Pose:", getPose().getTranslation().toString());
+SmartDashboard.putString("Gameboard/Robot Pose:", getPose().getTranslation().toString());
 
     SmartDashboard.putNumber("Front Left Turning Position", frontLeft.getTurningPosition() * (180 / Math.PI));
     SmartDashboard.putNumber("Front Right Turning Position", frontRight.getTurningPosition() * (180 / Math.PI));

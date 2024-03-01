@@ -26,8 +26,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public IntakeSubsystem() {
     super();
-    SmartDashboard.putNumber("Outtake Speed", m_outtakeSpeed);
-    SmartDashboard.putNumber("Intake Speed", m_intakeSpeed);
+    SmartDashboard.putNumber("Gameboard/Outtake Speed", m_outtakeSpeed);
+    SmartDashboard.putNumber("Gameboard/Intake Speed", m_intakeSpeed);
     // m_forwardLimit.enableLimitSwitch(false);
   }
 
@@ -89,7 +89,7 @@ public class IntakeSubsystem extends SubsystemBase {
    */
   public boolean isNoteLoaded() {
 
-    return m_forwardLimit.isPressed() || SmartDashboard.getBoolean("Manual Override Press", false);
+    return m_forwardLimit.isPressed() || SmartDashboard.getBoolean("Gameboard/Manual Override Press", false);
   }
 
   public static boolean outtakeIsTimeDone() {
@@ -110,7 +110,7 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putBoolean("Pressed?", isNoteLoaded());
-    SmartDashboard.putBoolean("Manual Override Press", SmartDashboard.getBoolean("Manual Override Press", false));
+    SmartDashboard.putBoolean("Gameboard/Manual Override Press", SmartDashboard.getBoolean("Manual Override Press", false));
 
     // Slider things VARIABLES
     m_outtakeSpeed = SmartDashboard.getNumber("Gameboard/Outtake Speed", m_outtakeSpeed);

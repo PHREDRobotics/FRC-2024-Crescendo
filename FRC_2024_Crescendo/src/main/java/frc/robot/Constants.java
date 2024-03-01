@@ -163,7 +163,7 @@ public final class Constants {
     public static final int kLeftShooterControllerPort = 41;
     public static final int kRightShooterControllerPort = 42;
     public static final int kXBtn = Button.kX.value;
-    public static final double kShooterSpeed = 0.75;
+    public static final double kShooterSpeed = 1;
     public static final double kShooterTime = 1.5;
 
   }

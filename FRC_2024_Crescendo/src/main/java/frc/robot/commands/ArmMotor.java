@@ -21,6 +21,10 @@ public class ArmMotor extends Command {
         m_arm = arm;
         addRequirements(m_arm);
     }
+    @Override
+    public void initialize(){
+        m_arm.resetClock();
+    }
 
     @Override
     public void execute() {
