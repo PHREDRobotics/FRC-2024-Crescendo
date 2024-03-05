@@ -75,7 +75,6 @@ public final class Constants {
         new Translation2d(kWheelBase / 2, kTrackWidth / 2),
         new Translation2d(-kWheelBase / 2, -kTrackWidth / 2),
         new Translation2d(-kWheelBase / 2, kTrackWidth / 2));
-        
 
     public static final int kBackLeftDriveMotorPort = 21;
     public static final int kFrontLeftDriveMotorPort = 11;
@@ -99,7 +98,7 @@ public final class Constants {
 
     public static final boolean kFrontLeftDriveInverted = false;
     public static final boolean kBackLeftDriveInverted = true;
-    public static final boolean kFrontRightDriveInverted = false;
+    public static final boolean kFrontRightDriveInverted = true;
     public static final boolean kBackRightDriveInverted = false;
 
     // public static final int kFrontLeftDriveAbsoluteEncoderPort = 12;
@@ -139,13 +138,23 @@ public final class Constants {
     public static final int kLimitSwitchControllerPort = 9;
 
     // Change later after arm built -------------------------------------
-    public static final int kArmPickup = 24;
-    public static final int kArmAmp = 8;
-    public static final int kArmShooter = 0;
+    // need to be remeasured so that 0 is horizontal and in radians.
+    public static final double kArmPickup = 3.2;
+    public static final double kArmAmp = 0.96;
+    public static final double kArmShooter = 0;
+    //radii needed to make the limit switch horizontal.
+    public static double kArmOffsetRads = 0;
 
     public static final double kVoltageMultiplier = 1.5;
-  }
+    public static double kSVolts = 0;
+    public static double kGVolts = 0.1;
+    public static double kAVoltSecondSquaredPerRad = 0.1;
+    public static double kVVoltSecondPerRad = 0.5;
+    public static double kMaxVelocityRadPerSecond = Math.PI / 2;
+    public static double kMaxAccelerationRadPerSecSquared = Math.PI / 4;
+    public static double kP = .6;
 
+  }
 
   /**
    * Constants for the lift
@@ -154,8 +163,8 @@ public final class Constants {
     public static final int kLeftLiftControllerPort = 46;
     public static final int kRightLiftControllerPort = 47;
 
-    public static final double kExtendSpeed = 0.5;
-    public static final double kRetractSpeed = 0.5;
+    public static final double kExtendSpeed = 0.8;
+    public static final double kRetractSpeed = 0.65;
 
   }
 
@@ -173,8 +182,6 @@ public final class Constants {
    */
   public static final class AutoConstants {
 
-      
-
     public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 4;
     public static final double kMaxAngularSpeedRadiansPerSecond = //
         DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 10;
@@ -191,11 +198,11 @@ public final class Constants {
 
     public static final double kAutoSpeedMetersPerSecond = kMaxSpeedMetersPerSecond - .5;
 
-    //1
+    // 1
     public static TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
-      AutoConstants.kAutoSpeedMetersPerSecond,
-      AutoConstants.kMaxAccelerationMetersPerSecondSquared)
-      .setKinematics(DriveConstants.kDriveKinematics);
+        AutoConstants.kAutoSpeedMetersPerSecond,
+        AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+        .setKinematics(DriveConstants.kDriveKinematics);
   }
 
   /**
@@ -218,8 +225,6 @@ public final class Constants {
     public static final int kYButton = Button.kY.value;
     public static final int kAButton = Button.kA.value;
     public static final int kBButton = Button.kB.value;
-
-
 
     public static final double kDeadband = 0.15;
     public static final double kHighDeadband = 0.25;

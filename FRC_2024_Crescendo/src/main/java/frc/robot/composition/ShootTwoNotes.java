@@ -53,19 +53,19 @@ public class ShootTwoNotes extends SequentialCommandGroup {
                                 new ParallelCommandGroup(
                                                 new ShooterCommand(m_ShoooterSubsystem),
                                                 new OuttakeCommand(m_IntakeSubsystem)),
-                                // intakes, drives forwards, and lowers the arm
-                                new ParallelDeadlineGroup(
-                                                new IntakeCommand(m_IntakeSubsystem),
-                                                new GoToPose2d(swerve, new Translation2d(2, 0.0)),
-                                                new ArmMotor(Constants.ArmConstants.kArmPickup, m_ArmSubsystem)),
-                                // drives backwards, and raises the arm
-                                new ParallelDeadlineGroup(
-                                                new GoToPose2d(swerve, new Translation2d(0.0, 0.0)),
-                                                new ArmMotor(Constants.ArmConstants.kArmShooter, m_ArmSubsystem)),
-                                // outtake and shoot a note
-                                new ParallelCommandGroup(
-                                                new ShooterCommand(m_ShoooterSubsystem),
-                                                new OuttakeCommand(m_IntakeSubsystem)),
+                                // // intakes, drives forwards, and lowers the arm
+                                // new ParallelDeadlineGroup(
+                                //                 new IntakeCommand(m_IntakeSubsystem),
+                                //                 new GoToPose2d(swerve, new Translation2d(2, 0.0)),
+                                //                 m_ArmSubsystem.setArmGoalCommand(Constants.ArmConstants.kArmOffsetRads)),
+                                // // drives backwards, and raises the arm
+                                // new ParallelDeadlineGroup(
+                                //                 new GoToPose2d(swerve, new Translation2d(0.0, 0.0)),
+                                //                 m_ArmSubsystem.setArmGoalCommand(Constants.ArmConstants.kArmOffsetRads)),
+                                // // outtake and shoot a note
+                                // new ParallelCommandGroup(
+                                //                 new ShooterCommand(m_ShoooterSubsystem),
+                                //                 new OuttakeCommand(m_IntakeSubsystem)),
                                 new GoToPose2d(swerve, new Translation2d(3.0, 0.0)));
         }
 }

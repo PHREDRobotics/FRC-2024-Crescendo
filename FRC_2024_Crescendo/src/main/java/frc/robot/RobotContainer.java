@@ -221,9 +221,9 @@ public class RobotContainer {
 
                 startButton.onTrue(new AutoResetArmEncoder(armSubsystem));
                 
-                dPadUp.onTrue(new ArmMotor(Constants.ArmConstants.kArmShooter, armSubsystem));
-                dPadDown.onTrue(new ArmMotor(Constants.ArmConstants.kArmPickup, armSubsystem));
-                yButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmAmp, armSubsystem));
+                dPadUp.onTrue(armSubsystem.setArmGoalCommand(Constants.ArmConstants.kArmShooter));
+                dPadDown.onTrue(armSubsystem.setArmGoalCommand(Constants.ArmConstants.kArmPickup));
+                yButton.onTrue(armSubsystem.setArmGoalCommand(Constants.ArmConstants.kArmAmp));
 
                 visionSubsystem.setDefaultCommand(new VisionCommand(visionSubsystem));
                 
