@@ -41,7 +41,7 @@ public class ArmMoveToPositionCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     if (interrupted == false) {
-      m_armSubsystem.moveToPosition(Constants.ArmConstants.kArmPickup);
+      // m_armSubsystem.moveToPosition(Constants.ArmConstants.kArmPickup);
     } else {
       m_armSubsystem.disable();
     }

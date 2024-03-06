@@ -23,9 +23,9 @@ public class ArmSubsystem extends PIDSubsystem {
   private final CANSparkMax m_motor = new CANSparkMax(Constants.ArmConstants.kArmControllerPort,
     CANSparkMax.MotorType.kBrushless);
 
-  private final ArmFeedforward m_feedforward = new ArmFeedforward(
-    Constants.ArmConstants.kSVolts, Constants.ArmConstants.kGVolts,
-    Constants.ArmConstants.kVVoltSecondPerRad, Constants.ArmConstants.kAVoltSecondSquaredPerRad);
+  // private final ArmFeedforward m_feedforward = new ArmFeedforward(
+  //   Constants.ArmConstants.kSVolts, Constants.ArmConstants.kGVolts,
+  //   Constants.ArmConstants.kVVoltSecondPerRad, Constants.ArmConstants.kAVoltSecondSquaredPerRad);
 
   PIDController m_pidController = new PIDController(Constants.ArmConstants.kP, Constants.ArmConstants.kI,
     Constants.ArmConstants.kD);

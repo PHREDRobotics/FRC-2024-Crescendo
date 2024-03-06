@@ -219,15 +219,14 @@ public class RobotContainer {
     leftBumper.whileTrue(new ManualUnretractLift(() -> true, () -> false, liftSubsystem));
     rightBumper.whileTrue(new ManualUnretractLift(() -> false, () -> true, liftSubsystem));
 
-    aButton
-        .onTrue(new SequentialCommandGroup(new IntakeCommand(intakeSubsystem), new AutoResetArmEncoder(armSubsystem)));
+    aButton.onTrue(new SequentialCommandGroup(new IntakeCommand(intakeSubsystem), new AutoResetArmEncoder(armSubsystem)));
     xButton.onTrue(new OuttakeCommand(intakeSubsystem));
     bButton.onTrue(new ParallelCommandGroup(new ShooterCommand(shooterSubsystem),
         new OuttakeCommand(intakeSubsystem)));
 
-    startButton.onTrue(new AutoResetArmEncoder(armSubsystem));
+    //startButton.onTrue(new AutoResetArmEncoder(armSubsystem));
 
-    dPadUp.onTrue(new ArmMoveToPositionCommand(Constants.ArmConstants.kArmShooter, armSubsystem));
+    dPadUp.onTrue(new AutoResetArmEncoder(armSubsystem));
     dPadDown.onTrue(new ArmMoveToPositionCommand(Constants.ArmConstants.kArmPickup, armSubsystem));
     yButton.onTrue(new ArmMoveToPositionCommand(Constants.ArmConstants.kArmAmp, armSubsystem));
 

@@ -25,6 +25,7 @@ public class GoToPose2d extends Command {
     private final Translation2d targetPos;
     private double xSpeed;
     private double ySpeed;
+    private double yawSpeed;
 
     /**
      * Creates a new ExampleCommand.
@@ -36,6 +37,8 @@ public class GoToPose2d extends Command {
         this.targetPos = targetPos;
         this.xSpeed = 0;
         this.ySpeed = 0;
+        this.yawSpeed = 0;
+
         addRequirements(swerveSubsystem);
     }
 
