@@ -110,7 +110,8 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putBoolean("Pressed?", isNoteLoaded());
-    SmartDashboard.putBoolean("Gameboard/Manual Override Press", SmartDashboard.getBoolean("Manual Override Press", false));
+    SmartDashboard.putBoolean("Gameboard/Manual Override Press",
+        SmartDashboard.getBoolean("Manual Override Press", false));
 
     // Slider things VARIABLES
     m_outtakeSpeed = SmartDashboard.getNumber("Gameboard/Outtake Speed", m_outtakeSpeed);

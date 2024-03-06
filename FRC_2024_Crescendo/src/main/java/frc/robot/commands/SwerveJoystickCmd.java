@@ -28,7 +28,8 @@ public class SwerveJoystickCmd extends Command {
    * @param subsystem The subsystem used by this command.
    */
   public SwerveJoystickCmd(SwerveSubsystem swerveSubsystem,
-      Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction, Supplier<Double> turningSpdFunction, Supplier<Double> throttleBonusFunction,
+      Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction, Supplier<Double> turningSpdFunction,
+      Supplier<Double> throttleBonusFunction,
       Supplier<Boolean> fieldOrientedFunction) {
     this.swerveSubsystem = swerveSubsystem;
     this.xSpdFunction = xSpdFunction;
@@ -45,7 +46,7 @@ public class SwerveJoystickCmd extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    }
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -66,17 +67,17 @@ public class SwerveJoystickCmd extends Command {
     turningSpeed = turningSpeed * Math.abs(turningSpeed);// * Math.abs(turningSpeed);
 
     // 3. Make the driving smoother
-    xSpeed = xLimiter.calculate(xSpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond * throttleBonusFunction.get() * DriveConstants.kTeleDriveThrottleMultiplier;
-    ySpeed = yLimiter.calculate(ySpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond * throttleBonusFunction.get() * DriveConstants.kTeleDriveThrottleMultiplier;
+    xSpeed = xLimiter.calculate(xSpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond * throttleBonusFunction.get()
+        * DriveConstants.kTeleDriveThrottleMultiplier;
+    ySpeed = yLimiter.calculate(ySpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond * throttleBonusFunction.get()
+        * DriveConstants.kTeleDriveThrottleMultiplier;
     turningSpeed = turningLimiter.calculate(turningSpeed)
         * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
-
-
 
     // 4. Construct desired chassis speeds
     ChassisSpeeds chassisSpeeds;
     if (fieldOrientedFunction.get()) {
-       //Relative to field
+      // Relative to field
       chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
           xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2d());
     } else {
@@ -86,9 +87,9 @@ public class SwerveJoystickCmd extends Command {
     SmartDashboard.putBoolean("Is Field Oriented", fieldOrientedFunction.get());
     // 5. Convert chassis speeds to individual module states
     SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
-   //state.angle.getRadians());
+    // state.angle.getRadians());
     // 6. Output each module states to wheels
-   swerveSubsystem.setModuleStates(moduleStates);
+    swerveSubsystem.setModuleStates(moduleStates);
 
   }
 

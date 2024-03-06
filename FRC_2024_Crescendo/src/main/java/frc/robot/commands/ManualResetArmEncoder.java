@@ -8,19 +8,19 @@ import frc.robot.subsystems.ArmSubsystem;
  */
 public class ManualResetArmEncoder extends Command {
 
-    private ArmSubsystem m_arm_subsystem;
+  private ArmSubsystem m_arm_subsystem;
 
-    public ManualResetArmEncoder(ArmSubsystem armSubsystem) {
-        m_arm_subsystem = armSubsystem;
-    }
+  public ManualResetArmEncoder(ArmSubsystem armSubsystem) {
+    m_arm_subsystem = armSubsystem;
+  }
 
-    @Override
-    public boolean isFinished() {
-        return true;
-    }
+  @Override
+  public boolean isFinished() {
+    return true;
+  }
 
-    @Override
-    public void end(boolean interrupted) {
-        m_arm_subsystem.resetEncoders();
-    }
+  @Override
+  public void end(boolean interrupted) {
+    m_arm_subsystem.resetEncoders();
+  }
 }

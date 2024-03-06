@@ -3,11 +3,11 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
+
 import frc.robot.Constants;
 import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 
 /** An Intake command that uses an Intake subsystem. */
 public class OuttakeCommand extends Command {
@@ -46,7 +46,7 @@ public class OuttakeCommand extends Command {
   @Override
   public boolean isFinished() {
     return IntakeSubsystem.outtakeIsTimeDone();
-   //return true;
+    // return true;
   }
 
 }

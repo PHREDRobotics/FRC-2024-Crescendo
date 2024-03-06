@@ -8,16 +8,16 @@ import frc.robot.subsystems.LiftSubsystem;
  */
 public class AutoLiftCmd extends Command {
 
-    LiftSubsystem lift_subsystem;
+  LiftSubsystem lift_subsystem;
 
-    public AutoLiftCmd(LiftSubsystem liftSubsystem) {
-        this.lift_subsystem = liftSubsystem;
+  public AutoLiftCmd(LiftSubsystem liftSubsystem) {
+    this.lift_subsystem = liftSubsystem;
 
-        addRequirements(liftSubsystem);
-    }
+    addRequirements(liftSubsystem);
+  }
 
-    @Override
-    public void execute() {
-        this.lift_subsystem.AutoLift(0.5);
-    }
+  @Override
+  public void execute() {
+    this.lift_subsystem.AutoLift(0.5);
+  }
 }

@@ -3,11 +3,11 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
+
 import frc.robot.Constants;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 
 /** An Intake command that uses an Intake subsystem. */
 public class ShooterCommand extends Command {
@@ -35,9 +35,10 @@ public class ShooterCommand extends Command {
   @Override
   public void execute() {
   }
-//   @Override
-//   public void superShoot() {
-//   }
+
+  // @Override
+  // public void superShoot() {
+  // }
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
@@ -48,7 +49,7 @@ public class ShooterCommand extends Command {
   @Override
   public boolean isFinished() {
     return ShooterSubsystem.shooterIsTimeDone();
-   //return true;
+    // return true;
   }
 
 }

@@ -58,208 +58,217 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-        SendableChooser<Command> m_chooser = new SendableChooser<>();
+  SendableChooser<Command> m_chooser = new SendableChooser<>();
 
-        // The robot's subsystems and commands are defined here...
-        // private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-        // private final MotorTestSubsystem motorTestSubsystem = new
-        // MotorTestSubsystem();
-        // Define Joysticks
-        private final LogitechPro joyStick = new LogitechPro(1);
-        // Replace with CommandPS4Controller or CommandJoystick if needed
-        private final XboxController driverJoystick = new XboxController(0);
+  // The robot's subsystems and commands are defined here...
+  // private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
+  // private final MotorTestSubsystem motorTestSubsystem = new
+  // MotorTestSubsystem();
+  // Define Joysticks
+  private final LogitechPro joyStick = new LogitechPro(1);
+  // Replace with CommandPS4Controller or CommandJoystick if needed
+  private final XboxController driverJoystick = new XboxController(0);
 
-        // Define subsystems
-        private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-        private final VisionSubsystem visionSubsystem = new VisionSubsystem();
-        private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem(joyStick);
-        private final LiftSubsystem liftSubsystem = new LiftSubsystem();
-        private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
-        private final ArmSubsystem armSubsystem = new ArmSubsystem();
+  // Define subsystems
+  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  private final VisionSubsystem visionSubsystem = new VisionSubsystem();
+  private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem(joyStick);
+  private final LiftSubsystem liftSubsystem = new LiftSubsystem();
+  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+  private final ArmSubsystem armSubsystem = new ArmSubsystem();
 
-        
+  /**
+   * The container for the robot. Contains subsystems, OI devices, and commands.
+   */
+  // 4. Construct command to follow trajectory
+  /*
+   * SwerveControllerCommand TrajectoryShootNote = new SwerveControllerCommand(
+   * swerveSubsystem.getTrajectory(
+   * new Pose2d(0.0, 0.0, new Rotation2d()),
+   * new Translation2d(2.5, 0.0),
+   * new Pose2d(5.0, 0.0, new Rotation2d())),
+   * swerveSubsystem::getPose,
+   * DriveConstants.kDriveKinematics,
+   * swerveSubsystem.xController,
+   * swerveSubsystem.yController,
+   * swerveSubsystem.thetaController,
+   * swerveSubsystem::setModuleStates,
+   * swerveSubsystem);
+   */
 
-        /**
-         * The container for the robot. Contains subsystems, OI devices, and commands.
-         */
-        // 4. Construct command to follow trajectory
-       /*  SwerveControllerCommand TrajectoryShootNote = new SwerveControllerCommand(
-                        swerveSubsystem.getTrajectory(
-                                        new Pose2d(0.0, 0.0, new Rotation2d()),
-                                        new Translation2d(2.5, 0.0),
-                                        new Pose2d(5.0, 0.0, new Rotation2d())),
-                        swerveSubsystem::getPose,
-                        DriveConstants.kDriveKinematics,
-                        swerveSubsystem.xController,
-                        swerveSubsystem.yController,
-                        swerveSubsystem.thetaController,
-                        swerveSubsystem::setModuleStates,
-                        swerveSubsystem);*/
-                        
+  // SwerveControllerCommand TrajectoryNoteShoot = new SwerveControllerCommand(
+  // swerveSubsystem.getTrajectory(
+  // swerveSubsystem.getPose(),
+  // new Translation2d(0.0, 0.0),
+  // new Pose2d(0.0, 0.0, new Rotation2d())),
+  // swerveSubsystem::getPose,
+  // DriveConstants.kDriveKinematics,
+  // swerveSubsystem.xController,
+  // swerveSubsystem.yController,
+  // swerveSubsystem.thetaController,
+  // swerveSubsystem::setModuleStates,
+  // swerveSubsystem);
 
-        // SwerveControllerCommand TrajectoryNoteShoot = new SwerveControllerCommand(
-        //                 swerveSubsystem.getTrajectory(
-        //                                 swerveSubsystem.getPose(),
-        //                                 new Translation2d(0.0, 0.0),
-        //                                 new Pose2d(0.0, 0.0, new Rotation2d())),
-        //                 swerveSubsystem::getPose,
-        //                 DriveConstants.kDriveKinematics,
-        //                 swerveSubsystem.xController,
-        //                 swerveSubsystem.yController,
-        //                 swerveSubsystem.thetaController,
-        //                 swerveSubsystem::setModuleStates,
-        //                 swerveSubsystem);
+  // // 5. Add some init and wrap-up, and return everything
+  // final Command ShootTwoNotes = new SequentialCommandGroup(new
+  // AutoResetArmEncoder(armSubsystem),
+  // new ParallelCommandGroup(
+  // new ShooterCommand(shooterSubsystem),
+  // new OuttakeCommand(intakeSubsystem)),
 
-        // // 5. Add some init and wrap-up, and return everything
-        // final Command ShootTwoNotes = new SequentialCommandGroup(new AutoResetArmEncoder(armSubsystem),
-        //                 new ParallelCommandGroup(
-        //                                 new ShooterCommand(shooterSubsystem),
-        //                                 new OuttakeCommand(intakeSubsystem)),
+  // new ParallelDeadlineGroup(new IntakeCommand(intakeSubsystem),
+  // //TrajectoryShootNote,
+  // new ArmMoveToPositionCommand(Constants.ArmConstants.kArmPickup,
+  // armSubsystem)),
+  // new InstantCommand(() -> swerveSubsystem.stopModules()),
+  // TrajectoryNoteShoot,
+  // new InstantCommand(() -> swerveSubsystem.stopModules()),
+  // new ParallelCommandGroup(
 
+  // new ShooterCommand(shooterSubsystem),
+  // new OuttakeCommand(intakeSubsystem)));
 
-        //                 new ParallelDeadlineGroup(new IntakeCommand(intakeSubsystem),
-        //                                 //TrajectoryShootNote,
-        //                                 new ArmMoveToPositionCommand(Constants.ArmConstants.kArmPickup, armSubsystem)),
-        //                                 new InstantCommand(() -> swerveSubsystem.stopModules()),
-        //                                 TrajectoryNoteShoot,
-        //                                 new InstantCommand(() -> swerveSubsystem.stopModules()),
-        //                                 new ParallelCommandGroup(
+  public RobotContainer() {
+    m_chooser.setDefaultOption("Gameboard/Shoot Two Notes",
+        new ShootTwoNotes(armSubsystem, intakeSubsystem, shooterSubsystem, swerveSubsystem));
+    m_chooser.addOption("Gameboard/Drive Foward", new SequentialCommandGroup(
+        new InstantCommand(() -> swerveSubsystem.zeroHeading()),
+        new GoToPose2d(swerveSubsystem, new Translation2d(3.0, 0.0))));
 
-        //                                 new ShooterCommand(shooterSubsystem),
-        //                                 new OuttakeCommand(intakeSubsystem)));
+    // m_chooser.addOption("Complex Auto", ShootNote);
 
-        public RobotContainer() {
-                m_chooser.setDefaultOption("Gameboard/Shoot Two Notes", new ShootTwoNotes(armSubsystem, intakeSubsystem,shooterSubsystem,swerveSubsystem));
-                m_chooser.addOption("Gameboard/Drive Foward", new SequentialCommandGroup(
-                new InstantCommand(() -> swerveSubsystem.zeroHeading()),
-                new GoToPose2d(swerveSubsystem, new Translation2d(3.0,0.0))));
+    SmartDashboard.putData(m_chooser);
+    configureBindings();
+  }
 
-                // m_chooser.addOption("Complex Auto", ShootNote);
+  /**
+   * Use this method to define your trigger->command mappings. Triggers can be
+   * created via the
+   * {@link Trigger trigger(java.util.function.BooleanSupplier)} constructor with
+   * an arbitrary
+   * predicate, or via the named factories in {@link
+   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
+   * {@link
+   * CommandXboxController
+   * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
+   * PS4} controllers or
+   * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
+   * joysticks}.
+   */
 
-                SmartDashboard.putData(m_chooser);
-                configureBindings();
-        }
+  private void configureBindings() {
+    // Define triggers
+    Trigger xButton = new JoystickButton(driverJoystick, Constants.OIConstants.kXButton);
+    Trigger yButton = new JoystickButton(driverJoystick, Constants.OIConstants.kYButton);
+    Trigger aButton = new JoystickButton(driverJoystick, Constants.OIConstants.kAButton);
+    Trigger bButton = new JoystickButton(driverJoystick, Constants.OIConstants.kBButton);
+    Trigger leftBumper = new JoystickButton(driverJoystick, Constants.OIConstants.kLeftBumper);
+    Trigger rightBumper = new JoystickButton(driverJoystick, Constants.OIConstants.kRightBumper);
+    Trigger startButton = new JoystickButton(driverJoystick, Constants.OIConstants.kStartButton);
+    Trigger maryButton = new JoystickButton(joyStick, 2);
 
-        /**
-         * Use this method to define your trigger->command mappings. Triggers can be
-         * created via the
-         * {@link Trigger trigger(java.util.function.BooleanSupplier)} constructor with
-         * an arbitrary
-         * predicate, or via the named factories in {@link
-         * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
-         * {@link
-         * CommandXboxController
-         * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-         * PS4} controllers or
-         * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-         * joysticks}.
-         */
+    // Set default commands
+    // visionSubsystem.setDefaultCommand(new VisionCommand(visionSubsystem));
 
-        private void configureBindings() {
-                // Define triggers
-                Trigger xButton = new JoystickButton(driverJoystick, Constants.OIConstants.kXButton);
-                Trigger yButton = new JoystickButton(driverJoystick, Constants.OIConstants.kYButton);
-                Trigger aButton = new JoystickButton(driverJoystick, Constants.OIConstants.kAButton);
-                Trigger bButton = new JoystickButton(driverJoystick, Constants.OIConstants.kBButton);
-                Trigger leftBumper = new JoystickButton(driverJoystick, Constants.OIConstants.kLeftBumper);
-                Trigger rightBumper = new JoystickButton(driverJoystick, Constants.OIConstants.kRightBumper);
-                Trigger startButton = new JoystickButton(driverJoystick, Constants.OIConstants.kStartButton);
-                Trigger maryButton = new JoystickButton(joyStick, 2);
+    // armSubsystem.setDefaultCommand(new ManualArmCmd(() ->
+    // (driverJoystick.getLeftY()), armSubsystem));
 
-                // Set default commands
-                // visionSubsystem.setDefaultCommand(new VisionCommand(visionSubsystem));
+    Trigger dPadUp = new POVButton(driverJoystick, 0);
+    Trigger dPadDown = new POVButton(driverJoystick, 180);
 
-                //armSubsystem.setDefaultCommand(new ManualArmCmd(() -> (driverJoystick.getLeftY()), armSubsystem));
+    // Configure Bindings
 
-                Trigger dPadUp = new POVButton(driverJoystick, 0);
-                Trigger dPadDown = new POVButton(driverJoystick, 180);
+    swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
+        swerveSubsystem,
+        () -> joyStick.getBackToFront(),
+        () -> joyStick.getLeftToRight(),
+        () -> joyStick.getYaw(),
+        () -> swerveSubsystem.throttleAdjust(joyStick.getThrottle()),
+        () -> joyStick.getTrigger()));
 
-                // Configure Bindings
-                
-                swerveSubsystem.setDefaultCommand(new SwerveJoystickCmd(
-                                swerveSubsystem,
-                                () -> joyStick.getBackToFront(),
-                                () -> joyStick.getLeftToRight(),
-                                () -> joyStick.getYaw(),
-                                () -> swerveSubsystem.throttleAdjust(joyStick.getThrottle()),
-                                () -> joyStick.getTrigger()));
-                
-                /*
-                liftSubsystem.setDefaultCommand(new ManualUnretractLift(
-                                () -> leftBumper.getAsBoolean(),
-                                () -> rightBumper.getAsBoolean(),
-                                liftSubsystem));
-                */
+    /*
+     * liftSubsystem.setDefaultCommand(new ManualUnretractLift(
+     * () -> leftBumper.getAsBoolean(),
+     * () -> rightBumper.getAsBoolean(),
+     * liftSubsystem));
+     */
 
-                liftSubsystem.setDefaultCommand(new ManualLiftCmd(
-                        () -> driverJoystick.getLeftTriggerAxis(),
-                        () -> driverJoystick.getRightTriggerAxis(),
-                        liftSubsystem));
+    liftSubsystem.setDefaultCommand(new ManualLiftCmd(
+        () -> driverJoystick.getLeftTriggerAxis(),
+        () -> driverJoystick.getRightTriggerAxis(),
+        liftSubsystem));
 
-                // Configure gamepad buttons
-                // xButton.onTrue(new ArmMoveToPositionCommand(Constants.ArmConstants.kArmLow, armSubsystem));
-                // yButton.onTrue(new ArmMoveToPositionCommand(Constants.ArmConstants.kArmMid, armSubsystem));
-                // bButton.onTrue(new ArmMoveToPositionCommand(Constants.ArmConstants.kArmHigh, armSubsystem));
-                // yButton.onTrue(new UnretractLift(liftSubsystem));
-                //yButton.whileTrue(new ManualLiftCmd(
-                //                () -> driverJoystick.getLeftTriggerAxis(),
-                //                () -> driverJoystick.getRightTriggerAxis(),
-                //                liftSubsystem));
-                //xButton.onTrue(new OuttakeCommand(intakeSubsystem));
-                //bButton.onTrue(new ParallelCommandGroup(new ShooterCommand(shooterSubsystem),
-                //                new OuttakeCommand(intakeSubsystem)));
-                //aButton.onTrue(new IntakeCommand(intakeSubsystem));
-                // leftBumper.onTrue(new AutoResetArmEncoder(armSubsystem));
-                maryButton.onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
-                leftBumper.whileTrue(new ManualUnretractLift(() -> true, () -> false, liftSubsystem));
-                rightBumper.whileTrue(new ManualUnretractLift(() -> false, () -> true, liftSubsystem));
+    // Configure gamepad buttons
+    // xButton.onTrue(new ArmMoveToPositionCommand(Constants.ArmConstants.kArmLow,
+    // armSubsystem));
+    // yButton.onTrue(new ArmMoveToPositionCommand(Constants.ArmConstants.kArmMid,
+    // armSubsystem));
+    // bButton.onTrue(new ArmMoveToPositionCommand(Constants.ArmConstants.kArmHigh,
+    // armSubsystem));
+    // yButton.onTrue(new UnretractLift(liftSubsystem));
+    // yButton.whileTrue(new ManualLiftCmd(
+    // () -> driverJoystick.getLeftTriggerAxis(),
+    // () -> driverJoystick.getRightTriggerAxis(),
+    // liftSubsystem));
+    // xButton.onTrue(new OuttakeCommand(intakeSubsystem));
+    // bButton.onTrue(new ParallelCommandGroup(new ShooterCommand(shooterSubsystem),
+    // new OuttakeCommand(intakeSubsystem)));
+    // aButton.onTrue(new IntakeCommand(intakeSubsystem));
+    // leftBumper.onTrue(new AutoResetArmEncoder(armSubsystem));
+    maryButton.onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+    leftBumper.whileTrue(new ManualUnretractLift(() -> true, () -> false, liftSubsystem));
+    rightBumper.whileTrue(new ManualUnretractLift(() -> false, () -> true, liftSubsystem));
 
-                aButton.onTrue(new SequentialCommandGroup(new IntakeCommand(intakeSubsystem), new AutoResetArmEncoder(armSubsystem)));
-                xButton.onTrue(new OuttakeCommand(intakeSubsystem));
-                bButton.onTrue(new ParallelCommandGroup(new ShooterCommand(shooterSubsystem),
-                                new OuttakeCommand(intakeSubsystem)));
+    aButton
+        .onTrue(new SequentialCommandGroup(new IntakeCommand(intakeSubsystem), new AutoResetArmEncoder(armSubsystem)));
+    xButton.onTrue(new OuttakeCommand(intakeSubsystem));
+    bButton.onTrue(new ParallelCommandGroup(new ShooterCommand(shooterSubsystem),
+        new OuttakeCommand(intakeSubsystem)));
 
-                startButton.onTrue(new AutoResetArmEncoder(armSubsystem));
-                
-                dPadUp.onTrue(new ArmMoveToPositionCommand(Constants.ArmConstants.kArmShooter,armSubsystem));
-                dPadDown.onTrue(new ArmMoveToPositionCommand(Constants.ArmConstants.kArmPickup,armSubsystem));
-                yButton.onTrue(new ArmMoveToPositionCommand(Constants.ArmConstants.kArmAmp,armSubsystem));
+    startButton.onTrue(new AutoResetArmEncoder(armSubsystem));
 
-                visionSubsystem.setDefaultCommand(new VisionCommand(visionSubsystem));
-                
-                /*
-                 * Use this to pass the autonomous command to the main {@link Robot} class.
-                 *
-                 * @return the command to run in autonomous
-                 */
+    dPadUp.onTrue(new ArmMoveToPositionCommand(Constants.ArmConstants.kArmShooter, armSubsystem));
+    dPadDown.onTrue(new ArmMoveToPositionCommand(Constants.ArmConstants.kArmPickup, armSubsystem));
+    yButton.onTrue(new ArmMoveToPositionCommand(Constants.ArmConstants.kArmAmp, armSubsystem));
 
-                // return null;
-                // aButton.onTrue(new ArmMoveToPositionCommand(Constants.ArmConstants.kArmPickup, armSubsystem));
-                // xButton.onTrue(new ArmMoveToPositionCommand(Constants.ArmConstants.kArmAmp, armSubsystem));
-                
+    visionSubsystem.setDefaultCommand(new VisionCommand(visionSubsystem));
 
-                //Please don't break this
-                //yButton.onTrue(new ArmMoveToPositionCommand(Constants.ArmConstants.kArmAmp, armSubsystem));
-                //bButton.onTrue(new ParallelCommandGroup(new ShooterCommand(shooterSubsystem),
-                //               new OuttakeCommand(intakeSubsystem)));
-                //xButton.onTrue(new OuttakeCommand(intakeSubsystem));
-                //aButton.onFalse(new IntakeCommand(intakeSubsystem));
-        }
+    /*
+     * Use this to pass the autonomous command to the main {@link Robot} class.
+     *
+     * @return the command to run in autonomous
+     */
 
-        /*
-         * Use this to pass the autonomous command to the main {@link Robot} class.
-         *
-         * @return the command to run in autonomous
-         */
-        // public Command getAutonomousCommand() {
+    // return null;
+    // aButton.onTrue(new
+    // ArmMoveToPositionCommand(Constants.ArmConstants.kArmPickup, armSubsystem));
+    // xButton.onTrue(new ArmMoveToPositionCommand(Constants.ArmConstants.kArmAmp,
+    // armSubsystem));
 
-        // return null;
-        // }
-        public Command getAutonomousCommand() {
-                // The selected command will be run in autonomous
-                return m_chooser.getSelected();
-        }
-        public Command getTeleopCommand() {
-                return new AutoResetArmEncoder(armSubsystem);
-        }
+    // Please don't break this
+    // yButton.onTrue(new ArmMoveToPositionCommand(Constants.ArmConstants.kArmAmp,
+    // armSubsystem));
+    // bButton.onTrue(new ParallelCommandGroup(new ShooterCommand(shooterSubsystem),
+    // new OuttakeCommand(intakeSubsystem)));
+    // xButton.onTrue(new OuttakeCommand(intakeSubsystem));
+    // aButton.onFalse(new IntakeCommand(intakeSubsystem));
+  }
+
+  /*
+   * Use this to pass the autonomous command to the main {@link Robot} class.
+   *
+   * @return the command to run in autonomous
+   */
+  // public Command getAutonomousCommand() {
+
+  // return null;
+  // }
+  public Command getAutonomousCommand() {
+    // The selected command will be run in autonomous
+    return m_chooser.getSelected();
+  }
+
+  public Command getTeleopCommand() {
+    return new AutoResetArmEncoder(armSubsystem);
+  }
 }

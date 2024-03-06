@@ -7,19 +7,19 @@ import frc.robot.subsystems.LiftSubsystem;
  * Command to reset the encoders on the lift
  */
 public class ResetLiftEncoders extends Command {
-    private LiftSubsystem m_lift_subsystem;
+  private LiftSubsystem m_lift_subsystem;
 
-    public ResetLiftEncoders(LiftSubsystem liftSubsystem) {
-        m_lift_subsystem = liftSubsystem;
-    }
+  public ResetLiftEncoders(LiftSubsystem liftSubsystem) {
+    m_lift_subsystem = liftSubsystem;
+  }
 
-    @Override
-    public boolean isFinished() {
-        return true;
-    }
+  @Override
+  public boolean isFinished() {
+    return true;
+  }
 
-    @Override
-    public void end(boolean interrupted) {
-        m_lift_subsystem.resetEncoders();
-    }
+  @Override
+  public void end(boolean interrupted) {
+    m_lift_subsystem.resetEncoders();
+  }
 }

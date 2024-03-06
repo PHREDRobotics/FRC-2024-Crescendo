@@ -105,8 +105,8 @@ public class SwerveModule {
     driveSparkMax.setSmartCurrentLimit(ModuleConstants.kDrivingMotorCurrentLimit);
     turningSparkMax.setSmartCurrentLimit(ModuleConstants.kTurningMotorCurrentLimit);
 
-    //Set the motor inversion
-    //inverts if the constant tells it to
+    // Set the motor inversion
+    // inverts if the constant tells it to
     driveSparkMax.setInverted(driveMotorInverted);
 
     // Save the SPARK MAX configurations. If a SPARK MAX browns out during
@@ -128,17 +128,17 @@ public class SwerveModule {
    * Returns current turn position in range -pi to pi
    */
 
-   //Before it was
-   //return turningEncoder.getPosition();
+  // Before it was
+  // return turningEncoder.getPosition();
 
   public double getTurningPosition() {
     if (turningEncoder.getPosition() >= 0) {
       return turningEncoder.getPosition();
-      
+
     } else {
       return Constants.k2pi + turningEncoder.getPosition();
     }
-     // ModuleConstants.kTurningMotorRotationPerSteerRotation;
+    // ModuleConstants.kTurningMotorRotationPerSteerRotation;
   }
 
   public SwerveModulePosition getPosition() {
@@ -168,16 +168,18 @@ public class SwerveModule {
     correctedDesiredState.speedMetersPerSecond = desiredState.speedMetersPerSecond;
     correctedDesiredState.angle = desiredState.angle.plus(Rotation2d.fromRadians(chassisAngularOffset));
     // changed fromRadians to fromDegrees
-  
-     SwerveModuleState optimizedDesiredState = SwerveModuleState.optimize(correctedDesiredState,
-         new Rotation2d(turningEncoder.getPosition()));
+
+    SwerveModuleState optimizedDesiredState = SwerveModuleState.optimize(correctedDesiredState,
+        new Rotation2d(turningEncoder.getPosition()));
 
     drivingPidController.setReference(optimizedDesiredState.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity);
     turningPidController.setReference(optimizedDesiredState.angle.getRadians(), CANSparkMax.ControlType.kPosition);
-    //changed getRadians to getDegrees
-    
-    //MIGHT OF DONE A THING UP THERE IM NOT SURE HAVENT BEEN ABLE TO TEST YET!!!!!!!!
+    // changed getRadians to getDegrees
+
+    // MIGHT OF DONE A THING UP THERE IM NOT SURE HAVENT BEEN ABLE TO TEST
+    // YET!!!!!!!!
   }
+
   public void stop() {
     driveSparkMax.set(0);
     turningSparkMax.set(0);

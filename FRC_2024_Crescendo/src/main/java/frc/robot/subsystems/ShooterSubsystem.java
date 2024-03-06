@@ -20,8 +20,9 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public CANSparkMax m_upMotor = new CANSparkMax(ShooterConstants.kLeftShooterControllerPort, MotorType.kBrushless);
   public CANSparkMax m_downMotor = new CANSparkMax(ShooterConstants.kRightShooterControllerPort, MotorType.kBrushless);
-  
- // public SparkLimitSwitch m_forwardLimit = m_upMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+
+  // public SparkLimitSwitch m_forwardLimit =
+  // m_upMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
 
   public double m_ShooterSpeed = ShooterConstants.kShooterSpeed;
 
@@ -29,11 +30,9 @@ public class ShooterSubsystem extends SubsystemBase {
   // m_upMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed);
 
   // public ShooterSubsystem() {
-  //   super();
-  //   // m_forwardLimit.enableLimitSwitch(false);
+  // super();
+  // // m_forwardLimit.enableLimitSwitch(false);
   // }
-
- 
 
   public void Shoot() {
     m_timer.reset();
@@ -41,7 +40,6 @@ public class ShooterSubsystem extends SubsystemBase {
     m_downMotor.set(speedConvert(m_ShooterSpeed));
     m_timer.start();
   }
-
 
   public double speedConvert(double inSpeed) {
 
@@ -55,7 +53,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public void stopShooter() {
     m_upMotor.set(0);
     m_downMotor.set(0);
-  }  
+  }
 
   public static boolean shooterIsTimeDone() {
     return m_timer.hasElapsed(Constants.ShooterConstants.kShooterTime);
@@ -68,15 +66,14 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void ejectToAmp() {
-    
+
     // This will be faster ten ejectToShooter
   }
 
   @Override
   public void periodic() {
 
-     
-    //Slider things VARIABLES
+    // Slider things VARIABLES
     m_ShooterSpeed = SmartDashboard.getNumber("Gameboard/Shooter Speed", m_ShooterSpeed);
     SmartDashboard.putNumber("Gameboard/Shooter Speed", m_ShooterSpeed);
     // This method will be called once per scheduler run

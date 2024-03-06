@@ -1,17 +1,3 @@
-// WARNING: NUCLEAR CODE INCOMING
-// ---------------------------
-// --------_____________------
-// ------/              \-----
-// -----/   --      --   \----
-// ----/   ----    ----   \---
-// ----|  ------  ------  |---
-// ----\        --        /---
-// -----\      ----      /----
-// ------\    ------    /-----
-// ------ \            /------
-// -------/            \------
-// ------/______________\-----
-// ---------------------------
 
 package frc.robot.subsystems;
 
@@ -172,15 +158,14 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public double StepTowards(double _current, double _target) {
-    if (Math.abs(_current - _target) <= AutoConstants.kAutoSpeedMetersPerSecond/2) {
-        return 2*(_target - _current );
-    }
-    else if (_current - _target < -AutoConstants.kAutoSpeedMetersPerSecond/2) {
-        return AutoConstants.kAutoSpeedMetersPerSecond;
+    if (Math.abs(_current - _target) <= AutoConstants.kAutoSpeedMetersPerSecond / 2) {
+      return 2 * (_target - _current);
+    } else if (_current - _target < -AutoConstants.kAutoSpeedMetersPerSecond / 2) {
+      return AutoConstants.kAutoSpeedMetersPerSecond;
     } else {
       return -AutoConstants.kAutoSpeedMetersPerSecond;
     }
-}
+  }
 
   public void zeroHeading() {
     // gyro.zeroYaw();
@@ -202,8 +187,8 @@ public class SwerveSubsystem extends SubsystemBase {
 
     SmartDashboard.putString("Robot Heading (Rotation2d)", gyro.getRotation2d().toString());
     SmartDashboard.putNumber("Gameboard/Robot Heading (Degrees)", gyro.getYaw());
-    
-SmartDashboard.putString("Gameboard/Robot Pose:", getPose().getTranslation().toString());
+
+    SmartDashboard.putString("Gameboard/Robot Pose:", getPose().getTranslation().toString());
 
     SmartDashboard.putNumber("Front Left Turning Position", frontLeft.getTurningPosition() * (180 / Math.PI));
     SmartDashboard.putNumber("Front Right Turning Position", frontRight.getTurningPosition() * (180 / Math.PI));
@@ -215,9 +200,6 @@ SmartDashboard.putString("Gameboard/Robot Pose:", getPose().getTranslation().toS
     SmartDashboard.putBoolean("Should we blame Hardware/Electrical?", true);
     SmartDashboard.putNumber("Gameboard/Adjusted Throttle", throttleAdjust(m_joyStick.getThrottle()));
 
-    SmartDashboard.putBoolean("Gameboard/Power of Orca?", true);
-
-    
   }
 
   @Override
