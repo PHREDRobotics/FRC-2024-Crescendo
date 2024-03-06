@@ -139,21 +139,25 @@ public final class Constants {
 
     // Change later after arm built -------------------------------------
     // need to be remeasured so that 0 is horizontal and in radians.
-    public static final double kArmPickup = 3.2;
-    public static final double kArmAmp = 0.96;
-    public static final double kArmShooter = 0;
+    public static final double kArmPickup = -0.40;
+    public static final double kArmAmp = 1.55;
+    public static final double kArmShooter = 3.411;
     //radii needed to make the limit switch horizontal.
-    public static double kArmOffsetRads = 0;
+    public static double kArmOffsetRads = 3.511;
 
     public static final double kVoltageMultiplier = 1.5;
+    //feedforward constants
     public static double kSVolts = 0;
     public static double kGVolts = 0.1;
     public static double kAVoltSecondSquaredPerRad = 0.1;
-    public static double kVVoltSecondPerRad = 0.5;
-    public static double kMaxVelocityRadPerSecond = Math.PI / 2;
-    public static double kMaxAccelerationRadPerSecSquared = Math.PI / 4;
-    public static double kP = .6;
+    public static double kVVoltSecondPerRad = 1.5;
 
+    public static double kMaxVelocityRadPerSecond = 3;
+    public static double kMaxAccelerationRadPerSecSquared = 10;
+
+    public static double kP = 1;
+    public static double kI = 0.002;
+    public static double kD = 0.001;
   }
 
   /**

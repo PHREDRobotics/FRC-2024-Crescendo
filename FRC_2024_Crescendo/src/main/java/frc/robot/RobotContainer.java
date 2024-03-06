@@ -169,7 +169,7 @@ public class RobotContainer {
                 // Set default commands
                 // visionSubsystem.setDefaultCommand(new VisionCommand(visionSubsystem));
 
-                armSubsystem.setDefaultCommand(new ManualArmCmd(() -> (driverJoystick.getLeftY()), armSubsystem));
+                //armSubsystem.setDefaultCommand(new ManualArmCmd(() -> (driverJoystick.getLeftY()), armSubsystem));
 
                 Trigger dPadUp = new POVButton(driverJoystick, 0);
                 Trigger dPadDown = new POVButton(driverJoystick, 180);
@@ -221,9 +221,9 @@ public class RobotContainer {
 
                 startButton.onTrue(new AutoResetArmEncoder(armSubsystem));
                 
-                dPadUp.onTrue(armSubsystem.setArmGoalCommand(Constants.ArmConstants.kArmShooter));
-                dPadDown.onTrue(armSubsystem.setArmGoalCommand(Constants.ArmConstants.kArmPickup));
-                yButton.onTrue(armSubsystem.setArmGoalCommand(Constants.ArmConstants.kArmAmp));
+                dPadUp.onTrue(new ArmMotor(Constants.ArmConstants.kArmShooter,armSubsystem));
+                dPadDown.onTrue(new ArmMotor(Constants.ArmConstants.kArmPickup,armSubsystem));
+                yButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmAmp,armSubsystem));
 
                 visionSubsystem.setDefaultCommand(new VisionCommand(visionSubsystem));
                 

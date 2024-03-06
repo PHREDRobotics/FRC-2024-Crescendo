@@ -26,6 +26,7 @@ public class AutoResetArmEncoder extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_subsystem.disable();
     if(!m_subsystem.limitSwitchTriggered()){
     m_subsystem.setRawPower(-1);
     }
@@ -44,6 +45,7 @@ public class AutoResetArmEncoder extends Command {
     //  m_subsystem.moveToPosition(Constants.ArmConstants.kArmPickup);
 //} else {
       m_subsystem.resetEncoders();
+      m_subsystem.enable();
     //}
   }
 

@@ -9,12 +9,13 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import edu.wpi.first.wpilibj2.command.TrapezoidProfileSubsystem;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 
 /** A robot arm subsystem that moves with a motion profile. */
-public class ArmSubsystem extends TrapezoidProfileSubsystem {
+public class ArmSubsystem extends PIDSubsystem {
     private final DigitalInput m_limit_switch;
 
     private final CANSparkMax m_motor = new CANSparkMax(Constants.ArmConstants.kArmControllerPort,
@@ -22,61 +23,69 @@ public class ArmSubsystem extends TrapezoidProfileSubsystem {
     private final ArmFeedforward m_feedforward = new ArmFeedforward(
             Constants.ArmConstants.kSVolts, Constants.ArmConstants.kGVolts,
             Constants.ArmConstants.kVVoltSecondPerRad, Constants.ArmConstants.kAVoltSecondSquaredPerRad);
-    PIDController m_pidController = new PIDController(Constants.ArmConstants.kP, 0.0, 0.0);
+    PIDController m_pidController = new PIDController(Constants.ArmConstants.kP, Constants.ArmConstants.kI, Constants.ArmConstants.kD);
 
     /** Create a new ArmSubsystem. */
     public ArmSubsystem() {
-        super(
-                new TrapezoidProfile.Constraints(
-                        Constants.ArmConstants.kMaxVelocityRadPerSecond,
-                        Constants.ArmConstants.kMaxAccelerationRadPerSecSquared),
-                Constants.ArmConstants.kArmOffsetRads);
+        super(new PIDController(Constants.ArmConstants.kP, Constants.ArmConstants.kI, Constants.ArmConstants.kD));
         m_limit_switch = new DigitalInput(Constants.ArmConstants.kLimitSwitchControllerPort);
-
+        disable();
     }
 
     public void resetEncoders() {
         m_motor.set(0);
         m_motor.getEncoder().setPosition(0);
+        moveToPosition(ArmConstants.kArmOffsetRads);
     }
 
     public boolean limitSwitchTriggered() {
         return m_limit_switch.get();
     }
 
-    public double getEncoderRadians(){
-        return Constants.k2pi * (m_motor.getEncoder().getPosition() / 40) + ArmConstants.kArmOffsetRads;
+    public double getArmRadians() {
+        return -Constants.k2pi * (m_motor.getEncoder().getPosition() / 40) + ArmConstants.kArmOffsetRads;
     }
-
-
-    public void periodic() {
-        if (limitSwitchTriggered()) {
-            resetEncoders();
-            
-        }
-       
-        SmartDashboard.putBoolean("Gameboard/Limit Switch:", this.limitSwitchTriggered());
-        SmartDashboard.putNumber("Gameboard/Arm Position:", getEncoderRadians());
-                SmartDashboard.putNumber("Gameboard/Arm Position in Encoder Ticks:", m_motor.getEncoder().getPosition());
-
-            }
 
     @Override
-    public void useState(TrapezoidProfile.State setpoint) {
-        // Calculate the feedforward from the sepoint
-        double feedforward = m_feedforward.calculate(setpoint.position, setpoint.velocity);
-        // Add the feedforward to the PID output to get the motor output
+    public void periodic() {
+        super.periodic();
 
-        m_motor.setVoltage(m_pidController.calculate(getEncoderRadians(), setpoint.position)
-                + feedforward);
+        // if (limitSwitchTriggered()) {
+        //     resetEncoders();
+
+        // }
+
+        SmartDashboard.putBoolean("Gameboard/Limit Switch:", this.limitSwitchTriggered());
+        SmartDashboard.putNumber("Gameboard/Arm Position:", getArmRadians());
+        SmartDashboard.putNumber("Gameboard/Arm Position in Encoder Rotations:", m_motor.getEncoder().getPosition());
     }
 
-    public void setRawPower(double power){
+    @Override
+    public void useOutput(double output, double setpoint) {
+        SmartDashboard.putNumber("Gameboard/Arm Target:", setpoint);
+        
+        // Add the feedforward to the PID output to get the motor output
+        double volts = -m_pidController.calculate(getArmRadians(), setpoint);
+        SmartDashboard.putNumber("Gameboard/Arm Volts:", volts);
+                        
+        m_motor.setVoltage(volts);
+    }
+
+    public void setRawPower(double power) {
         power = power * Constants.ArmConstants.kVoltageMultiplier;
         m_motor.setVoltage(power);
     }
 
-    public Command setArmGoalCommand(double kArmOffsetRads) {
-        return Commands.runOnce(() -> setGoal(kArmOffsetRads), this);
+    @Override
+    protected double getMeasurement() {
+        return getArmRadians();
+    }
+
+    /**
+     * 
+     * @param position In radians
+     */
+    public void moveToPosition(double position) {
+        m_controller.setSetpoint(position);
     }
 }
