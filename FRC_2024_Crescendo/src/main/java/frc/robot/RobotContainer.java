@@ -119,7 +119,7 @@ public class RobotContainer {
 
         //                 new ParallelDeadlineGroup(new IntakeCommand(intakeSubsystem),
         //                                 //TrajectoryShootNote,
-        //                                 new ArmMotor(Constants.ArmConstants.kArmPickup, armSubsystem)),
+        //                                 new ArmMoveToPositionCommand(Constants.ArmConstants.kArmPickup, armSubsystem)),
         //                                 new InstantCommand(() -> swerveSubsystem.stopModules()),
         //                                 TrajectoryNoteShoot,
         //                                 new InstantCommand(() -> swerveSubsystem.stopModules()),
@@ -197,9 +197,9 @@ public class RobotContainer {
                         liftSubsystem));
 
                 // Configure gamepad buttons
-                // xButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmLow, armSubsystem));
-                // yButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmMid, armSubsystem));
-                // bButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmHigh, armSubsystem));
+                // xButton.onTrue(new ArmMoveToPositionCommand(Constants.ArmConstants.kArmLow, armSubsystem));
+                // yButton.onTrue(new ArmMoveToPositionCommand(Constants.ArmConstants.kArmMid, armSubsystem));
+                // bButton.onTrue(new ArmMoveToPositionCommand(Constants.ArmConstants.kArmHigh, armSubsystem));
                 // yButton.onTrue(new UnretractLift(liftSubsystem));
                 //yButton.whileTrue(new ManualLiftCmd(
                 //                () -> driverJoystick.getLeftTriggerAxis(),
@@ -221,9 +221,9 @@ public class RobotContainer {
 
                 startButton.onTrue(new AutoResetArmEncoder(armSubsystem));
                 
-                dPadUp.onTrue(new ArmMotor(Constants.ArmConstants.kArmShooter,armSubsystem));
-                dPadDown.onTrue(new ArmMotor(Constants.ArmConstants.kArmPickup,armSubsystem));
-                yButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmAmp,armSubsystem));
+                dPadUp.onTrue(new ArmMoveToPositionCommand(Constants.ArmConstants.kArmShooter,armSubsystem));
+                dPadDown.onTrue(new ArmMoveToPositionCommand(Constants.ArmConstants.kArmPickup,armSubsystem));
+                yButton.onTrue(new ArmMoveToPositionCommand(Constants.ArmConstants.kArmAmp,armSubsystem));
 
                 visionSubsystem.setDefaultCommand(new VisionCommand(visionSubsystem));
                 
@@ -234,12 +234,12 @@ public class RobotContainer {
                  */
 
                 // return null;
-                // aButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmPickup, armSubsystem));
-                // xButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmAmp, armSubsystem));
+                // aButton.onTrue(new ArmMoveToPositionCommand(Constants.ArmConstants.kArmPickup, armSubsystem));
+                // xButton.onTrue(new ArmMoveToPositionCommand(Constants.ArmConstants.kArmAmp, armSubsystem));
                 
 
                 //Please don't break this
-                //yButton.onTrue(new ArmMotor(Constants.ArmConstants.kArmAmp, armSubsystem));
+                //yButton.onTrue(new ArmMoveToPositionCommand(Constants.ArmConstants.kArmAmp, armSubsystem));
                 //bButton.onTrue(new ParallelCommandGroup(new ShooterCommand(shooterSubsystem),
                 //               new OuttakeCommand(intakeSubsystem)));
                 //xButton.onTrue(new OuttakeCommand(intakeSubsystem));

@@ -8,13 +8,13 @@ import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
-/** An example command that uses an example subsystem. */
+/** Command to slowly move Arm to limit switch, then reset arm encoder. */
 public class AutoResetArmEncoder extends Command {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private final ArmSubsystem m_subsystem;
 
   /**
-   * Creates a new ExampleCommand.
+   * Creates a new AutoResetArmEncoder command.
    *
    * @param subsystem The subsystem used by this command.
    */
@@ -27,8 +27,8 @@ public class AutoResetArmEncoder extends Command {
   @Override
   public void initialize() {
     m_subsystem.disable();
-    if(!m_subsystem.limitSwitchTriggered()){
-    m_subsystem.setRawPower(-1);
+    if (!m_subsystem.limitSwitchTriggered()) {
+      m_subsystem.setRawPower(-1);
     }
   }
 
@@ -41,12 +41,12 @@ public class AutoResetArmEncoder extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    //if (interrupted) {
-    //  m_subsystem.moveToPosition(Constants.ArmConstants.kArmPickup);
-//} else {
-      m_subsystem.resetEncoders();
-      m_subsystem.enable();
-    //}
+    // if (interrupted) {
+    // m_subsystem.moveToPosition(Constants.ArmConstants.kArmPickup);
+    // } else {
+    m_subsystem.resetEncoders();
+    m_subsystem.enable();
+    // }
   }
 
   // Returns true when the command should end.

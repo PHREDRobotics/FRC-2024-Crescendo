@@ -9,6 +9,8 @@ Spin (Left/Right):  Joystick Yaw / Spin
 
 Field Oriented:     Hold Main Trigger
 
+Throttle:           Move Throttle Lever
+
 ### Operator 
 
 - Intake:              A-Button

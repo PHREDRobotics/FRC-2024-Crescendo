@@ -11,19 +11,19 @@ import frc.robot.subsystems.ArmSubsystem;
  */
 public class ManualArmCmd extends Command {
 
-    DoubleSupplier armPower;
-    ArmSubsystem arm_subsystem;
+    private DoubleSupplier armPower;
+    private ArmSubsystem armSubsystem;
 
     /**
+     * Command to manually control the arm
      * 
-     * @param leftLiftPower power for the left lift motor
-     * @param rightLiftPower power for the right lift motor
-     * @param liftSubsystem
+     * @param ArmPower     power for the arm motor
+     * @param ArmSubsystem the Arm Subsystem
      */
-    public ManualArmCmd(DoubleSupplier ArmPower, ArmSubsystem armSubsystem) {
+    public ManualArmCmd(DoubleSupplier ArmPower, ArmSubsystem ArmSubsystem) {
         this.armPower = ArmPower;
-        this.arm_subsystem = armSubsystem;
-        
+        this.armSubsystem = ArmSubsystem;
+
         addRequirements(armSubsystem);
     }
 
@@ -40,6 +40,6 @@ public class ManualArmCmd extends Command {
         }
         // SQUARE IT!
         power = power * Math.abs(power);
-        this.arm_subsystem.setRawPower(power);
+        this.armSubsystem.setRawPower(power);
     }
 }
