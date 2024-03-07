@@ -127,7 +127,7 @@ public final class Constants {
 
     public static final double kTeleDriveThrottleMultiplier = 1;
     public static final double kThrottleMin = 0.75;
-    public static final double kThrottleMax = 3;
+    public static final double kThrottleMax = 5;
 
   }
 
@@ -141,7 +141,7 @@ public final class Constants {
     // Change later after arm built -------------------------------------
     // need to be remeasured so that 0 is horizontal and in radians.
     public static final double kArmPickup = -0.40;
-    public static final double kArmAmp = 1.55 + 0.1;
+    public static final double kArmAmp = 1.55 + 0.3;
     public static final double kArmShooter = 3.411;
     // radii needed to make the limit switch horizontal.
     public static double kArmOffsetRads = 3.511;

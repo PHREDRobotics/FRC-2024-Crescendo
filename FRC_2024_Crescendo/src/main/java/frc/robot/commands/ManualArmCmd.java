@@ -29,6 +29,7 @@ public class ManualArmCmd extends Command {
 
   @Override
   public void initialize() {
+    armSubsystem.disable();
     // arm_subsystem.resetEncoders();
   }
 
@@ -42,4 +43,18 @@ public class ManualArmCmd extends Command {
     power = power * Math.abs(power);
     this.armSubsystem.setRawPower(power);
   }
+
+   // Called once the command ends or is interrupted.
+   @Override
+   public void end(boolean interrupted) {
+    
+   }
+ 
+   // Returns true when the command should end.
+   @Override
+   public boolean isFinished() {
+     return false;
+   }
+
+
 }
