@@ -128,6 +128,7 @@ public final class Constants {
     public static final double kTeleDriveThrottleMultiplier = 1;
     public static final double kThrottleMin = 0.75;
     public static final double kThrottleMax = 3;
+
   }
 
   /**
@@ -142,11 +143,11 @@ public final class Constants {
     public static final double kArmPickup = -0.40;
     public static final double kArmAmp = 1.55 + 0.1;
     public static final double kArmShooter = 3.411;
-    //radii needed to make the limit switch horizontal.
+    // radii needed to make the limit switch horizontal.
     public static double kArmOffsetRads = 3.511;
 
     public static final double kVoltageMultiplier = 1.5;
-    //feedforward constants
+    // feedforward constants
     public static double kSVolts = 0;
     public static double kGVolts = 0.1;
     public static double kAVoltSecondSquaredPerRad = 0.1;
@@ -200,13 +201,18 @@ public final class Constants {
             kMaxAngularSpeedRadiansPerSecond,
             kMaxAngularAccelerationRadiansPerSecondSquared);
 
-    public static final double kAutoSpeedMetersPerSecond = kMaxSpeedMetersPerSecond - .5;
+    public static final double kAutoSpeedMetersPerSecond = kMaxSpeedMetersPerSecond - .25;
 
     // 1
     public static TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
         AutoConstants.kAutoSpeedMetersPerSecond,
         AutoConstants.kMaxAccelerationMetersPerSecondSquared)
         .setKinematics(DriveConstants.kDriveKinematics);
+
+    /**
+     * Must be greater than 1.
+     */
+    public static final double kAutoDriveSlowDownFactor = 2;
   }
 
   /**

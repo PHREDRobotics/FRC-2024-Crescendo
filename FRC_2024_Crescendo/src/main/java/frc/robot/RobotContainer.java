@@ -21,6 +21,7 @@ import frc.robot.Constants.GrabberConstants;
 //import frc.robot.commands.OuttakeCommand;
 //import frc.robot.subsystems.MotorTestSubsystem;
 import frc.robot.commands.*;
+import frc.robot.composition.ShootOneNote;
 import frc.robot.composition.ShootTwoNotes;
 import frc.robot.controls.FlightStick;
 import frc.robot.controls.LogitechPro;
@@ -129,15 +130,17 @@ public class RobotContainer {
   // new OuttakeCommand(intakeSubsystem)));
 
   public RobotContainer() {
-    m_chooser.setDefaultOption("Gameboard/Shoot Two Notes",
+    m_chooser.setDefaultOption("Shoot Two Notes",
         new ShootTwoNotes(armSubsystem, intakeSubsystem, shooterSubsystem, swerveSubsystem));
-    m_chooser.addOption("Gameboard/Drive Foward", new SequentialCommandGroup(
+    m_chooser.addOption("Shoot One Note",
+        new ShootOneNote(armSubsystem, intakeSubsystem, shooterSubsystem, swerveSubsystem));
+    m_chooser.addOption("Drive Foward", new SequentialCommandGroup(
         new InstantCommand(() -> swerveSubsystem.zeroHeading()),
         new GoToPose2d(swerveSubsystem, new Translation2d(3.0, 0.0))));
 
     // m_chooser.addOption("Complex Auto", ShootNote);
 
-    SmartDashboard.putData(m_chooser);
+    SmartDashboard.putData("Gameboard/Autonomous:", m_chooser);
     configureBindings();
   }
 
@@ -219,12 +222,13 @@ public class RobotContainer {
     leftBumper.whileTrue(new ManualUnretractLift(() -> true, () -> false, liftSubsystem));
     rightBumper.whileTrue(new ManualUnretractLift(() -> false, () -> true, liftSubsystem));
 
-    aButton.onTrue(new SequentialCommandGroup(new IntakeCommand(intakeSubsystem), new AutoResetArmEncoder(armSubsystem)));
+    aButton
+        .onTrue(new SequentialCommandGroup(new IntakeCommand(intakeSubsystem), new AutoResetArmEncoder(armSubsystem)));
     xButton.onTrue(new OuttakeCommand(intakeSubsystem));
     bButton.onTrue(new ParallelCommandGroup(new ShooterCommand(shooterSubsystem),
         new OuttakeCommand(intakeSubsystem)));
 
-    //startButton.onTrue(new AutoResetArmEncoder(armSubsystem));
+    // startButton.onTrue(new AutoResetArmEncoder(armSubsystem));
 
     dPadUp.onTrue(new AutoResetArmEncoder(armSubsystem));
     dPadDown.onTrue(new ArmMoveToPositionCommand(Constants.ArmConstants.kArmPickup, armSubsystem));
