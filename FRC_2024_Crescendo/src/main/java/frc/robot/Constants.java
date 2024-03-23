@@ -9,8 +9,6 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.XboxController.Button;
 
-import java.nio.Buffer;
-
 import com.revrobotics.CANSparkBase.IdleMode;
 
 /**
@@ -137,6 +135,7 @@ public final class Constants {
   public static final class ArmConstants {
     public static final int kArmControllerPort = 35;
     public static final int kLimitSwitchControllerPort = 9;
+    public static final double kArmMotorGearRatio = 40;
 
     // Change later after arm built -------------------------------------
     // need to be remeasured so that 0 is horizontal and in radians.
@@ -194,7 +193,7 @@ public final class Constants {
     public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI / 4;
     public static final double kPXController = 1.5;
     public static final double kPYController = 1.5;
-    public static final double kPThetaController = 3;
+    public static final double kPThetaController = 3; 
 
     public static final TrapezoidProfile.Constraints kThetaControllerConstraints = //
         new TrapezoidProfile.Constraints(

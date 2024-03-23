@@ -1,11 +1,10 @@
 package frc.robot.controls;
 
-//import edu.wpi.first.networktables.NetworkTableValue;
+// import edu.wpi.first.networktables.NetworkTableValue;
 // import frc.robot.controls.FlightStick;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Constants.DriveConstants;
 
 /**
  * A FlightStick specifically calibrated for the Logitech Extreme 3D Pro

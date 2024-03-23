@@ -2,15 +2,10 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 
-import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
-import edu.wpi.first.wpilibj2.command.TrapezoidProfileSubsystem;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 
@@ -68,7 +63,7 @@ public class ArmSubsystem extends PIDSubsystem {
    * @return Arm Location in Radians
    */
   public double getArmRadians() {
-    return -Constants.k2pi * (m_motor.getEncoder().getPosition() / 40) + ArmConstants.kArmOffsetRads;
+    return - ( Constants.k2pi / ArmConstants.kArmMotorGearRatio) * m_motor.getEncoder().getPosition() + ArmConstants.kArmOffsetRads;
   }
 
   @Override

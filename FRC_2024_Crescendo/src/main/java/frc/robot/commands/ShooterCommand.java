@@ -4,10 +4,9 @@
 
 package frc.robot.commands;
 
-import frc.robot.Constants;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /** An Intake command that uses an Intake subsystem. */
 public class ShooterCommand extends Command {
