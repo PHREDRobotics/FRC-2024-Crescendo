@@ -23,7 +23,7 @@ public class ArmMoveToPositionCommand extends Command {
   }
 
   @Override
-  public void initialize() {
+  public void initialize() { 
     m_armSubsystem.enable();
     m_armSubsystem.moveToPosition(m_armTargetPosition);
   }

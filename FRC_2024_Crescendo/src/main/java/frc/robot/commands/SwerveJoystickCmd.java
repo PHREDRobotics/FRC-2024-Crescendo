@@ -85,6 +85,7 @@ public class SwerveJoystickCmd extends Command {
       chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
     }
     SmartDashboard.putBoolean("Is Field Oriented", fieldOrientedFunction.get());
+    
     // 5. Convert chassis speeds to individual module states
     SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
     // state.angle.getRadians());

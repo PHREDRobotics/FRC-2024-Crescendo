@@ -146,8 +146,8 @@ public class RobotContainer {
     // Set default commands
     // visionSubsystem.setDefaultCommand(new VisionCommand(visionSubsystem));
 
-    // armSubsystem.setDefaultCommand(new ManualArmCmd(() ->
-    // (driverJoystick.getLeftY()), armSubsystem));
+    armSubsystem.setDefaultCommand(new ManualArmCmd(() ->
+    (driverJoystick.getLeftY()), armSubsystem));
 
     Trigger dPadUp = new POVButton(driverJoystick, 0);
     Trigger dPadDown = new POVButton(driverJoystick, 180);
@@ -204,10 +204,10 @@ public class RobotContainer {
     // startButton.onTrue(new AutoResetArmEncoder(armSubsystem));
 
     dPadUp.onTrue(new AutoResetArmEncoder(armSubsystem));
-    dPadDown.onTrue(new ArmMoveToPositionCommand(Constants.ArmConstants.kArmPickup, armSubsystem));
-    yButton.onTrue(new ArmMoveToPositionCommand(Constants.ArmConstants.kArmAmp, armSubsystem));
+    //dPadDown.onTrue(new ArmMoveToPositionCommand(Constants.ArmConstants.kArmPickup, armSubsystem));
+    //yButton.onTrue(new ArmMoveToPositionCommand(Constants.ArmConstants.kArmAmp, armSubsystem));
 
-    visionSubsystem.setDefaultCommand(new VisionCommand(visionSubsystem));
+    visionSubsystem.setDefaultCommand(new GoToTag(visionSubsystem, swerveSubsystem));
 
     /*
      * Use this to pass the autonomous command to the main {@link Robot} class.

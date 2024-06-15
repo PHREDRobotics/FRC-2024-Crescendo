@@ -142,6 +142,24 @@ public class LiftSubsystem extends SubsystemBase {
     rightLiftMotor.setIdleMode(mode);
   }
 
+  public Exception LeftMotorException() {
+    try {
+      leftLiftMotor.setIdleMode(leftLiftMotor.getIdleMode());
+      return null;
+    } catch (Exception e) {
+      return e;
+    }
+  }
+
+  public Exception RightMotorException() {
+    try {
+      rightLiftMotor.setIdleMode(rightLiftMotor.getIdleMode());
+      return null;
+    } catch (Exception e) {
+      return e;
+    }
+  }
+
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Gameboard/Left Power", leftLiftMotor.get());
@@ -151,6 +169,9 @@ public class LiftSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("NavX y", navXMicro.getPitch());
     SmartDashboard.putNumber("NavX x", navXMicro.getRoll());
     SmartDashboard.putNumber("NavX z", navXMicro.getYaw());
+
+    SmartDashboard.putString("error/Left Lift Motor Errors:", LeftMotorException().getMessage());
+    SmartDashboard.putString("error/Right Lift Motor Errors:", RightMotorException().getMessage());
 
   }
 }

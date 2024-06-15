@@ -22,6 +22,10 @@ public class VisionSubsystem extends SubsystemBase {
   double ta = m_table.getEntry("ta").getDouble(0);
   double tid = m_table.getEntry("tid").getDouble(0);
 
+  double kP = 0.9;
+  double kI = 0.01;
+  double kD = 0.01;
+
   public VisionSubsystem() {
   }
 
@@ -59,7 +63,7 @@ public class VisionSubsystem extends SubsystemBase {
   // SmartDashboard.putBoolean("Is the target centered", m_IsLimeLightCentered);
   // }
 
-  public double targetDistance() {
+  public double getTargetDistance() {
     double angleToGoalDegrees = VisionConstants.kLimelightMountAngleDegrees + ty;
     double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
     double d = (VisionConstants.kAmpOrSourceHeightInches - VisionConstants.kLimelightLensHeightInches)
@@ -69,6 +73,26 @@ public class VisionSubsystem extends SubsystemBase {
     //27.1 = 18.75
     //36=32
     //47.8~=49.75
+  }
+
+  public void goToDistance(double distance) {
+
+  }
+
+  public double getTargetID() {
+    return m_table.getEntry("tid").getDouble(0);
+  }
+
+  public double getTargetX() {
+    return m_table.getEntry("tx").getDouble(0);
+  }
+
+  public double getTargetY() {
+    return m_table.getEntry("ty").getDouble(0);
+  }
+
+  public double getTargetA() {
+    return m_table.getEntry("ta").getDouble(0);
   }
 
   /**
@@ -95,7 +119,7 @@ public class VisionSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Limelight a value.", ta);
     SmartDashboard.putNumber("Limelight y value.", ty);
     SmartDashboard.putNumber("Limelight x value.", tx);
-    SmartDashboard.putNumber("Estimated Distance", targetDistance());
+    SmartDashboard.putNumber("Estimated Distance", getTargetDistance());
     //SmartDashboard.putNumber("Limelight v value.", tv);
     SmartDashboard.putBoolean("Is the target in range?", m_LimelightHasValidTarget);
     SmartDashboard.putBoolean("Is the target centered", m_IsLimeLightCentered);

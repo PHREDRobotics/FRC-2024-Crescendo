@@ -65,6 +65,15 @@ public class ArmSubsystem extends PIDSubsystem {
   public double getArmRadians() {
     return - ( Constants.k2pi / ArmConstants.kArmMotorGearRatio) * m_motor.getEncoder().getPosition() + ArmConstants.kArmOffsetRads;
   }
+  
+  public Exception ArmMotorException() {
+    try {
+      m_motor.setIdleMode(m_motor.getIdleMode());
+      return null;
+    } catch (Exception e) {
+      return e;
+    }
+  }
 
   @Override
   public void periodic() {
@@ -73,6 +82,7 @@ public class ArmSubsystem extends PIDSubsystem {
     SmartDashboard.putBoolean("Gameboard/Limit Switch:", this.limitSwitchTriggered());
     SmartDashboard.putNumber("Gameboard/Arm Position:", getArmRadians());
     SmartDashboard.putNumber("Gameboard/Arm Position in Encoder Rotations:", m_motor.getEncoder().getPosition());
+    SmartDashboard.putString("error/Arm Motor Errors:", ArmMotorException().getMessage());
   }
 
   @Override

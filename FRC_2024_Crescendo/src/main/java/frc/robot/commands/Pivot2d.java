@@ -18,24 +18,22 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.SwerveSubsystem;
 
 /** An example command that uses an example subsystem. */
-public class GoToPose2d extends Command {
+public class Pivot2d extends Command {
     @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
     private final SwerveSubsystem swerveSubsystem;
-    private final Translation2d targetPos;
-    private double xSpeed;
-    private double ySpeed;
+    private final double targetRotRadians;
     private double yawSpeed;
+    private final Translation2d pivotPoint2d;
 
     /**
      * Creates a new ExampleCommand.
      *
      * @param subsystem The subsystem used by this command.
      */
-    public GoToPose2d(SwerveSubsystem swerveSubsystem, Translation2d targetPos) {
+    public Pivot2d(SwerveSubsystem swerveSubsystem, double targetRotRadians, Translation2d pivotPoint2d) {
         this.swerveSubsystem = swerveSubsystem;
-        this.targetPos = targetPos;
-        this.xSpeed = 0;
-        this.ySpeed = 0;
+        this.targetRotRadians = targetRotRadians;
+        this.pivotPoint2d = pivotPoint2d;
         this.yawSpeed = 0;
 
         addRequirements(swerveSubsystem);
@@ -50,15 +48,14 @@ public class GoToPose2d extends Command {
     @Override
     public void execute() {
 
-        xSpeed = swerveSubsystem.StepTowards(swerveSubsystem.getPose().getX(), targetPos.getX(), AutoConstants.kAutoSpeedMetersPerSecond);
-        ySpeed = swerveSubsystem.StepTowards(swerveSubsystem.getPose().getY(), targetPos.getY(), AutoConstants.kAutoSpeedMetersPerSecond);
+        yawSpeed = swerveSubsystem.StepTowards(swerveSubsystem.getRotation2d().getRadians(), targetRotRadians, AutoConstants.kMaxAngularSpeedRadiansPerSecond);
         // 4. Construct desired chassis speeds
         ChassisSpeeds chassisSpeeds;
         // Relative to field
         chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-                xSpeed, ySpeed, 0, swerveSubsystem.getRotation2d());
+                0, 0, yawSpeed, swerveSubsystem.getRotation2d());
         // 5. Convert chassis speeds to individual module states
-        SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+        SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds, pivotPoint2d);
         // state.angle.getRadians());
         // 6. Output each module states to wheels
         swerveSubsystem.setModuleStates(moduleStates);
@@ -74,8 +71,8 @@ public class GoToPose2d extends Command {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        if (Math.abs(xSpeed) <= 0.05
-                & Math.abs(ySpeed) <= 0.05) {
+        if (Math.abs(yawSpeed) <= 0.05
+                & Math.abs(yawSpeed) <= 0.05) {
             return true;
         } else {
             return false;

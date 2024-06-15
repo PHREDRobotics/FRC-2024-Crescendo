@@ -106,12 +106,32 @@ public class IntakeSubsystem extends SubsystemBase {
 
     // This will be faster ten ejectToShooter
   }
+  public Exception m_upMotorException() {
+    try {
+      m_upMotor.setIdleMode(m_upMotor.getIdleMode());
+      return null;
+    } catch (Exception e) {
+      return e;
+    }
+  }
+
+  public Exception m_downMotorException() {
+    try {
+      m_downMotor.setIdleMode(m_downMotor.getIdleMode());
+      return null;
+    } catch (Exception e) {
+      return e;
+    }
+  }
 
   @Override
   public void periodic() {
     SmartDashboard.putBoolean("Pressed?", isNoteLoaded());
     SmartDashboard.putBoolean("Gameboard/Manual Override Press",
         SmartDashboard.getBoolean("Manual Override Press", false));
+        
+        SmartDashboard.putString("error/Up intake Motor Errors:", m_upMotorException().getMessage());
+             SmartDashboard.putString("error/Down intake Motor Errors:", m_downMotorException().getMessage());
 
     // Slider things VARIABLES
     m_outtakeSpeed = SmartDashboard.getNumber("Gameboard/Outtake Speed", m_outtakeSpeed);

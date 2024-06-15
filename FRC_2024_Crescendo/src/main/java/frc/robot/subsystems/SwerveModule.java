@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.AbsoluteEncoder;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -161,6 +162,24 @@ public class SwerveModule {
   public SwerveModuleState getState() {
     return new SwerveModuleState(getDriveVelocity(),
         new Rotation2d(turningEncoder.getPosition() - chassisAngularOffset));
+  }
+
+  public Exception TurnMotorException() {
+    try {
+      turningSparkMax.setIdleMode(turningSparkMax.getIdleMode());
+      return null;
+    } catch(Exception e) {
+      return e;
+    }
+  }
+
+  public Exception DriveMotorException() {
+    try {
+      driveSparkMax.setIdleMode(driveSparkMax.getIdleMode());
+      return null;
+    } catch(Exception e) {
+      return e;
+    }
   }
 
   public void setDesiredState(SwerveModuleState desiredState) {
