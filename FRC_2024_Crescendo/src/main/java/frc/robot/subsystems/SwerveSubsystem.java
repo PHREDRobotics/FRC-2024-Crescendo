@@ -198,17 +198,17 @@ public class SwerveSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("Should we blame Hardware/Electrical?", true);
     SmartDashboard.putNumber("Gameboard/Adjusted Throttle", throttleAdjust(m_joyStick.getThrottle()));
 
-    SmartDashboard.putString("error/Front Left Swerve Motor drive check", frontLeft.DriveMotorException().getMessage());
-    SmartDashboard.putString("error/Front Right Swerve Motor drive check", frontRight.DriveMotorException().getMessage());
+    // SmartDashboard.putString("error/Front Left Swerve Motor drive check", frontLeft.DriveMotorException().getMessage());
+    // SmartDashboard.putString("error/Front Right Swerve Motor drive check", frontRight.DriveMotorException().getMessage());
 
-    SmartDashboard.putString("error/Front Left Swerve Motor turn check", frontLeft.TurnMotorException().getMessage());
-    SmartDashboard.putString("error/Front Right Swerve Motor turn check", frontRight.TurnMotorException().getMessage());
+    // SmartDashboard.putString("error/Front Left Swerve Motor turn check", frontLeft.TurnMotorException().getMessage());
+    // SmartDashboard.putString("error/Front Right Swerve Motor turn check", frontRight.TurnMotorException().getMessage());
 
-    SmartDashboard.putString("error/Back Left Swerve Motor drive check", backLeft.DriveMotorException().getMessage());
-    SmartDashboard.putString("error/Back Right Swerve Motor drive check", backRight.DriveMotorException().getMessage());
+    // SmartDashboard.putString("error/Back Left Swerve Motor drive check", backLeft.DriveMotorException().getMessage());
+    // SmartDashboard.putString("error/Back Right Swerve Motor drive check", backRight.DriveMotorException().getMessage());
 
-    SmartDashboard.putString("error/Back Left Swerve Motor turn check", backLeft.TurnMotorException().getMessage());
-    SmartDashboard.putString("error/Back Right Swerve Motor turn check", backRight.TurnMotorException().getMessage());
+    // SmartDashboard.putString("error/Back Left Swerve Motor turn check", backLeft.TurnMotorException().getMessage());
+    // SmartDashboard.putString("error/Back Right Swerve Motor turn check", backRight.TurnMotorException().getMessage());
 
 
   }

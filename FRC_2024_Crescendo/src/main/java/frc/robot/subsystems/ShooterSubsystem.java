@@ -66,23 +66,23 @@ public class ShooterSubsystem extends SubsystemBase {
     // This will be faster ten ejectToShooter
   }
 
-  public Exception UpMotorException() {
-    try {
-      m_upMotor.setIdleMode(m_upMotor.getIdleMode());
-      return null;
-    } catch (Exception e) {
-      return e;
-    }
-  }
+  // public Exception UpMotorException() {
+  //   try {
+  //     m_upMotor.setIdleMode(m_upMotor.getIdleMode());
+  //     return null;
+  //   } catch (Exception e) {
+  //     return e;
+  //   }
+  // }
 
-  public Exception DownMotorException() {
-    try {
-      m_downMotor.setIdleMode(m_downMotor.getIdleMode());
-      return null;
-    } catch (Exception e) {
-      return e;
-    }
-  }
+  // public Exception DownMotorException() {
+  //   try {
+  //     m_downMotor.setIdleMode(m_downMotor.getIdleMode());
+  //     return null;
+  //   } catch (Exception e) {
+  //     return e;
+  //   }
+  // }
 
   @Override
   public void periodic() {
@@ -91,8 +91,8 @@ public class ShooterSubsystem extends SubsystemBase {
     m_ShooterSpeed = SmartDashboard.getNumber("Gameboard/Shooter Speed", m_ShooterSpeed);
     SmartDashboard.putNumber("Gameboard/Shooter Speed", m_ShooterSpeed);
 
-    SmartDashboard.putString("error/Up Shooter Motor", UpMotorException().getMessage());
-    SmartDashboard.putString("error/Down Shooter Motor", DownMotorException().getMessage());
+    // SmartDashboard.putString("error/Up Shooter Motor", UpMotorException().getMessage());
+    // SmartDashboard.putString("error/Down Shooter Motor", DownMotorException().getMessage());
 
     // This method will be called once per scheduler run
     // We will have a pull in fast and slow and a push out fast and slow

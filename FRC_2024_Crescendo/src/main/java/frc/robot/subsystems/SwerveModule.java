@@ -164,23 +164,23 @@ public class SwerveModule {
         new Rotation2d(turningEncoder.getPosition() - chassisAngularOffset));
   }
 
-  public Exception TurnMotorException() {
-    try {
-      turningSparkMax.setIdleMode(turningSparkMax.getIdleMode());
-      return null;
-    } catch(Exception e) {
-      return e;
-    }
-  }
+  // public Exception TurnMotorException() {
+  //   try {
+  //     turningSparkMax.setIdleMode(turningSparkMax.getIdleMode());
+  //     return null;
+  //   } catch(Exception e) {
+  //     return e;
+  //   }
+  // }
 
-  public Exception DriveMotorException() {
-    try {
-      driveSparkMax.setIdleMode(driveSparkMax.getIdleMode());
-      return null;
-    } catch(Exception e) {
-      return e;
-    }
-  }
+  // public Exception DriveMotorException() {
+  //   try {
+  //     driveSparkMax.setIdleMode(driveSparkMax.getIdleMode());
+  //     return null;
+  //   } catch(Exception e) {
+  //     return e;
+  //   }
+  // }
 
   public void setDesiredState(SwerveModuleState desiredState) {
     SwerveModuleState correctedDesiredState = new SwerveModuleState();

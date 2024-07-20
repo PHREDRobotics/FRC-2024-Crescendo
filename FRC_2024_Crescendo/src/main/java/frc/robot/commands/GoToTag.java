@@ -3,11 +3,13 @@ package frc.robot.commands;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -27,6 +29,9 @@ public class GoToTag extends Command {
   private final ProfiledPIDController yController = new ProfiledPIDController(3, 0, 0, Y_CONSTRAINTS);
   private final ProfiledPIDController omegaController = new ProfiledPIDController(2, 0, 0, OMEGA_CONSTRAINTS);
 
+  //json is the list of the all the targets it has seen I think
+
+
   private static final int TAG_TO_CHASE = 5;
   private static final Transform3d TAG_TO_GOAL =
     new Transform3d(
@@ -37,6 +42,9 @@ public class GoToTag extends Command {
   public GoToTag(VisionSubsystem vision_subsystem, SwerveSubsystem swerve_subsystem) {
     m_vision_subsystem = vision_subsystem;
     m_swerve_subsystem = swerve_subsystem;
+
+    //we need to figure out what poseProvider is called
+   // this.poseProvider = poseProvider;
 
     xController.setTolerance(0.2);
     yController.setTolerance(0.2);
@@ -52,7 +60,7 @@ public class GoToTag extends Command {
   @Override
   public void initialize() {
     //lastTarget(or whatever we call it)=null
-    
+    //reset a few things
     
   }
 
@@ -60,6 +68,7 @@ public class GoToTag extends Command {
   @Override
   public void execute() {
     
+   
   }
 
   // Called once the command ends or is interrupted.

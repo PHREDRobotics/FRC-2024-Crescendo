@@ -265,6 +265,8 @@ public final class Constants {
     public static final double kAmpOrSourceHeightInches = 48.5;
     public static final double kSpeakerHeightInches = 51.0 + 7.0 / 8.0;
     public static final double kStageHeightInches = 47.5;
+
+    
   }
 
   public static final class IntakeConstants {
